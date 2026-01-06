@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use PhpCsFixer\Fixer\ClassNotation\{ClassDefinitionFixer. OrderedClassElementsFixer, OrderedTraitsFixer};
+use PhpCsFixer\Fixer\ClassNotation\{ClassDefinitionFixer, OrderedClassElementsFixer, OrderedTraitsFixer};
 use PhpCsFixer\Fixer\Import\{NoUnusedImportsFixer, OrderedImportsFixer};
 use PhpCsFixer\Fixer\Phpdoc\PhpdocTypesOrderFixer;
 use PhpCsFixer\Fixer\StringNotation\SingleQuoteFixer;
