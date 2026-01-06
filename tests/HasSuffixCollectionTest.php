@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Mixin\Tests;
 
-use BackedEnum;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Stringable;
-use UIAwesome\Html\Interop\{Block, Inline};
+use UIAwesome\Html\Interop\{Block, BlockInterface, Inline, InlineInterface, VoidInterface};
 use UIAwesome\Html\Mixin\HasSuffixCollection;
 
 /**
@@ -145,7 +144,7 @@ final class HasSuffixCollectionTest extends TestCase
         $instance = new class {
             use HasSuffixCollection;
 
-            public function getSuffixTag(): bool|BackedEnum
+            public function getSuffixTag(): bool|BlockInterface|InlineInterface|VoidInterface
             {
                 return $this->suffixTag;
             }
@@ -185,7 +184,7 @@ final class HasSuffixCollectionTest extends TestCase
 
         self::assertEmpty(
             $instance->getSuffix(),
-            'Should return an empty string when no suffix are set.',
+            'Should return an empty string when no suffix is set.',
         );
 
         $instance = $instance->suffix('Suffix content');

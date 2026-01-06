@@ -58,9 +58,7 @@ return ECSConfig::configure()
     )
     ->withConfiguredRule(
         VisibilityRequiredFixer::class,
-        [
-            'elements' => [],
-        ],
+        [],
     )
     ->withFileExtensions(['php'])
     ->withPaths(

@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Mixin\Tests;
 
-use BackedEnum;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Stringable;
-use UIAwesome\Html\Interop\Inline;
+use UIAwesome\Html\Interop\{BlockInterface, Inline, InlineInterface, VoidInterface};
 use UIAwesome\Html\Mixin\HasPrefixCollection;
 
 /**
@@ -145,7 +144,7 @@ final class HasPrefixCollectionTest extends TestCase
         $instance = new class {
             use HasPrefixCollection;
 
-            public function getPrefixTag(): bool|BackedEnum
+            public function getPrefixTag(): bool|BlockInterface|InlineInterface|VoidInterface
             {
                 return $this->prefixTag;
             }
