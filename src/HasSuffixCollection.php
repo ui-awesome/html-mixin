@@ -2,40 +2,88 @@
 
 declare(strict_types=1);
 
-namespace UIAwesome\Html\Concern;
+namespace UIAwesome\Html\Mixin;
 
-use UIAwesome\Html\{Helper\CssClass, Helper\Sanitize, Interop\RenderInterface};
+use Stringable;
+use UIAwesome\Html\Helper\CSSClass;
+use UIAwesome\Html\Interop\{BlockInterface, InlineInterface, VoidInterface};
+
+use function implode;
 
 /**
- * Is used by widgets that implement the suffix collection class.
+ * Trait for managing suffix content and attributes in HTML tag rendering.
+ *
+ * Provides a standards-compliant, immutable API for setting suffix content, attributes, and tag type after the main
+ * HTML element, following the HTML specification for tag structure and rendering.
+ *
+ * Intended for use in components that require dynamic or programmatic manipulation of suffix segments, ensuring correct
+ * handling, type safety, and value assignment.
+ *
+ * Key features.
+ * - Designed for use in tag rendering systems.
+ * - Enforces standards-compliant handling of suffix content and attributes.
+ * - Immutable methods for setting suffix string, attributes, CSS classes, and tag type.
+ * - Supports flexible assignment of suffix values for advanced rendering scenarios.
+ *
+ * @copyright Copyright (C) 2025 Terabytesoftw.
+ * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 trait HasSuffixCollection
 {
+    /**
+     * Suffix content string assigned to the element.
+     */
     protected string $suffix = '';
-    protected array $suffixAttributes = [];
-    protected false|string $suffixTag = false;
 
     /**
-     * Set the `HTML` suffix content.
+     * HTML attributes array for the suffix tag.
      *
-     * @param RenderInterface|string ...$values The `HTML` suffix content.
-     *
-     * @return static A new instance of the current class with the specified suffix content.
+     * @phpstan-var mixed[]
      */
-    public function suffix(string|RenderInterface ...$values): static
+    protected array $suffixAttributes = [];
+
+    /**
+     * Tag type for the suffix segment.
+     */
+    protected false|BlockInterface|InlineInterface|VoidInterface $suffixTag = false;
+
+    /**
+     * Sets the suffix content string for the element.
+     *
+     * Creates a new instance with the specified suffix value, overriding any existing value.
+     *
+     * @param string|Stringable ...$values Suffix content to set for the element.
+     *
+     * @return static New instance with the updated suffix property.
+     *
+     * Usage example:
+     * ```php
+     * $element->suffix(' End', ' of ', 'Element');
+     * ```
+     */
+    public function suffix(Stringable|string ...$values): static
     {
         $new = clone $this;
-        $new->suffix = Sanitize::html(...$values);
+        $new->suffix = implode('', $values);
 
         return $new;
     }
 
     /**
-     * Set the `HTML` attributes for the suffix.
+     * Sets the HTML attributes for the suffix tag.
      *
-     * @param array $values Attribute values indexed by attribute names.
+     * Creates a new instance with the specified attributes, overriding any existing suffix attributes.
      *
-     * @return static A new instance of the current class with the specified suffix attributes.
+     * @param array $values Associative array of attribute keys and values.
+     *
+     * @return static New instance with the updated suffixAttributes property.
+     *
+     * @phpstan-param mixed[] $values
+     *
+     * Usage example:
+     * ```php
+     * $element->suffixAttributes(['id' => 'suffix-id']);
+     * ```
      */
     public function suffixAttributes(array $values): static
     {
@@ -46,38 +94,48 @@ trait HasSuffixCollection
     }
 
     /**
-     * Sets the `CSS` class that will be assigned to the suffix.
+     * Adds a CSS class to the suffix tag attributes.
      *
-     * @param string $value The CSS class name.
-     * @param bool $override If `true` the value will be overridden.
+     * Creates a new instance with the specified CSS class added to the suffixAttributes array.
      *
-     * @return static A new instance of the current class with the specified suffix class.
+     * @param string $value CSS class name to add.
+     * @param bool $override Whether to override existing class value.
+     *
+     * @return static New instance with the updated suffixAttributes property.
+     *
+     * Usage example:
+     * ```php
+     * $element->suffixClass('new-class');
+     * ```
      */
     public function suffixClass(string $value, bool $override = false): static
     {
         $new = clone $this;
-        CssClass::add($new->suffixAttributes, $value, $override);
+        CSSClass::add($new->suffixAttributes, $value, $override);
 
         return $new;
     }
 
     /**
-     * Set the suffix tag name.
+     * Sets the tag type for the suffix segment.
      *
-     * @param false|string $value The tag name for the suffix element.
-     * If `false` the suffix tag will be disabled.
+     * Creates a new instance with the specified tag type for the suffix.
      *
-     * @throws \InvalidArgumentException If the suffix tag is an empty string.
+     * @param false|BlockInterface|InlineInterface|VoidInterface $value Tag type to set for the suffix segment.
      *
-     * @return static A new instance of the current class with the specified suffix tag.
-     * If `false` the suffix tag will be disabled.
+     * @return static New instance with the updated suffixTag property.
+     *
+     * Usage example:
+     * ```php
+     * // default
+     * $element->suffixTag(\UIAwesome\Html\Core\Tag\Inline::SPAN);
+     *
+     * // no rendering of suffix tag
+     * $element->suffixTag(false);
+     * ```
      */
-    public function suffixTag(false|string $value = 'div'): static
+    public function suffixTag(false|BlockInterface|InlineInterface|VoidInterface $value = false): static
     {
-        if ($value === '') {
-            throw new \InvalidArgumentException('The suffix tag must be a non-empty string.');
-        }
-
         $new = clone $this;
         $new->suffixTag = $value;
 

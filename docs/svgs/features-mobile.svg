@@ -1,0 +1,78 @@
+<!-- Mobile layout - Single column -->
+<svg fill="none" viewBox="0 0 600 610" width="100%" height="580" xmlns="http://www.w3.org/2000/svg">
+    <foreignObject width="100%" height="100%">
+        <div xmlns="http://www.w3.org/1999/xhtml">
+            <style>
+                .container {
+                    display: grid;
+                    grid-template-columns: 1fr;
+                    gap: 16px;
+                    padding: 16px;
+                }
+                .alert-box {
+                    border-left: 4px solid #1f883d;
+                    padding: 12px;
+                    margin-bottom: 12px;
+                    border-radius: 6px;
+                    background: rgba(31, 136, 61, 0.1);
+                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+                    width: 100%;
+                    box-sizing: border-box;
+                }
+                .alert-title {
+                    margin: 0 0 8px 0;
+                    font-weight: 600;
+                    font-size: 14px;
+                }
+                .alert-content {
+                    margin: 0;
+                    line-height: 1.4;
+                    font-size: 12px;
+                }
+
+                /* Light mode */
+                @media (prefers-color-scheme: light) {
+                    .alert-title { color: #000000; }
+                    .alert-content { color: #333333; }
+                    .alert-box { background: rgba(31, 136, 61, 0.1); }
+                }
+
+                /* Dark mode */
+                @media (prefers-color-scheme: dark) {
+                    .alert-title { color: #ffffff; }
+                    .alert-content { color: #ffffff; }
+                    .alert-box { background: rgba(31, 136, 61, 0.2); }
+                }
+            </style>
+            <div class="container">
+                <div class="alert-box">
+                    <p class="alert-title"><strong>Defaults and theming</strong></p>
+                    <p class="alert-content">Configure tags via SimpleFactory defaults, DefaultsProviderInterface and ThemeProviderInterface</p>
+                </div>
+                <div class="alert-box">
+                    <p class="alert-title"><strong>Extensible base elements</strong></p>
+                    <p class="alert-content">
+                        Build your own tags by extending <code>BaseBlock</code>, <code>BaseInline</code>, or <code>BaseVoid</code>
+                        and implementing <code>getTag()</code> returning <code>BlockInterface</code>, <code>InlineInterface</code>, or <code>VoidInterface</code>
+                    </p>
+                </div>
+                <div class="alert-box">
+                    <p class="alert-title"><strong>Immutable fluent builders</strong></p>
+                    <p class="alert-content">Clone-based API via BaseTag, plus attribute/content traits for predictable configuration</p>
+                </div>
+                <div class="alert-box">
+                    <p class="alert-title"><strong>Safe content encoding</strong></p>
+                    <p class="alert-content">Optional HTML entity encoding for XSS protection with `encodeContent()` parameter on element rendering</p>
+                </div>
+                <div class="alert-box">
+                    <p class="alert-title"><strong>Stack-safe begin/end</strong></p>
+                    <p class="alert-content">Fiber-aware stacks (WeakMap) with explicit errors for missing `begin()` and tag mismatches</p>
+                </div>
+                <div class="alert-box">
+                    <p class="alert-title"><strong>Static HTML renderer</strong></p>
+                    <p class="alert-content">Render begin/end tags and full elements via `Html::begin()`, `::end()`, `::element()`, `::inline()`, `::void()`</p>
+                </div>
+            </div>
+        </div>
+    </foreignObject>
+</svg>
