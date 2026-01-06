@@ -121,7 +121,7 @@ trait HasPrefixCollection
      *
      * Creates a new instance with the specified tag type for the prefix.
      *
-     * @param false|BlockInterface|InlineInterface|VoidInterface $value Tag type to set for the prefix segment.
+     * @param BlockInterface|false|InlineInterface|VoidInterface $value Tag type to set for the prefix segment.
      *
      * @return static New instance with the updated prefixTag property.
      *
