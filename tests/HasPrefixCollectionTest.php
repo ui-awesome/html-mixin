@@ -184,7 +184,7 @@ final class HasPrefixCollectionTest extends TestCase
 
         self::assertEmpty(
             $instance->getPrefix(),
-            'Should return an empty string when no prefix are set.',
+            'Should return an empty string when no prefix is set.',
         );
 
         $instance = $instance->prefix('Prefix content');
