@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace UIAwesome\Html\Core\Tests\Support\Stub\Enum;
+namespace UIAwesome\Html\Mixin\Tests\Support\Stub\Enum;
 
 /**
  * Enum type representing alert categories for testing HTML helper functionality.

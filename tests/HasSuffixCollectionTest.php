@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace UIAwesome\Html\Core\Tests\Mixin;
+namespace UIAwesome\Html\Mixin\Tests;
 
 use BackedEnum;
 use PHPUnit\Framework\Attributes\Group;

@@ -8,7 +8,7 @@ use UIAwesome\Html\Mixin\Values\AttributeProperty;
 use UnitEnum;
 
 /**
- * Data provider for {@see \UIAwesome\Html\Core\Tests\Mixin\HasAttributesTest} class.
+ * Data provider for {@see \UIAwesome\Html\Mixin\Tests\HasAttributesTest} class.
  *
  * Supplies comprehensive test data for validating the handling of HTML attributes in tag rendering, ensuring
  * standards-compliant attribute generation, override behavior, and value propagation.

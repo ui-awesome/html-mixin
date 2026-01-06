@@ -128,7 +128,7 @@ trait HasPrefixCollection
      * Usage example:
      * ```php
      * // default
-     * $element->prefixTag(\UIAwesome\Html\Core\Tag\Inline::SPAN);
+     * $element->prefixTag(\UIAwesome\Html\Interop\Inline::SPAN);
      *
      * // no rendering of prefix tag
      * $element->prefixTag(false);
