@@ -164,7 +164,7 @@ final class HasAttributesTest extends TestCase
         self::assertSame(
             [
                 'aria-label' => 'Label',
-                'aria-hidden' => true,
+                'aria-hidden' => 'true',
             ],
             $instance->getAttributes(),
             'Should set attribute with prefix correctly.',
