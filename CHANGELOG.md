@@ -6,6 +6,7 @@
 - Bug #28: Add test for setting attributes with prefix value in `HasAttributes` mixin (@terabytesoftw)
 - Enh #29: Add development guide and enhance testing documentation (@terabytesoftw)
 - Bug #30: Update `.editorconfig` and `phpunit.xml.dist` for consistency and clarity (@terabytesoftw)
+- Bug #31: Update import paths and fix namespace declarations in configuration files (@terabytesoftw)
 
 ## 0.2.0 March 30, 2024
 
