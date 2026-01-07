@@ -2,30 +2,189 @@
 
 declare(strict_types=1);
 
-namespace UIAwesome\Html\Concern\Tests;
+namespace UIAwesome\Html\Mixin\Tests;
 
-use UIAwesome\Html\Concern\HasAttributes;
+use Closure;
+use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\{DataProviderExternal, Group};
+use PHPUnit\Framework\TestCase;
+use UIAwesome\Html\Mixin\Exception\Message;
+use UIAwesome\Html\Mixin\HasAttributes;
+use UIAwesome\Html\Mixin\Tests\Support\Provider\AttributeProvider;
+use UIAwesome\Html\Mixin\Tests\Support\Stub\Enum\Priority;
+use UnitEnum;
 
-final class HasAttributesTest extends \PHPUnit\Framework\TestCase
+/**
+ * Test suite for {@see HasAttributes} mixin functionality and behavior.
+ *
+ * Validates the management and immutability of HTML attribute handling in tag rendering, according to the HTML Living
+ * Standard specification.
+ *
+ * Ensures correct initialization, assignment, and retrieval of attributes, supporting array-based attribute storage and
+ * enforcing immutability when setting new attributes.
+ *
+ * Test coverage.
+ * - Accurate retrieval of attributes when not set.
+ * - Correct assignment and retrieval of attribute value.
+ * - Immutability of the mixin when setting attributes.
+ * - Removal of specific attributes from the attribute set.
+ * - Setting and retrieving single attribute values.
+ *
+ * @copyright Copyright (C) 2025 Terabytesoftw.
+ * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
+ */
+#[Group('mixin')]
+final class HasAttributesTest extends TestCase
 {
-    public function testAttributes(): void
+    public function testRemoveAttributeValue(): void
     {
-        $instance = new class () {
+        $instance = new class {
             use HasAttributes;
         };
 
-        $instance = $instance->attributes(['class' => 'value']);
-        $instance = $instance->attributes(['disabled' => true]);
+        $instance = $instance->attributes(['id' => 'my-id', 'class' => 'my-class']);
+        $instance = $instance->removeAttribute('id');
 
-        $this->assertSame(['class' => 'value', 'disabled' => true], $instance->getAttributes());
+        self::assertSame(
+            ['class' => 'my-class'],
+            $instance->getAttributes(),
+            'Should return the attributes array after removing an attribute.',
+        );
     }
 
-    public function testImmutability(): void
+    public function testReturnEmptyArrayWhenAttributesNotSet(): void
     {
-        $instance = new class () {
+        $instance = new class {
             use HasAttributes;
         };
 
-        $this->assertNotSame($instance, $instance->attributes([]));
+        self::assertSame(
+            [],
+            $instance->getAttributes(),
+            'Should return an empty array when no attributes are set.',
+        );
+    }
+
+    public function testReturnNewInstanceWhenSettingAttributes(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        self::assertNotSame(
+            $instance,
+            $instance->addAttribute('key', 'value'),
+            'Should return a new instance when adding an attribute, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->attributes([]),
+            'Should return a new instance when setting the attributes, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->removeAttribute('key'),
+            'Should return a new instance when removing an attribute, ensuring immutability.',
+        );
+    }
+
+    /**
+     * @param mixed[] $attributes
+     * @param array<string, Closure(): mixed|string> $expected
+     */
+    #[DataProviderExternal(AttributeProvider::class, 'values')]
+    public function testSetAttributesValue(array $attributes, array $expected, string $message): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        $instance = $instance->attributes($attributes);
+
+        self::assertSame(
+            $expected,
+            $instance->getAttributes(),
+            $message,
+        );
+    }
+
+    public function testSetAttributesWithExistingValues(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        $instance = $instance->attributes(
+            [
+                'id' => 'my-id',
+            ],
+        );
+        $instance = $instance->attributes(
+            [
+                'class' => 'my-class',
+                'id' => 'new-id',
+            ],
+        );
+
+        self::assertSame(
+            [
+                'id' => 'new-id',
+                'class' => 'my-class',
+            ],
+            $instance->getAttributes(),
+            'Should merge new attributes with existing ones, overriding duplicates.',
+        );
+    }
+
+    /**
+     * @phpstan-param scalar|null|Closure(): mixed $value
+     * @phpstan-param mixed[] $expected
+     */
+    #[DataProviderExternal(AttributeProvider::class, 'value')]
+    public function testSetSingleAttributeValue(
+        string|UnitEnum $key,
+        bool|float|int|string|Closure|null $value,
+        array $expected,
+        string $message,
+    ): void {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        $instance = $instance->addAttribute($key, $value);
+
+        self::assertSame(
+            $expected,
+            $instance->getAttributes(),
+            $message,
+        );
+    }
+
+    public function testThrowInvalidArgumentExceptionForSetSingleAttributeWithEmptyKey(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(''),
+        );
+
+        $instance->addAttribute('', 'value');
+    }
+
+    public function testThrowInvalidArgumentExceptionForSetSingleAttributeWithInvalidKey(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(2),
+        );
+
+        $instance->addAttribute(Priority::HIGH, 'value');
     }
 }

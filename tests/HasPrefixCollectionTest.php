@@ -2,85 +2,244 @@
 
 declare(strict_types=1);
 
-namespace UIAwesome\Html\Concern\Tests;
+namespace UIAwesome\Html\Mixin\Tests;
 
-use UIAwesome\Html\Concern\HasPrefixCollection;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\TestCase;
+use Stringable;
+use UIAwesome\Html\Interop\{BlockInterface, Inline, InlineInterface, VoidInterface};
+use UIAwesome\Html\Mixin\HasPrefixCollection;
 
-final class HasPrefixCollectionTest extends \PHPUnit\Framework\TestCase
+/**
+ * Test suite for {@see HasPrefixCollection} trait functionality and behavior.
+ *
+ * Validates the management of prefix content, attributes, class, and tag for HTML elements according to the HTML Living
+ * Standard specification.
+ *
+ * Ensures correct handling, immutability, and validation of prefix-related API in tag rendering, supporting dynamic
+ * assignment and override of prefix value.
+ *
+ * Test coverage.
+ * - Accurate assignment and overriding of prefix content, attributes, class, and tag.
+ * - Immutability of the trait's API when setting or overriding prefix value.
+ * - Proper handling of default and override scenarios for prefix class and tag.
+ * - Validation of empty and non-empty states for prefix properties.
+ *
+ * @copyright Copyright (C) 2025 Terabytesoftw.
+ * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
+ */
+#[Group('mixin')]
+final class HasPrefixCollectionTest extends TestCase
 {
-    public function testClass(): void
+    public function testReturnNewInstanceWhenSettingAttributes(): void
     {
-        $instance = new class () {
+        $instance = new class {
+            use HasPrefixCollection;
+        };
+
+        self::assertNotSame(
+            $instance,
+            $instance->prefix(''),
+            'Should return a new instance when setting the prefix, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->prefixAttributes([]),
+            'Should return a new instance when setting the prefix attributes, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->prefixClass('class-name'),
+            'Should return a new instance when setting the prefix class, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->prefixTag(Inline::MARK),
+            'Should return a new instance when setting the prefix tag, ensuring immutability.',
+        );
+    }
+
+    public function testSetPrefixAttributesValue(): void
+    {
+        $instance = new class {
             use HasPrefixCollection;
 
-            public function getPrefixClass(): string
+            /**
+             * @phpstan-return mixed[]
+             */
+            public function getPrefixAttributes(): array
             {
-                return $this->prefixAttributes['class'] ?? '';
+                return $this->prefixAttributes;
             }
         };
 
-        $this->assertEmpty($instance->getPrefixClass());
+        self::assertEmpty(
+            $instance->getPrefixAttributes(),
+            'Should return an empty array when no attributes are set.',
+        );
 
-        $instance = $instance->prefixClass('class');
+        $instance = $instance->prefixAttributes(
+            [
+                'data-value' => '123',
+                'id' => 'prefix-id',
+            ],
+        );
 
-        $this->assertSame('class', $instance->getPrefixClass());
+        self::assertSame(
+            [
+                'data-value' => '123',
+                'id' => 'prefix-id',
+            ],
+            $instance->getPrefixAttributes(),
+            'Should return the correct prefix attributes after setting them.',
+        );
+    }
 
-        $instance = $instance->prefixClass('class-1');
+    public function testSetPrefixClassValue(): void
+    {
+        $instance = new class {
+            use HasPrefixCollection;
 
-        $this->assertSame('class class-1', $instance->getPrefixClass());
+            /**
+             * @phpstan-return mixed[]
+             */
+            public function getPrefixAttributes(): array
+            {
+                return $this->prefixAttributes;
+            }
+        };
+
+        self::assertEmpty(
+            $instance->getPrefixAttributes(),
+            'Should return an empty array when no attributes are set.',
+        );
+
+        $instance = $instance->prefixClass('prefix-class');
+
+        self::assertSame(
+            'prefix-class',
+            $instance->getPrefixAttributes()['class'] ?? '',
+            'Should return the correct prefix class after setting it.',
+        );
+
+        $instance = $instance->prefixClass('prefix-class-1');
+
+        self::assertSame(
+            'prefix-class prefix-class-1',
+            $instance->getPrefixAttributes()['class'] ?? '',
+            'Should return the correct prefix class after setting it.',
+        );
 
         $instance = $instance->prefixClass('override-class', true);
 
-        $this->assertSame('override-class', $instance->getPrefixClass());
+        self::assertSame(
+            'override-class',
+            $instance->getPrefixAttributes()['class'] ?? '',
+            'Should return the correct prefix class after setting it.',
+        );
     }
 
-    public function testPrefixTag(): void
+    public function testSetPrefixTagValue(): void
     {
-        $instance = new class () {
+        $instance = new class {
             use HasPrefixCollection;
 
-            public function getPrefixTag(): false|string
+            public function getPrefixTag(): bool|BlockInterface|InlineInterface|VoidInterface
             {
                 return $this->prefixTag;
             }
         };
 
-        $this->assertFalse($instance->getPrefixTag());
+        self::assertFalse(
+            $instance->getPrefixTag(),
+            'Should return false when no tag is set.',
+        );
 
-        $instance = $instance->prefixTag();
+        $instance = $instance->prefixTag(Inline::MARK);
 
-        $this->assertSame('div', $instance->getPrefixTag());
-
-        $instance = $instance->prefixTag('span');
-
-        $this->assertSame('span', $instance->getPrefixTag());
+        self::assertSame(
+            Inline::MARK,
+            $instance->getPrefixTag(),
+            'Should return the correct prefix tag after setting it.',
+        );
 
         $instance = $instance->prefixTag(false);
 
-        $this->assertFalse($instance->getPrefixTag());
+        self::assertFalse(
+            $instance->getPrefixTag(),
+            "Should return 'false' after resetting the prefix tag.",
+        );
     }
 
-    public function testTagException(): void
+    public function testSetPrefixValue(): void
     {
-        $instance = new class () {
+        $instance = new class {
             use HasPrefixCollection;
+
+            public function getPrefix(): string
+            {
+                return $this->prefix;
+            }
         };
 
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('The prefix tag must be a non-empty string.');
+        self::assertEmpty(
+            $instance->getPrefix(),
+            'Should return an empty string when no prefix is set.',
+        );
 
-        $instance->prefixTag('');
+        $instance = $instance->prefix('Prefix content');
+
+        self::assertSame(
+            'Prefix content',
+            $instance->getPrefix(),
+            'Should return the correct prefix after setting it.',
+        );
     }
 
-    public function testImmutability(): void
+    public function testSetPrefixValueWithMultipleArguments(): void
     {
-        $instance = new class () {
+        $instance = new class {
             use HasPrefixCollection;
+
+            public function getPrefix(): string
+            {
+                return $this->prefix;
+            }
         };
 
-        $this->assertNotSame($instance, $instance->prefix(''));
-        $this->assertNotSame($instance, $instance->prefixAttributes([]));
-        $this->assertNotSame($instance, $instance->prefixClass(''));
-        $this->assertNotSame($instance, $instance->prefixTag(false));
+        $instance = $instance->prefix('Prefix', ' ', 'content');
+
+        self::assertSame(
+            'Prefix content',
+            $instance->getPrefix(),
+            'Should concatenate multiple prefix arguments.',
+        );
+    }
+
+    public function testSetPrefixValueWithStringable(): void
+    {
+        $instance = new class {
+            use HasPrefixCollection;
+
+            public function getPrefix(): string
+            {
+                return $this->prefix;
+            }
+        };
+
+        $stringable = new class implements Stringable {
+            public function __toString(): string
+            {
+                return 'Stringable content';
+            }
+        };
+
+        $instance = $instance->prefix($stringable);
+
+        self::assertSame(
+            'Stringable content',
+            $instance->getPrefix(),
+            'Should handle Stringable objects correctly.',
+        );
     }
 }
