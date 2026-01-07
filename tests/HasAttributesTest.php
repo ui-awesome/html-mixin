@@ -8,6 +8,7 @@ use Closure;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\{DataProviderExternal, Group};
 use PHPUnit\Framework\TestCase;
+use Stringable;
 use UIAwesome\Html\Mixin\Exception\Message;
 use UIAwesome\Html\Mixin\HasAttributes;
 use UIAwesome\Html\Mixin\Tests\Support\Provider\AttributeProvider;
@@ -133,6 +134,35 @@ final class HasAttributesTest extends TestCase
             ],
             $instance->getAttributes(),
             'Should merge new attributes with existing ones, overriding duplicates.',
+        );
+    }
+
+    public function testSetAttributesWithPrefixValue(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+
+            /**
+             * @phpstan-param scalar|null|Closure(): mixed $value
+             */
+            public function addAriaAttribute(
+                string|UnitEnum $key,
+                bool|float|int|string|Closure|Stringable|UnitEnum|null $value,
+            ): static {
+                $new = clone $this;
+
+                $new->setAttribute($key, $value, 'aria-', true);
+
+                return $new;
+            }
+        };
+
+        $instance = $instance->addAriaAttribute('label', 'Label');
+
+        self::assertSame(
+            ['aria-label' => 'Label'],
+            $instance->getAttributes(),
+            'Should set attribute with prefix correctly.',
         );
     }
 
