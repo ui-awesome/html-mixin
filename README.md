@@ -23,8 +23,8 @@
 </p>
 
 <p align="center">
-    <strong>A type-safe PHP library for standards-compliant HTML tag rendering</strong><br>
-    <em>Build and render block, inline, list, root, table, and void elements with immutable fluent APIs.</em>
+    <strong>A type-safe PHP mixin library for HTML tag rendering components</strong><br>
+    <em>Build reusable components with traits for attributes, content, templates, and prefix/suffix management.</em>
 </p>
 
 ## Features
@@ -37,10 +37,140 @@
 ### Installation
 
 ```bash
-composer require ui-awesome/html-mixin:^0.2
+composer require ui-awesome/html-mixin:^0.4
 ```
 
 ### Quick start
+
+#### Managing HTML attributes with HasAttributes
+
+The `HasAttributes` trait provides a fluent, immutable API for managing HTML attributes on elements. Supports enum
+keys/values, closure-based values, and array merging.
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Component;
+
+use UIAwesome\Html\Mixin\HasAttributes;
+
+final class MyComponent
+{
+    use HasAttributes;
+}
+
+$component = new MyComponent();
+
+$attributes = $component->addAttribute('id', 'my-component')
+    ->attributes(['class' => ['container'], 'data-role' => 'main'])
+    ->removeAttribute('data-role')
+    ->getAttributes();
+// ['id' => 'my-component', 'class' => ['container']]
+```
+
+#### Managing content with encoding support
+
+The `HasContent` trait handles both safe encoded content and raw HTML with XSS protection through `Encode::content()`.
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Component;
+
+use UIAwesome\Html\Mixin\HasContent;
+
+final class MyComponent
+{
+    use HasContent;
+}
+
+$component = new MyComponent();
+
+$encodedContent = $component->content('<script>alert("XSS")</script>')
+    ->getContent();
+// &lt;script&gt;alert(&quot;XSS&quot;)&lt;/script&gt;
+
+$component2 = new MyComponent();
+
+$htmlContent = $component2->html('<strong>Raw HTML</strong>')
+    ->getContent();
+// <strong>Raw HTML</strong>
+```
+
+#### Custom templates with HasTemplate
+
+Define custom rendering templates for your components using the `HasTemplate` trait.
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Component;
+
+use UIAwesome\Html\Mixin\{HasContent, HasTemplate};
+
+final class MyComponent
+{
+    use HasContent;
+    use HasTemplate;
+
+    public function render(): string
+    {
+        return str_replace('{content}', $this->content, $this->template);
+    }
+}
+
+$component = new MyComponent();
+
+echo $component->template('<div class="card">{content}</div>')
+    ->content('Card Content')
+    ->render();
+// <div class="card">Card Content</div>
+```
+
+#### Prefix and suffix content with tag support
+
+The `HasPrefixCollection` and `HasSuffixCollection` traits add content before and after your element, optionally wrapped
+in tags with their own attributes.
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Component;
+
+use UIAwesome\Html\Mixin\{HasContent, HasPrefixCollection, HasSuffixCollection};
+use UIAwesome\Html\Interop\Inline;
+
+final class MyComponent
+{
+    use HasContent;
+    use HasPrefixCollection;
+    use HasSuffixCollection;
+
+    public function render(): string
+    {
+        return $this->prefix . $this->content . $this->suffix;
+    }
+}
+
+$component = new MyComponent();
+
+echo $component->prefix('Prefix: ')
+    ->prefixTag(Inline::STRONG)
+    ->prefixAttributes(['class' => 'prefix-badge'])
+    ->content('Main Content')
+    ->suffix(' :Suffix')
+    ->suffixTag(Inline::EM)
+    ->render();
+// <strong class="prefix-badge">Prefix: </strong>Main Content<em> :Suffix</em>
+```
 
 ## Documentation
 
