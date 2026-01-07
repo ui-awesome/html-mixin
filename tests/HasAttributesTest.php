@@ -157,10 +157,15 @@ final class HasAttributesTest extends TestCase
             }
         };
 
-        $instance = $instance->addAriaAttribute('label', 'Label');
+        $instance = $instance
+            ->addAriaAttribute('label', 'Label')
+            ->addAriaAttribute('hidden', true);
 
         self::assertSame(
-            ['aria-label' => 'Label'],
+            [
+                'aria-label' => 'Label',
+                'aria-hidden' => true,
+            ],
             $instance->getAttributes(),
             'Should set attribute with prefix correctly.',
         );
