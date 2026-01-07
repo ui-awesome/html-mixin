@@ -171,6 +171,35 @@ final class HasAttributesTest extends TestCase
         );
     }
 
+    public function testSetAttributesWithPrefixValueAndBoolStringFalse(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+
+            /**
+             * @phpstan-param scalar|null|Closure(): mixed $value
+             */
+            public function addDataAttribute(
+                string|UnitEnum $key,
+                bool|float|int|string|Closure|Stringable|UnitEnum|null $value,
+            ): static {
+                $new = clone $this;
+
+                $new->setAttribute($key, $value, 'data-');
+
+                return $new;
+            }
+        };
+
+        $instance = $instance->addDataAttribute('disabled', true);
+
+        self::assertSame(
+            ['data-disabled' => true],
+            $instance->getAttributes(),
+            'Should set attribute with prefix correctly.',
+        );
+    }
+
     /**
      * @phpstan-param scalar|null|Closure(): mixed $value
      * @phpstan-param mixed[] $expected
