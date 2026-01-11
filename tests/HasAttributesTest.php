@@ -12,7 +12,7 @@ use Stringable;
 use UIAwesome\Html\Mixin\Exception\Message;
 use UIAwesome\Html\Mixin\HasAttributes;
 use UIAwesome\Html\Mixin\Tests\Support\Provider\AttributeProvider;
-use UIAwesome\Html\Mixin\Tests\Support\Stub\Enum\Priority;
+use UIAwesome\Html\Mixin\Tests\Support\Stub\Enum\{Priority, Status};
 use UnitEnum;
 
 /**
@@ -29,6 +29,7 @@ use UnitEnum;
  * - Correct assignment and retrieval of attribute value.
  * - Immutability of the mixin when setting attributes.
  * - Removal of specific attributes from the attribute set.
+ * - Retrieving individual attribute values by key.
  * - Setting and retrieving single attribute values.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
@@ -37,6 +38,90 @@ use UnitEnum;
 #[Group('mixin')]
 final class HasAttributesTest extends TestCase
 {
+    public function testGetAttributeDoesNotMutateInstance(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        $instance = $instance->attributes(['id' => 'my-id']);
+        $originalAttributes = $instance->getAttributes();
+
+        $instance->getAttribute('id');
+        $instance->getAttribute('nonexistent', 'default');
+
+        self::assertSame(
+            $originalAttributes,
+            $instance->getAttributes(),
+            'Should return the original attributes array when calling get attribute, ensuring immutability.',
+        );
+    }
+
+    public function testGetAttributeReturnsDefaultWhenAttributeDoesNotExist(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        self::assertSame(
+            'default-value',
+            $instance->getAttribute('nonexistent', 'default-value'),
+            'Should return the default value when the attribute does not exist.',
+        );
+        self::assertSame(
+            42,
+            $instance->getAttribute('missing', 42),
+            'Should return the default value when the attribute does not exist.',
+        );
+    }
+
+    public function testGetAttributeReturnsNullWhenAttributeDoesNotExist(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        self::assertNull(
+            $instance->getAttribute('nonexistent'),
+            "Should return 'null' when the attribute does not exist and no default is provided.",
+        );
+    }
+
+    public function testGetAttributeReturnsValueWhenAttributeExists(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        $instance = $instance->attributes(['id' => 'my-id', 'class' => 'my-class']);
+
+        self::assertSame(
+            'my-id',
+            $instance->getAttribute('id'),
+            'Should return the value of the attribute when it exists.',
+        );
+        self::assertSame(
+            'my-class',
+            $instance->getAttribute('class'),
+            'Should return the value of the attribute when it exists.',
+        );
+    }
+
+    public function testGetAttributeWithEnumKey(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        $instance = $instance->addAttribute(Status::ACTIVE, 'active-status');
+
+        self::assertSame(
+            'active-status',
+            $instance->getAttribute(Status::ACTIVE),
+            'Should return the value when using an enum key.',
+        );
+    }
+
     public function testRemoveAttributeValue(): void
     {
         $instance = new class {
@@ -222,6 +307,34 @@ final class HasAttributesTest extends TestCase
             $instance->getAttributes(),
             $message,
         );
+    }
+
+    public function testThrowInvalidArgumentExceptionForGetAttributeEmptyKey(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(''),
+        );
+
+        $instance->getAttribute('');
+    }
+
+    public function testThrowInvalidArgumentExceptionForGetAttributeInvalidKey(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(2),
+        );
+
+        $instance->getAttribute(Priority::HIGH);
     }
 
     public function testThrowInvalidArgumentExceptionForSetSingleAttributeWithEmptyKey(): void

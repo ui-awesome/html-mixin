@@ -8,6 +8,7 @@
 - Bug #30: Update `.editorconfig` and `phpunit.xml.dist` for consistency and clarity (@terabytesoftw)
 - Bug #31: Update import paths and fix namespace declarations in configuration files (@terabytesoftw)
 - Bug #32: Add `NullableTypeDeclarationFixer` to the configuration and update skip rules in `ECS` configuration (@terabytesoftw)
+- Enh #33: Add `getAttribute()` method to `HasAttributes` mixin for retrieving attribute values (@terabytesoftw)
 
 ## 0.2.0 March 30, 2024
 
