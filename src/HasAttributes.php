@@ -121,6 +121,29 @@ trait HasAttributes
     }
 
     /**
+     * Returns the value of a single HTML attribute.
+     *
+     * If the attribute is not present, returns the provided default value.
+     *
+     * @param string|UnitEnum $key Attribute name.
+     * @param mixed $default Default value when the attribute is missing.
+     *
+     * @return mixed Attribute value or default.
+     */
+    public function getAttribute(string|UnitEnum $key, mixed $default = null): mixed
+    {
+        $normalizedKey = Enum::normalizeValue($key);
+
+        if ($normalizedKey === '' || is_string($normalizedKey) === false) {
+            throw new InvalidArgumentException(
+                Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage($normalizedKey),
+            );
+        }
+
+        return $this->attributes[$normalizedKey] ?? $default;
+    }
+
+    /**
      * Returns the array of HTML attributes for the element.
      *
      * @return array Attributes array assigned to the element.
