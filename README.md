@@ -63,11 +63,15 @@ final class MyComponent
 
 $component = new MyComponent();
 
-$attributes = $component->addAttribute('id', 'my-component')
+$attributes = $component
+    ->addAttribute('id', 'my-component')
     ->attributes(['class' => ['container'], 'data-role' => 'main'])
     ->removeAttribute('data-role')
     ->getAttributes();
 // ['id' => 'my-component', 'class' => ['container']]
+
+$component->getAttribute('id', 'default-id');
+// 'my-component'
 ```
 
 #### Managing content with encoding support
@@ -90,13 +94,15 @@ final class MyComponent
 
 $component = new MyComponent();
 
-$encodedContent = $component->content('<script>alert("XSS")</script>')
+$encodedContent = $component
+    ->content('<script>alert("XSS")</script>')
     ->getContent();
 // &lt;script&gt;alert(&quot;XSS&quot;)&lt;/script&gt;
 
 $component2 = new MyComponent();
 
-$htmlContent = $component2->html('<strong>Raw HTML</strong>')
+$htmlContent = $component2
+    ->html('<strong>Raw HTML</strong>')
     ->getContent();
 // <strong>Raw HTML</strong>
 ```
@@ -127,8 +133,9 @@ final class MyComponent
 
 $component = new MyComponent();
 
-echo $component->template('<div class="card">{content}</div>')
+echo $component
     ->content('Card Content')
+    ->template('<div class="card">{content}</div>')
     ->render();
 // <div class="card">Card Content</div>
 ```
@@ -162,10 +169,11 @@ final class MyComponent
 
 $component = new MyComponent();
 
-echo $component->prefix('Prefix: ')
-    ->prefixTag(Inline::STRONG)
-    ->prefixAttributes(['class' => 'prefix-badge'])
+echo $component
     ->content('Main Content')
+    ->prefix('Prefix: ')
+    ->prefixAttributes(['class' => 'prefix-badge'])
+    ->prefixTag(Inline::STRONG)
     ->suffix(' :Suffix')
     ->suffixTag(Inline::EM)
     ->render();
