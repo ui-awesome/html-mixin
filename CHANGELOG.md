@@ -1,6 +1,6 @@
 # ChangeLog
 
-## 0.3.0 Under development
+## 0.3.0 January 18, 2026
 
 - Enh #27: Refactor codebase to improve performance (@terabytesoftw)
 - Bug #28: Add test for setting attributes with prefix value in `HasAttributes` mixin (@terabytesoftw)
