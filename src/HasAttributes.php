@@ -16,19 +16,18 @@ use function is_bool;
 use function is_string;
 
 /**
- * Trait for managing global HTML attributes in tag rendering.
+ * Trait for managing HTML attributes in tag rendering.
  *
- * Provides a standards-compliant, immutable API for setting arbitrary HTML attributes on elements, following the HTML
- * specification for global attributes.
+ * Provides an immutable API for assigning and retrieving attributes on an element-like object.
  *
- * Intended for use in components that require dynamic or programmatic manipulation of element attributes, ensuring
- * correct attribute handling, type safety, and value merging.
+ * Intended for components that need to normalize attribute keys (including {@see UnitEnum} keys) and to support
+ * overriding, merging, and removing attributes.
  *
  * Key features.
- * - Designed for use in tag rendering systems.
- * - Enforces standards-compliant handling of HTML global attributes.
- * - Immutable method for setting or overriding attributes.
- * - Supports merging of multiple attribute arrays for flexible assignment.
+ * - Cloning-based immutable updates for attribute assignment.
+ * - Normalizes attribute keys via {@see Enum::normalizeValue()}.
+ * - Provides a merge-based API for bulk assignment.
+ * - Removes attributes when the value is `null`.
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes
  * @link https://www.w3.org/TR/html52/dom.html#global-attributes
@@ -93,8 +92,7 @@ trait HasAttributes
     /**
      * Sets one or more HTML attributes for the element.
      *
-     * Creates a new instance with the specified attributes, merging them with any existing attributes according to
-     * standards-compliant handling of HTML global attributes.
+     * Creates a new instance with the specified attributes, merging them with any existing attributes.
      *
      * @param array $values Associative array of attribute keys and values.
      *
@@ -196,7 +194,8 @@ trait HasAttributes
      * UnitEnum values. Handles normalization of keys with prefixes (for example, 'aria-', 'data-', 'on').
      *
      * @param mixed $key Attribute key (without the prefix if a prefix is supplied).
-     * @param bool|Closure|float|int|string|Stringable|UnitEnum|null $value Attribute value. Can be `null` to unset the attribute.
+     * @param bool|Closure|float|int|string|Stringable|UnitEnum|null $value Attribute value. Can be `null` to unset the
+     * attribute.
      * @param string $prefix Optional prefix to prepend to the key (for example, 'aria-', 'data-', 'on').
      * @param bool $boolToString Whether to convert boolean values to 'true'/'false' strings.
      *

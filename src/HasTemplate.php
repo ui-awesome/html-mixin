@@ -5,19 +5,18 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Mixin;
 
 /**
- * Trait for managing the template string used in HTML tag construction.
+ * Trait for managing the template string used in tag construction.
  *
- * Provides a standards-compliant, immutable API for setting the template property on HTML elements, following the HTML
- * specification for tag structure and rendering.
+ * Provides an immutable API for assigning a template string used by the implementing renderer.
  *
- * Intended for use in tags and components that require dynamic or programmatic manipulation of templates, ensuring
- * correct handling, type safety, and value assignment.
+ * Intended for tags and components that expose a fluent API for changing the template without mutating the original
+ * instance.
  *
  * Key features.
- * - Designed for use in tags and components.
- * - Enforces standards-compliant handling of the template property for HTML tag construction.
- * - Immutable method for setting or overriding the template string.
- * - Supports flexible assignment of template values for advanced rendering scenarios.
+ * - Cloning-based immutable updates for template assignment.
+ * - Exposes a getter and setter for the template property.
+ * - Keeps the template in a dedicated property for reuse by renderers.
+ * - Stores the template string used to render the tag.
  *
  * @property string $template Template string used for tag rendering.
  * @phpstan-property string $template
