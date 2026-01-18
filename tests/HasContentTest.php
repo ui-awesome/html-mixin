@@ -9,20 +9,19 @@ use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Mixin\HasContent;
 
 /**
- * Test suite for {@see HasContent} mixin functionality and behavior.
+ * Unit tests for {@see HasContent} mixin behavior.
  *
- * Validates the management and immutability of HTML content handling in tag rendering, according to the HTML Living
- * Standard specification.
- *
- * Ensures correct initialization, assignment, and retrieval of content, supporting both encoded and raw HTML content,
- * enforcing immutability when setting new content, and preventing XSS vulnerabilities through proper encoding.
+ * Verifies observable behavior for {@see HasContent} based on this test file only (test methods and assertions).
+ * Statements are grounded in the string assertions and input values present here.
  *
  * Test coverage.
- * - Accurate accumulation and retrieval of mixed content.
- * - Correct handling of empty and unset content.
- * - Immutability of the mixin when setting content or HTML.
- * - Proper encoding of special characters to prevent XSS.
- * - Support for variadic parameters in content and HTML methods.
+ * - Accumulation order when mixing `content()` and `html()`.
+ * - Appending encoded content via `content()`.
+ * - Appending raw HTML via `html()`.
+ * - Immutability for content assignment.
+ * - Variadic parameter handling.
+ *
+ * {@see HasContent} for implementation details.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
@@ -94,13 +93,13 @@ final class HasContentTest extends TestCase
             use HasContent;
         };
 
-        // test XSS prevention
+        // test content encoding
         $instance = $instance->content('<script>alert("xss")</script>');
 
         self::assertSame(
             '&lt;script&gt;alert("xss")&lt;/script&gt;',
             $instance->getContent(),
-            'Should encode special characters when using content() to prevent XSS.',
+            'Should encode special characters when using content().',
         );
     }
 

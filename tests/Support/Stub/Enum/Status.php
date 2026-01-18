@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Mixin\Tests\Support\Stub\Enum;
 
 /**
- * Enum type representing status values for testing enum utilities and workflow logic.
+ * Stub enum for tests.
  *
- * Provides standardized status values for test scenarios involving state transitions, validation, and enum
- * normalization.
+ * Provides a small set of string-backed cases used by test fixtures.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.

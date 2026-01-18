@@ -11,19 +11,19 @@ use UIAwesome\Html\Interop\{BlockInterface, Inline, InlineInterface, VoidInterfa
 use UIAwesome\Html\Mixin\HasPrefixCollection;
 
 /**
- * Test suite for {@see HasPrefixCollection} trait functionality and behavior.
+ * Unit tests for {@see HasPrefixCollection} trait behavior.
  *
- * Validates the management of prefix content, attributes, class, and tag for HTML elements according to the HTML Living
- * Standard specification.
- *
- * Ensures correct handling, immutability, and validation of prefix-related API in tag rendering, supporting dynamic
- * assignment and override of prefix value.
+ * Verifies observable behavior for {@see HasPrefixCollection} based on this test file only (test methods and
+ * assertions).
  *
  * Test coverage.
- * - Accurate assignment and overriding of prefix content, attributes, class, and tag.
- * - Immutability of the trait's API when setting or overriding prefix value.
- * - Proper handling of default and override scenarios for prefix class and tag.
- * - Validation of empty and non-empty states for prefix properties.
+ * - Immutability for prefix-related setters.
+ * - Prefix attribute assignment.
+ * - Prefix class handling, including the override flag.
+ * - Prefix string concatenation with variadic arguments.
+ * - Prefix tag storage and reset.
+ *
+ * {@see HasPrefixCollection} for implementation details.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.

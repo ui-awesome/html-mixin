@@ -12,8 +12,7 @@
 - Bug #34: Improve code examples in `README.md` for better readability and clarity (@terabytesoftw)
 - Bug #35: Improve `testing.md` for clarity and consistency in Composer script usage (@terabytesoftw)
 - Bug #36: Update documentation for various traits and enums to enhance clarity and consistency (@terabytesoftw)
-
-## 0.2.0 March 30, 2024
+- Bug #37: Update documentation for test classes to enhance clarity and consistency (@terabytesoftw)
 
 - Enh #26: Update `ui-awesome/html-helper` to `0.2` and move `Components` to `ui-awesome/html-core-component` (@terabytesoftw)
 

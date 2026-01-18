@@ -9,18 +9,16 @@ use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Mixin\HasTemplate;
 
 /**
- * Test suite for {@see HasTemplate} trait functionality and behavior.
+ * Unit tests for {@see HasTemplate} trait behavior.
  *
- * Validates the management of the template property for HTML rendering according to the HTML Living Standard
- * specification.
- *
- * Ensures correct handling, immutability, and validation of the template in tag rendering, supporting string for
- * dynamic template assignment.
+ * Verifies observable behavior for {@see HasTemplate} based on this test file only (test methods and assertions).
  *
  * Test coverage.
- * - Accurate retrieval of the template value.
- * - Immutability of the trait's API when setting or overriding the template.
- * - Proper assignment and overriding of template value.
+ * - Default empty template value.
+ * - Immutability for template assignment.
+ * - Template assignment and retrieval.
+ *
+ * {@see HasTemplate} for implementation details.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
