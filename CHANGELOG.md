@@ -10,6 +10,7 @@
 - Bug #32: Add `NullableTypeDeclarationFixer` to the configuration and update skip rules in `ECS` configuration (@terabytesoftw)
 - Enh #33: Add `getAttribute()` method to `HasAttributes` mixin for retrieving attribute values (@terabytesoftw)
 - Bug #34: Improve code examples in `README.md` for better readability and clarity (@terabytesoftw)
+- Bug #35: Improve `testing.md` for clarity and consistency in Composer script usage (@terabytesoftw)
 
 ## 0.2.0 March 30, 2024
 
