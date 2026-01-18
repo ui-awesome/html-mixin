@@ -11,19 +11,19 @@ use UIAwesome\Html\Interop\{Block, BlockInterface, Inline, InlineInterface, Void
 use UIAwesome\Html\Mixin\HasSuffixCollection;
 
 /**
- * Test suite for {@see HasSuffixCollection} trait functionality and behavior.
+ * Unit tests for {@see HasSuffixCollection} trait behavior.
  *
- * Validates the management of suffix content, attributes, class, and tag for HTML elements according to the HTML Living
- * Standard specification.
- *
- * Ensures correct handling, immutability, and validation of suffix-related API in tag rendering, supporting dynamic
- * assignment and override of suffix value.
+ * Verifies observable behavior for {@see HasSuffixCollection} based on this test file only (test methods and
+ * assertions).
  *
  * Test coverage.
- * - Accurate assignment and overriding of suffix content, attributes, class, and tag.
- * - Immutability of the trait's API when setting or overriding suffix value.
- * - Proper handling of default and override scenarios for suffix class and tag.
- * - Validation of empty and non-empty states for suffix properties.
+ * - Immutability for suffix-related setters.
+ * - Suffix attribute assignment.
+ * - Suffix class handling, including the override flag.
+ * - Suffix string concatenation with variadic arguments.
+ * - Suffix tag storage and reset.
+ *
+ * {@see HasSuffixCollection} for implementation details.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.

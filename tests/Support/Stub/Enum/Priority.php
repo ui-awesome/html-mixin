@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Mixin\Tests\Support\Stub\Enum;
 
 /**
- * Enum type representing priority levels for testing workflow and sorting logic.
+ * Stub enum for tests.
  *
- * Provides standardized priority values for test scenarios involving task ordering, queue management, and
- * priority-based branching.
+ * Provides a small set of int-backed cases used by test fixtures.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.

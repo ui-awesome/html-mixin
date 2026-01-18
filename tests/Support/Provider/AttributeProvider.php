@@ -8,23 +8,9 @@ use UIAwesome\Html\Mixin\Values\AttributeProperty;
 use UnitEnum;
 
 /**
- * Data provider for {@see \UIAwesome\Html\Mixin\Tests\HasAttributesTest} class.
+ * Data provider for {@see \UIAwesome\Html\Mixin\Tests\HasAttributesTest} test cases.
  *
- * Supplies comprehensive test data for validating the handling of HTML attributes in tag rendering, ensuring
- * standards-compliant attribute generation, override behavior, and value propagation.
- *
- * The test data covers real-world scenarios for setting, overriding, and removing attributes, supporting bool, scalar
- * values, and deferred evaluation via \Closure, to maintain consistent output across different rendering
- * configurations.
- *
- * The provider organizes test cases with descriptive names for clear identification of failure cases during test
- * execution and debugging sessions.
- *
- * Key features.
- * - Ensures correct propagation, assignment, override, and removal of attributes in HTML element rendering.
- * - Named test data sets for precise failure identification.
- * - Validation of bool, string (including empty strings), int, float, \Closure, and `null` handling for attributes,
- *   including hyphenated keys and unset scenarios.
+ * Provides representative input/output pairs for testing the HTML attribute.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.

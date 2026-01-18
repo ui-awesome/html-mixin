@@ -16,21 +16,20 @@ use UIAwesome\Html\Mixin\Tests\Support\Stub\Enum\{Priority, Status};
 use UnitEnum;
 
 /**
- * Test suite for {@see HasAttributes} mixin functionality and behavior.
+ * Unit tests for {@see HasAttributes} mixin behavior.
  *
- * Validates the management and immutability of HTML attribute handling in tag rendering, according to the HTML Living
- * Standard specification.
- *
- * Ensures correct initialization, assignment, and retrieval of attributes, supporting array-based attribute storage and
- * enforcing immutability when setting new attributes.
+ * Verifies observable behavior for {@see HasAttributes} based on this test file only (test methods, providers, and
+ * assertions). Statements are grounded in datasets, assertions, and explicit exception expectations present here.
  *
  * Test coverage.
- * - Accurate retrieval of attributes when not set.
- * - Correct assignment and retrieval of attribute value.
- * - Immutability of the mixin when setting attributes.
- * - Removal of specific attributes from the attribute set.
- * - Retrieving individual attribute values by key.
- * - Setting and retrieving single attribute values.
+ * - Attribute retrieval with default values.
+ * - Bulk assignment via `attributes()`.
+ * - Exception messages for invalid attribute keys.
+ * - Immutability for add/remove operations.
+ * - Single-attribute assignment via `addAttribute()`.
+ *
+ * {@see HasAttributes} for implementation details.
+ * {@see AttributeProvider} for test case data providers.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
