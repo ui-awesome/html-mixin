@@ -11,19 +11,19 @@ use UIAwesome\Html\Interop\{BlockInterface, InlineInterface, VoidInterface};
 use function implode;
 
 /**
- * Trait for managing prefix content and attributes in HTML tag rendering.
+ * Trait for managing prefix content and prefix tag attributes.
  *
- * Provides a standards-compliant, immutable API for setting prefix content, attributes, and tag type before the main
- * HTML element, following the HTML specification for tag structure and rendering.
+ * Provides an immutable API for assigning a prefix string and an optional prefix tag definition used by the
+ * implementing renderer.
  *
- * Intended for use in components that require dynamic or programmatic manipulation of prefix segments, ensuring correct
- * handling, type safety, and value assignment.
+ * Intended for components that need to prepend additional markup or text before the main element while keeping a
+ * clone-based fluent API.
  *
  * Key features.
- * - Designed for use in tag rendering systems.
- * - Enforces standards-compliant handling of prefix content and attributes.
- * - Immutable methods for setting prefix string, attributes, CSS classes, and tag type.
- * - Supports flexible assignment of prefix values for advanced rendering scenarios.
+ * - Cloning-based immutable updates for prefix state.
+ * - Stores a prefix string and an attribute array for the prefix tag.
+ * - Stores an optional prefix tag enum via {@see BlockInterface}, {@see InlineInterface}, or {@see VoidInterface}.
+ * - Supports adding CSS classes via {@see CSSClass::add()}.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.

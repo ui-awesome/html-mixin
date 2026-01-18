@@ -7,24 +7,20 @@ namespace UIAwesome\Html\Mixin\Exception;
 use function sprintf;
 
 /**
- * Represents standardized error messages.
+ * Represents error message templates.
  *
- * This enum defines formatted error messages for various error conditions that may occur during operations such as
- * value validation.
+ * This enum defines message templates used by mixin components when validating inputs.
  *
- * It provides a consistent and standardized way to present error messages across the system.
+ * It provides message templates that can be formatted at call sites.
  *
- * Each case represents a specific type of error, with a message template that can be populated with dynamic values
- * using the {@see Message::getMessage()} method.
- *
- * This centralized approach improves the consistency of error messages and simplifies potential internationalization.
+ * Each case stores the template string in its enum `value` and can be formatted using {@see Message::getMessage()}.
  *
  * Key features.
- * - Centralization of an error text for easier maintenance.
- * - Consistent error handling across the system.
- * - Integration with specific exception classes.
- * - Message formatting with dynamic parameters.
- * - Standardized error messages for common and utility cases.
+ * - Defines message templates as enum cases.
+ * - Formats templates with `sprintf()` via {@see Message::getMessage()}.
+ * - Intended for exception call sites that need consistent messages.
+ * - Supports optional message formatting arguments.
+ * - Uses the enum case `value` as the template string.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
@@ -41,7 +37,7 @@ enum Message: string
     /**
      * Returns the formatted message string for the error case.
      *
-     * @param int|string $argument Dynamic arguments to insert into the message template.
+     * @param int|string ...$argument Values to insert into the message template.
      *
      * @return string Formatted error message with interpolated arguments.
      *

@@ -11,19 +11,19 @@ use UIAwesome\Html\Interop\{BlockInterface, InlineInterface, VoidInterface};
 use function implode;
 
 /**
- * Trait for managing suffix content and attributes in HTML tag rendering.
+ * Trait for managing suffix content and suffix tag attributes.
  *
- * Provides a standards-compliant, immutable API for setting suffix content, attributes, and tag type after the main
- * HTML element, following the HTML specification for tag structure and rendering.
+ * Provides an immutable API for assigning a suffix string and an optional suffix tag definition used by the
+ * implementing renderer.
  *
- * Intended for use in components that require dynamic or programmatic manipulation of suffix segments, ensuring correct
- * handling, type safety, and value assignment.
+ * Intended for components that need to append additional markup or text after the main element while keeping a
+ * clone-based fluent API.
  *
  * Key features.
- * - Designed for use in tag rendering systems.
- * - Enforces standards-compliant handling of suffix content and attributes.
- * - Immutable methods for setting suffix string, attributes, CSS classes, and tag type.
- * - Supports flexible assignment of suffix values for advanced rendering scenarios.
+ * - Cloning-based immutable updates for suffix state.
+ * - Stores a suffix string and an attribute array for the suffix tag.
+ * - Stores an optional suffix tag enum via {@see BlockInterface}, {@see InlineInterface}, or {@see VoidInterface}.
+ * - Supports adding CSS classes via {@see CSSClass::add()}.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.

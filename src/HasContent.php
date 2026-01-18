@@ -10,15 +10,15 @@ use UIAwesome\Html\Helper\Encode;
 /**
  * Trait for managing HTML element content in tag rendering.
  *
- * Provides a standards-compliant, immutable API for setting the textual or raw HTML content of elements, following the
- * HTML specification for content assignment. Intended for use in components that require dynamic or programmatic
- * manipulation of element content, ensuring correct handling, type safety, and value encoding.
+ * Provides an immutable API for appending encoded text content or raw HTML content to an element-like object.
+ *
+ * Intended for components that need to build up content incrementally while keeping the original instance unchanged.
  *
  * Key features.
- * - Designed for use in tag rendering systems.
- * - Enforces standards-compliant handling of HTML content assignment.
- * - Immutable methods for setting encoded (safe) or raw (HTML) content.
- * - Supports `string` and `Stringable` values for flexible content assignment.
+ * - Appends raw HTML without encoding when using {@see HasContent::html()}.
+ * - Cloning-based immutable updates for content assignment.
+ * - Encodes content via {@see Encode::content()} when using {@see HasContent::content()}.
+ * - Supports `string` and `Stringable` values.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
@@ -33,7 +33,7 @@ trait HasContent
     /**
      * Appends encoded (safe) content to the current content string.
      *
-     * This method uses {@see Encode::content()} to prevent XSS vulnerabilities.
+     * This method encodes content using {@see Encode::content()}.
      *
      * The values are appended to the existing content (Builder pattern).
      *
