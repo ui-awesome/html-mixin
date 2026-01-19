@@ -2,6 +2,8 @@
 
 ## 0.3.1 Under development
 
+- Bug #38: Remove redundant usage examples from `HasAttributes`, `HasPrefixCollection`, and `HasSuffixCollection` traits for clarity (@terabytesoftw)
+
 ## 0.3.0 January 18, 2026
 
 - Enh #27: Refactor codebase to improve performance (@terabytesoftw)

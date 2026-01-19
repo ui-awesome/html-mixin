@@ -127,10 +127,7 @@ trait HasSuffixCollection
      *
      * Usage example:
      * ```php
-     * // default
      * $element->suffixTag(\UIAwesome\Html\Interop\Inline::SPAN);
-     *
-     * // no rendering of suffix tag
      * $element->suffixTag(false);
      * ```
      */

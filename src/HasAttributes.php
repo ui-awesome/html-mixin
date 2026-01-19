@@ -56,16 +56,9 @@ trait HasAttributes
      *
      * Usage example:
      * ```php
-     * // sets a single attribute
      * $element->addAttribute('id', 'my-id');
-     *
-     * // sets single attribute with an enum key
      * $element->addAttribute(DataProperty::ID, 'my-id');
-     *
-     * // sets single attribute with an enum value
      * $element->addAttribute('size', ButtonSize::SMALL);
-     *
-     * // removes attribute
      * $element->addAttribute('id', null);
      * ```
      */
@@ -102,10 +95,7 @@ trait HasAttributes
      *
      * Usage example:
      * ```php
-     * // sets multiple attributes
      * $element->attributes(['id' => 'my-id', 'data-role' => 'button']);
-     *
-     * // sets multiple attributes with an enum value
      * $element->attributes(['size' => ButtonSize::LARGE, 'disabled' => true]);
      * ```
      */
@@ -127,6 +117,12 @@ trait HasAttributes
      * @param mixed $default Default value when the attribute is missing.
      *
      * @return mixed Attribute value or default.
+     *
+     * Usage example:
+     * ```php
+     * $id = $element->getAttribute('id', 'default-id');
+     * $id = $element->getAttribute(DataProperty::ID, 'default-id');
+     * ```
      */
     public function getAttribute(string|UnitEnum $key, mixed $default = null): mixed
     {
@@ -169,10 +165,7 @@ trait HasAttributes
      *
      * Usage example:
      * ```php
-     * // removes attribute
      * $element->removeAttribute('id');
-     *
-     * // removes attribute with an enum key
      * $element->removeAttribute(DataProperty::ID);
      * ```
      */
