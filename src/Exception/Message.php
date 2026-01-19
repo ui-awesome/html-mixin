@@ -9,17 +9,21 @@ use function sprintf;
 /**
  * Represents error message templates.
  *
- * This enum defines message templates used by mixin components when validating inputs.
+ * This enum defines formatted error messages for various error conditions that may occur during operations such as
+ * input validation in mixin components.
  *
  * It provides message templates that can be formatted at call sites.
  *
- * Each case stores the template string in its enum `value` and can be formatted using {@see Message::getMessage()}.
+ * Each case represents a specific type of error, with a message template that can be populated with dynamic values
+ * using the {@see Message::getMessage()} method.
+ *
+ * Each message template can be formatted with arguments.
  *
  * Key features.
+ * - Can be used by exception call sites that need formatted messages.
  * - Defines message templates as enum cases.
  * - Formats templates with `sprintf()` via {@see Message::getMessage()}.
- * - Intended for exception call sites that need consistent messages.
- * - Supports optional message formatting arguments.
+ * - Supports message formatting with dynamic parameters.
  * - Uses the enum case `value` as the template string.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
