@@ -50,7 +50,6 @@ enum Message: string
      * throw new InvalidArgumentException(Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage());
      * ```
      */
-
     public function getMessage(int|string ...$argument): string
     {
         return sprintf($this->value, ...$argument);
