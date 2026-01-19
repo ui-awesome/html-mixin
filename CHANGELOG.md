@@ -3,6 +3,7 @@
 ## 0.3.1 Under development
 
 - Bug #38: Remove redundant usage examples from `HasAttributes`, `HasPrefixCollection`, and `HasSuffixCollection` traits for clarity (@terabytesoftw)
+- Bug #39: Enhance documentation for `Message` enum to clarify error message templates and formatting usage (@terabytesoftw)
 
 ## 0.3.0 January 18, 2026
 
