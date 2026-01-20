@@ -1,5 +1,7 @@
 # ChangeLog
 
+## 0.3.2 Under development
+
 ## 0.3.1 January 20, 2026
 
 - Bug #38: Remove redundant usage examples from `HasAttributes`, `HasPrefixCollection`, and `HasSuffixCollection` traits for clarity (@terabytesoftw)
