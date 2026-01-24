@@ -1,5 +1,7 @@
 # ChangeLog
 
+## 0.3.3 Under development
+
 ## 0.3.2 January 24, 2026
 
 - Enh #40: Add `php-forge/coding-standard` to development dependencies for code quality checks (@terabytesoftw)
