@@ -4,6 +4,7 @@
 
 - Enh #40: Add `php-forge/coding-standard` to development dependencies for code quality checks (@terabytesoftw)
 - Bug #41: Remove redundant cURL commands for `ecs.php` and `rector.php` in scripts section of `composer.json` (@terabytesoftw)
+- Bug #42: Remove references to `ecs.php` and `rector.php` from development documentation (@terabytesoftw)
 
 ## 0.3.1 January 20, 2026
 
