@@ -2,6 +2,8 @@
 
 ## 0.3.2 Under development
 
+- Enh #40: Add `php-forge/coding-standard` to development dependencies for code quality checks (@terabytesoftw)
+
 ## 0.3.1 January 20, 2026
 
 - Bug #38: Remove redundant usage examples from `HasAttributes`, `HasPrefixCollection`, and `HasSuffixCollection` traits for clarity (@terabytesoftw)
