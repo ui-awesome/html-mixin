@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Mixin\Tests\Support\Provider;
 
-use Closure;
 use UIAwesome\Html\Mixin\Values\AttributeProperty;
 use UnitEnum;
 
@@ -22,14 +21,14 @@ final class AttributeProvider
      * Provides test cases for single HTML attribute scenarios.
      *
      * Supplies test data for validating assignment, override, and removal of a single HTML attribute, including string
-     * keys, UnitEnum keys and values provided as scalars, \Closure, and `null`.
+     * keys, UnitEnum keys and values provided as scalars, Closure, and `null`.
      *
      * Each test case includes the attribute key, the input value, the expected attributes array, and an assertion
      * message for clear identification.
      *
      * @return array Test data for single attribute scenarios.
      *
-     * @phpstan-return array<string, array{string|UnitEnum, scalar|Closure|null, mixed[], string}>
+     * @phpstan-return array<string, array{string|UnitEnum, scalar|\Closure(): mixed|null, mixed[], string}>
      */
     public static function value(): array
     {
