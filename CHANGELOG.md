@@ -5,6 +5,7 @@
 - Bug #43: Add section for automated refactoring using `Rector` in testing documentation (@terabytesoftw)
 - Bug #44: Update examples in `testing.md` for running Composer script with arguments (@terabytesoftw)
 - Bug #45: Update command syntax in `development.md` and `testing.md` for clarity and consistency (@terabytesoftw)
+- Bug #46: Remove redundant ignore rule in `actionlint.yml` configuration and update Rector command in `composer.json` to remove unnecessary 'src' argument (@terabytesoftw)
 
 ## 0.3.2 January 24, 2026
 
@@ -30,7 +31,6 @@
 - Bug #35: Improve `testing.md` for clarity and consistency in Composer script usage (@terabytesoftw)
 - Bug #36: Update documentation for various traits and enums to enhance clarity and consistency (@terabytesoftw)
 - Bug #37: Update documentation for test classes to enhance clarity and consistency (@terabytesoftw)
-
 - Enh #26: Update `ui-awesome/html-helper` to `0.2` and move `Components` to `ui-awesome/html-core-component` (@terabytesoftw)
 
 ## 0.1.2 March 14, 2024
@@ -65,4 +65,4 @@
 
 ## 0.1.0 March 5, 2024
 
-- Initial release
+- Enh #1: Initial commit (@terabytesoftw)
