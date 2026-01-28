@@ -1,6 +1,6 @@
 # ChangeLog
 
-## 0.3.3 Under development
+## 0.3.3 January 28, 2026
 
 - Bug #43: Add section for automated refactoring using `Rector` in testing documentation (@terabytesoftw)
 - Bug #44: Update examples in `testing.md` for running Composer script with arguments (@terabytesoftw)
