@@ -1,5 +1,7 @@
 # ChangeLog
 
+## 0.3.5 Under development
+
 ## 0.3.4 January 29, 2026
 
 - Dep #47: Update `ui-awesome/html-interop` requirement from `^0.2` to `^0.3` in `composer.json` (@terabytesoftw)
