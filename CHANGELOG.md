@@ -2,6 +2,8 @@
 
 ## 0.3.4 Under development
 
+- Dep #47: Update `ui-awesome/html-interop` requirement from `^0.2` to `^0.3` in `composer.json` (@terabytesoftw)
+
 ## 0.3.3 January 28, 2026
 
 - Bug #43: Add section for automated refactoring using `Rector` in testing documentation (@terabytesoftw)
