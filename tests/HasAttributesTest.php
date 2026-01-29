@@ -284,6 +284,68 @@ final class HasAttributesTest extends TestCase
         );
     }
 
+    public function testSetAttributeWithClosureValue(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+
+            /**
+             * @phpstan-param scalar|null|Closure(): mixed $value
+             */
+            public function addDataAttribute(
+                string|UnitEnum $key,
+                bool|float|int|string|Closure|Stringable|UnitEnum|null $value,
+            ): static {
+                $new = clone $this;
+
+                $new->setAttribute($key, $value, 'data-');
+
+                return $new;
+            }
+        };
+
+        $closure = static fn(): string => 'resolved-value';
+        $instance = $instance->addDataAttribute('test', $closure);
+
+        self::assertSame(
+            ['data-test' => 'resolved-value'],
+            $instance->getAttributes(),
+            'Should execute the closure and set the resolved value as the attribute value.',
+        );
+    }
+
+    public function testSetAttributeWithNullValueRemovesAttribute(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+
+            /**
+             * @phpstan-param scalar|null|Closure(): mixed $value
+             */
+            public function addAriaAttribute(
+                string|UnitEnum $key,
+                bool|float|int|string|Closure|Stringable|UnitEnum|null $value,
+            ): static {
+                $new = clone $this;
+
+                $new->setAttribute($key, $value, 'aria-', true);
+
+                return $new;
+            }
+        };
+
+        $instance = $instance
+            ->addAriaAttribute('label', 'Label')
+            ->addAriaAttribute('hidden', true)
+            ->addAriaAttribute('label', null);
+
+        self::assertSame(
+            ['aria-hidden' => 'true'],
+            $instance->getAttributes(),
+            'Should remove the attribute when null value is provided via setAttribute.',
+        );
+    }
+
     /**
      * @phpstan-param scalar|null|Closure(): mixed $value
      * @phpstan-param mixed[] $expected

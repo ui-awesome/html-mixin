@@ -3,6 +3,7 @@
 ## 0.3.4 Under development
 
 - Dep #47: Update `ui-awesome/html-interop` requirement from `^0.2` to `^0.3` in `composer.json` (@terabytesoftw)
+- Enh #48: Add test coverage for `Closure` and `null` value resolution in `setAttribute()` method of `HasAttributes` mixin (@terabytesoftw)
 
 ## 0.3.3 January 28, 2026
 
