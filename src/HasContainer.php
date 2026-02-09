@@ -81,13 +81,14 @@ trait HasContainer
      * Usage example:
      * ```php
      * $component = $component->containerTag(Block::SECTION);
+     * $component = $component->containerTag(false);
      * ```
      *
-     * @param BlockInterface $value Tag name for the container.
+     * @param BlockInterface|false $value Tag name for the container. Set to `false` to disable the container tag.
      *
      * @return static New instance with the updated `containerTag` value.
      */
-    public function containerTag(BlockInterface $value): static
+    public function containerTag(BlockInterface|false $value): static
     {
         $new = clone $this;
         $new->containerTag = $value;
