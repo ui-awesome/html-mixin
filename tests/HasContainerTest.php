@@ -124,11 +124,6 @@ final class HasContainerTest extends TestCase
     {
         $instance = new class {
             use HasContainer;
-
-            public function getContainerTag(): false|BlockInterface
-            {
-                return $this->containerTag;
-            }
         };
 
         self::assertFalse(
