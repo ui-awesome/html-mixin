@@ -120,7 +120,7 @@ trait HasContainer
     /**
      * Returns the tag name for the container.
      *
-     * @return false|BlockInterface Tag name for the container, or `false` if not set.
+     * @return BlockInterface|false Tag name for the container, or `false` if not set.
      */
     public function getContainerTag(): false|BlockInterface
     {
