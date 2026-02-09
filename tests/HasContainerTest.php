@@ -6,7 +6,7 @@ namespace UIAwesome\Html\Mixin\Tests;
 
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
-use UIAwesome\Html\Interop\{Block, BlockInterface};
+use UIAwesome\Html\Interop\{Block};
 use UIAwesome\Html\Mixin\HasContainer;
 
 /**
