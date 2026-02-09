@@ -2,6 +2,8 @@
 
 ## 0.3.5 Under development
 
+- Enh #49: Add `HasContainer` mixin for managing container tag and attributes (@terabytesoftw)
+
 ## 0.3.4 January 29, 2026
 
 - Dep #47: Update `ui-awesome/html-interop` requirement from `^0.2` to `^0.3` in `composer.json` (@terabytesoftw)
