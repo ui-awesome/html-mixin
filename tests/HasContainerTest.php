@@ -14,11 +14,12 @@ use UIAwesome\Html\Mixin\HasContainer;
  *
  * Test coverage.
  * - Ensures fluent setters return new instances (immutability).
+ * - Merges new attributes with existing ones, overriding duplicates.
  * - Sets the container attributes.
  * - Sets the container rendering flag.
  * - Sets the container tag.
  *
- * @copyright Copyright (C) 2025 Terabytesoftw.
+ * @copyright Copyright (C) 2026 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 #[Group('mixin')]
@@ -67,14 +68,6 @@ final class HasContainerTest extends TestCase
     {
         $instance = new class {
             use HasContainer;
-
-            /**
-             * @phpstan-return mixed[]
-             */
-            public function getContainerAttributes(): array
-            {
-                return $this->containerAttributes;
-            }
         };
 
         self::assertEmpty(
@@ -96,6 +89,34 @@ final class HasContainerTest extends TestCase
             ],
             $instance->getContainerAttributes(),
             'Should return the correct container attributes after setting them.',
+        );
+    }
+
+    public function testSetContainerAttributesWithExistingValues(): void
+    {
+        $instance = new class {
+            use HasContainer;
+        };
+
+        $instance = $instance->containerAttributes(
+            [
+                'id' => 'my-id',
+            ],
+        );
+        $instance = $instance->containerAttributes(
+            [
+                'class' => 'my-class',
+                'id' => 'new-id',
+            ],
+        );
+
+        self::assertSame(
+            [
+                'id' => 'new-id',
+                'class' => 'my-class',
+            ],
+            $instance->getContainerAttributes(),
+            'Should merge new attributes with existing ones, overriding duplicates.',
         );
     }
 
@@ -128,11 +149,6 @@ final class HasContainerTest extends TestCase
     {
         $instance = new class {
             use HasContainer;
-
-            public function isContainer(): bool
-            {
-                return $this->container;
-            }
         };
 
         self::assertFalse(
