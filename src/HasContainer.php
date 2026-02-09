@@ -109,16 +109,6 @@ trait HasContainer
     }
 
     /**
-     * Returns whether the container should be rendered.
-     *
-     * @return bool `true` if the container should be rendered, or `false` otherwise.
-     */
-    public function isContainer(): bool
-    {
-        return $this->container;
-    }
-
-    /**
      * Returns the tag name for the container.
      *
      * @return BlockInterface|false Tag name for the container, or `false` if not set.
@@ -126,5 +116,15 @@ trait HasContainer
     public function getContainerTag(): false|BlockInterface
     {
         return $this->containerTag;
+    }
+
+    /**
+     * Returns whether the container should be rendered.
+     *
+     * @return bool `true` if the container should be rendered, or `false` otherwise.
+     */
+    public function isContainer(): bool
+    {
+        return $this->container;
     }
 }
