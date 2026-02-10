@@ -23,6 +23,7 @@ use UIAwesome\Html\Mixin\Tests\Support\Stub\Enum\Priority;
  * - Sets the suffix class, including class override behavior.
  * - Sets the suffix tag and supports resetting it to `false`.
  * - Sets the suffix value from strings, variadic parts, and `Stringable` objects.
+ * - Throws `InvalidArgumentException` for empty or unsupported suffix attribute keys.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
