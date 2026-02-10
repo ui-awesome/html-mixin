@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Mixin\Tests;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Stringable;
 use UIAwesome\Html\Interop\Inline;
+use UIAwesome\Html\Mixin\Exception\Message;
 use UIAwesome\Html\Mixin\HasPrefixCollection;
+use UIAwesome\Html\Mixin\Tests\Support\Stub\Enum\Priority;
 
 /**
  * Unit tests for the {@see HasPrefixCollection} trait managing prefix content, tag, and attributes.
@@ -20,6 +23,7 @@ use UIAwesome\Html\Mixin\HasPrefixCollection;
  * - Sets the prefix class, including class override behavior.
  * - Sets the prefix tag and supports resetting it to `false`.
  * - Sets the prefix value from strings, variadic parts, and `Stringable` objects.
+ * - Throws `InvalidArgumentException` for empty or unsupported prefix attribute keys.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
@@ -229,5 +233,33 @@ final class HasPrefixCollectionTest extends TestCase
             $instance->getPrefix(),
             'Should handle Stringable objects correctly.',
         );
+    }
+
+    public function testThrowInvalidArgumentExceptionForGetPrefixAttributeEmptyKey(): void
+    {
+        $instance = new class {
+            use HasPrefixCollection;
+        };
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(''),
+        );
+
+        $instance->getPrefixAttribute('');
+    }
+
+    public function testThrowInvalidArgumentExceptionForGetPrefixAttributeInvalidKey(): void
+    {
+        $instance = new class {
+            use HasPrefixCollection;
+        };
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(2),
+        );
+
+        $instance->getPrefixAttribute(Priority::HIGH);
     }
 }

@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Mixin\Tests;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Interop\Block;
+use UIAwesome\Html\Mixin\Exception\Message;
 use UIAwesome\Html\Mixin\HasContainerCollection;
+use UIAwesome\Html\Mixin\Tests\Support\Stub\Enum\Priority;
 
 /**
  * Unit tests for the {@see HasContainerCollection} trait managing the container tag and attributes.
@@ -18,6 +21,7 @@ use UIAwesome\Html\Mixin\HasContainerCollection;
  * - Sets the container attributes.
  * - Sets the container rendering flag.
  * - Sets the container tag.
+ * - Throws `InvalidArgumentException` for empty or unsupported container attribute keys.
  *
  * @copyright Copyright (C) 2026 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
@@ -215,5 +219,33 @@ final class HasContainerCollectionTest extends TestCase
             $instance->isContainer(),
             'Should return false after setting container to false.',
         );
+    }
+
+    public function testThrowInvalidArgumentExceptionForGetContainerAttributeEmptyKey(): void
+    {
+        $instance = new class {
+            use HasContainerCollection;
+        };
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(''),
+        );
+
+        $instance->getContainerAttribute('');
+    }
+
+    public function testThrowInvalidArgumentExceptionForGetContainerAttributeInvalidKey(): void
+    {
+        $instance = new class {
+            use HasContainerCollection;
+        };
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(2),
+        );
+
+        $instance->getContainerAttribute(Priority::HIGH);
     }
 }
