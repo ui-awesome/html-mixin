@@ -16,19 +16,17 @@ use UIAwesome\Html\Mixin\Tests\Support\Stub\Enum\{Priority, Status};
 use UnitEnum;
 
 /**
- * Unit tests for {@see HasAttributes} mixin behavior.
- *
- * Verifies observable behavior for {@see HasAttributes} based on this test file only (test methods, providers, and
- * assertions). Statements are grounded in datasets, assertions, and explicit exception expectations present here.
+ * Unit tests for the {@see HasAttributes} trait managing HTML attributes.
  *
  * Test coverage.
- * - Attribute retrieval with default values.
- * - Bulk assignment via `attributes()`.
- * - Exception messages for invalid attribute keys.
- * - Immutability for add/remove operations.
- * - Single-attribute assignment via `addAttribute()`.
+ * - Ensures `getAttribute()` returns default values or `null` for missing keys without mutating attributes.
+ * - Ensures fluent setters return new instances (immutability).
+ * - Sets attributes in bulk and merges new values over existing keys.
+ * - Sets prefixed attributes, including closure resolution and null-based removal.
+ * - Sets single attributes for scalar and enum keys.
+ * - Throws `InvalidArgumentException` for empty or unsupported attribute keys.
+ * - Verifies attribute retrieval for existing keys, including enum keys.
  *
- * {@see HasAttributes} for implementation details.
  * {@see AttributeProvider} for test case data providers.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
@@ -174,8 +172,8 @@ final class HasAttributesTest extends TestCase
     }
 
     /**
-     * @param mixed[] $attributes
-     * @param array<string, Closure(): mixed|string> $expected
+     * @phpstan-param mixed[] $attributes
+     * @phpstan-param mixed[] $expected
      */
     #[DataProviderExternal(AttributeProvider::class, 'values')]
     public function testSetAttributesValue(array $attributes, array $expected, string $message): void

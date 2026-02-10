@@ -3,6 +3,7 @@
 ## 0.3.5 Under development
 
 - Enh #49: Add `HasContainer` mixin for managing container tag and attributes (@terabytesoftw)
+- Enh #50: Rename `HasContainer` to `HasContainerCollection` and standardize PHPDoc in `src` and `tests` (@terabytesoftw)
 
 ## 0.3.4 January 29, 2026
 

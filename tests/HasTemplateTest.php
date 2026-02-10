@@ -9,16 +9,12 @@ use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Mixin\HasTemplate;
 
 /**
- * Unit tests for {@see HasTemplate} trait behavior.
- *
- * Verifies observable behavior for {@see HasTemplate} based on this test file only (test methods and assertions).
+ * Unit tests for the {@see HasTemplate} trait managing component template strings.
  *
  * Test coverage.
- * - Default empty template value.
- * - Immutability for template assignment.
- * - Template assignment and retrieval.
- *
- * {@see HasTemplate} for implementation details.
+ * - Ensures `getTemplate()` returns an empty string when template is not set.
+ * - Ensures fluent setters return new instances (immutability).
+ * - Sets the template value.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.

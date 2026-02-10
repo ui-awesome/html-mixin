@@ -7,23 +7,19 @@ namespace UIAwesome\Html\Mixin\Tests;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Stringable;
-use UIAwesome\Html\Interop\{Block, BlockInterface, Inline, InlineInterface, VoidInterface};
+use UIAwesome\Html\Interop\{Block, Inline};
 use UIAwesome\Html\Mixin\HasSuffixCollection;
 
 /**
- * Unit tests for {@see HasSuffixCollection} trait behavior.
- *
- * Verifies observable behavior for {@see HasSuffixCollection} based on this test file only (test methods and
- * assertions).
+ * Unit tests for the {@see HasSuffixCollection} trait managing suffix content, tag, and attributes.
  *
  * Test coverage.
- * - Immutability for suffix-related setters.
- * - Suffix attribute assignment.
- * - Suffix class handling, including the override flag.
- * - Suffix string concatenation with variadic arguments.
- * - Suffix tag storage and reset.
- *
- * {@see HasSuffixCollection} for implementation details.
+ * - Ensures fluent setters return new instances (immutability).
+ * - Merges new suffix attributes with existing ones, overriding duplicates.
+ * - Sets the suffix attributes.
+ * - Sets the suffix class, including class override behavior.
+ * - Sets the suffix tag and supports resetting it to `false`.
+ * - Sets the suffix value from strings, variadic parts, and `Stringable` objects.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
@@ -63,14 +59,6 @@ final class HasSuffixCollectionTest extends TestCase
     {
         $instance = new class {
             use HasSuffixCollection;
-
-            /**
-             * @phpstan-return mixed[]
-             */
-            public function getSuffixAttributes(): array
-            {
-                return $this->suffixAttributes;
-            }
         };
 
         self::assertEmpty(
@@ -95,18 +83,38 @@ final class HasSuffixCollectionTest extends TestCase
         );
     }
 
+    public function testSetSuffixAttributesWithExistingValues(): void
+    {
+        $instance = new class {
+            use HasSuffixCollection;
+        };
+
+        $instance = $instance->suffixAttributes(
+            [
+                'id' => 'my-id',
+            ],
+        );
+        $instance = $instance->suffixAttributes(
+            [
+                'class' => 'my-class',
+                'id' => 'new-id',
+            ],
+        );
+
+        self::assertSame(
+            [
+                'id' => 'new-id',
+                'class' => 'my-class',
+            ],
+            $instance->getSuffixAttributes(),
+            'Should merge new attributes with existing ones, overriding duplicates.',
+        );
+    }
+
     public function testSetSuffixClassValue(): void
     {
         $instance = new class {
             use HasSuffixCollection;
-
-            /**
-             * @phpstan-return mixed[]
-             */
-            public function getSuffixAttributes(): array
-            {
-                return $this->suffixAttributes;
-            }
         };
 
         self::assertEmpty(
@@ -118,7 +126,7 @@ final class HasSuffixCollectionTest extends TestCase
 
         self::assertSame(
             'suffix-class',
-            $instance->getSuffixAttributes()['class'] ?? '',
+            $instance->getSuffixAttribute('class', ''),
             'Should return the correct suffix class after setting it.',
         );
 
@@ -126,7 +134,7 @@ final class HasSuffixCollectionTest extends TestCase
 
         self::assertSame(
             'suffix-class suffix-class-1',
-            $instance->getSuffixAttributes()['class'] ?? '',
+            $instance->getSuffixAttribute('class', ''),
             'Should return the correct suffix class after setting it.',
         );
 
@@ -134,7 +142,7 @@ final class HasSuffixCollectionTest extends TestCase
 
         self::assertSame(
             'override-class',
-            $instance->getSuffixAttributes()['class'] ?? '',
+            $instance->getSuffixAttribute('class', ''),
             'Should return the correct suffix class after setting it.',
         );
     }
@@ -143,11 +151,6 @@ final class HasSuffixCollectionTest extends TestCase
     {
         $instance = new class {
             use HasSuffixCollection;
-
-            public function getSuffixTag(): bool|BlockInterface|InlineInterface|VoidInterface
-            {
-                return $this->suffixTag;
-            }
         };
 
         self::assertFalse(
@@ -175,11 +178,6 @@ final class HasSuffixCollectionTest extends TestCase
     {
         $instance = new class {
             use HasSuffixCollection;
-
-            public function getSuffix(): string
-            {
-                return $this->suffix;
-            }
         };
 
         self::assertEmpty(
@@ -200,11 +198,6 @@ final class HasSuffixCollectionTest extends TestCase
     {
         $instance = new class {
             use HasSuffixCollection;
-
-            public function getSuffix(): string
-            {
-                return $this->suffix;
-            }
         };
 
         $instance = $instance->suffix('Suffix', ' ', 'content');
@@ -220,11 +213,6 @@ final class HasSuffixCollectionTest extends TestCase
     {
         $instance = new class {
             use HasSuffixCollection;
-
-            public function getSuffix(): string
-            {
-                return $this->suffix;
-            }
         };
 
         $stringable = new class implements Stringable {

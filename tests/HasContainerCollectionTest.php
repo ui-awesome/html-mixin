@@ -7,10 +7,10 @@ namespace UIAwesome\Html\Mixin\Tests;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Interop\Block;
-use UIAwesome\Html\Mixin\HasContainer;
+use UIAwesome\Html\Mixin\HasContainerCollection;
 
 /**
- * Unit tests for the {@see HasContainer} trait managing the container tag and attributes.
+ * Unit tests for the {@see HasContainerCollection} trait managing the container tag and attributes.
  *
  * Test coverage.
  * - Ensures fluent setters return new instances (immutability).
@@ -23,25 +23,40 @@ use UIAwesome\Html\Mixin\HasContainer;
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 #[Group('mixin')]
-final class HasContainerTest extends TestCase
+final class HasContainerCollectionTest extends TestCase
 {
     public function testReturnNewInstanceWhenSettingContainer(): void
     {
         $instance = new class {
-            use HasContainer;
+            use HasContainerCollection;
         };
 
         self::assertNotSame(
             $instance,
             $instance->container(true),
-            'Should return a new instance when setting the container flag, ensuring immutability.',
+            'Should return a new instance when setting the container, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->containerAttributes([]),
+            'Should return a new instance when setting the container attributes, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->containerClass(''),
+            'Should return a new instance when setting the container class, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->containerTag(false),
+            'Should return a new instance when setting the container tag, ensuring immutability.',
         );
     }
 
     public function testReturnNewInstanceWhenSettingContainerAttributes(): void
     {
         $instance = new class {
-            use HasContainer;
+            use HasContainerCollection;
         };
 
         self::assertNotSame(
@@ -54,7 +69,7 @@ final class HasContainerTest extends TestCase
     public function testReturnNewInstanceWhenSettingContainerTag(): void
     {
         $instance = new class {
-            use HasContainer;
+            use HasContainerCollection;
         };
 
         self::assertNotSame(
@@ -67,7 +82,7 @@ final class HasContainerTest extends TestCase
     public function testSetContainerAttributesValue(): void
     {
         $instance = new class {
-            use HasContainer;
+            use HasContainerCollection;
         };
 
         self::assertEmpty(
@@ -95,7 +110,7 @@ final class HasContainerTest extends TestCase
     public function testSetContainerAttributesWithExistingValues(): void
     {
         $instance = new class {
-            use HasContainer;
+            use HasContainerCollection;
         };
 
         $instance = $instance->containerAttributes(
@@ -120,10 +135,46 @@ final class HasContainerTest extends TestCase
         );
     }
 
+    public function testSetContainerClassValue(): void
+    {
+        $instance = new class {
+            use HasContainerCollection;
+        };
+
+        self::assertEmpty(
+            $instance->getContainerAttributes(),
+            'Should return an empty array when no attributes are set.',
+        );
+
+        $instance = $instance->containerClass('container-class');
+
+        self::assertSame(
+            'container-class',
+            $instance->getContainerAttribute('class', ''),
+            'Should return the correct container class after setting it.',
+        );
+
+        $instance = $instance->containerClass('container-class-1');
+
+        self::assertSame(
+            'container-class container-class-1',
+            $instance->getContainerAttribute('class', ''),
+            'Should return the correct container class after setting it.',
+        );
+
+        $instance = $instance->containerClass('override-class', true);
+
+        self::assertSame(
+            'override-class',
+            $instance->getContainerAttribute('class', ''),
+            'Should return the correct container class after setting it.',
+        );
+    }
+
     public function testSetContainerTagValue(): void
     {
         $instance = new class {
-            use HasContainer;
+            use HasContainerCollection;
         };
 
         self::assertFalse(
@@ -143,7 +194,7 @@ final class HasContainerTest extends TestCase
     public function testSetContainerValue(): void
     {
         $instance = new class {
-            use HasContainer;
+            use HasContainerCollection;
         };
 
         self::assertFalse(
