@@ -1,5 +1,7 @@
 # ChangeLog
 
+## 0.3.6 Under development
+
 ## 0.3.5 February 9, 2026
 
 - Enh #49: Add `HasContainer` mixin for managing container tag and attributes (@terabytesoftw)
