@@ -5,15 +5,7 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Mixin\Values;
 
 /**
- * Represents HTML attribute names.
- *
- * Provides a set of attribute identifiers for use as keys when building attribute arrays for elements and components.
- * The enum case values match the attribute names as used in HTML markup.
- *
- * Key features.
- * - Exposes attribute names as enum cases.
- * - Provides stable string values via enum case `value`.
- * - Useful as attribute keys in fluent builders and renderers.
+ * Defines HTML attribute names.
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes
  *

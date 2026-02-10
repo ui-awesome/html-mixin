@@ -11,26 +11,13 @@ use UIAwesome\Html\Helper\{Attributes, Enum};
 use UIAwesome\Html\Mixin\Exception\Message;
 use UnitEnum;
 
-use function array_merge;
 use function is_bool;
 use function is_string;
 
 /**
- * Trait for managing HTML attributes in tag rendering.
- *
- * Provides an immutable API for assigning and retrieving attributes on an element-like object.
- *
- * Intended for components that need to normalize attribute keys (including {@see UnitEnum} keys) and to support
- * overriding, merging, and removing attributes.
- *
- * Key features.
- * - Cloning-based immutable updates for attribute assignment.
- * - Normalizes attribute keys via {@see Enum::normalizeValue()}.
- * - Provides a merge-based API for bulk assignment.
- * - Removes attributes when the value is `null`.
+ * Provides an immutable API for managing HTML attributes.
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes
- * @link https://www.w3.org/TR/html52/dom.html#global-attributes
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
@@ -47,20 +34,18 @@ trait HasAttributes
     /**
      * Sets a single HTML attribute for the element.
      *
-     * Creates a new instance with the specified attribute, overriding any existing value for that attribute.
-     *
-     * @param string|UnitEnum $key  Attribute name.
-     * @param mixed $value Attribute value.
-     *
-     * @return static New instance with the updated attribute.
-     *
      * Usage example:
      * ```php
-     * $element->addAttribute('id', 'my-id');
-     * $element->addAttribute(DataProperty::ID, 'my-id');
-     * $element->addAttribute('size', ButtonSize::SMALL);
-     * $element->addAttribute('id', null);
+     * $component = $component->addAttribute('id', 'my-id');
+     * $component = $component->addAttribute(DataProperty::ID, 'my-id');
+     * $component = $component->addAttribute('size', ButtonSize::SMALL);
+     * $component = $component->addAttribute('id', null);
      * ```
+     *
+     * @param string|UnitEnum $key Attribute name.
+     * @param mixed $value Attribute value.
+     *
+     * @return static New instance with the updated `attributes` value.
      */
     public function addAttribute(string|UnitEnum $key, mixed $value): static
     {
@@ -85,25 +70,23 @@ trait HasAttributes
     /**
      * Sets one or more HTML attributes for the element.
      *
-     * Creates a new instance with the specified attributes, merging them with any existing attributes.
+     * Usage example:
+     * ```php
+     * $component = $component->attributes(['id' => 'my-id', 'data-role' => 'button']);
+     * $component = $component->attributes(['size' => ButtonSize::LARGE, 'disabled' => true]);
+     * ```
      *
      * @param array $values Associative array of attribute keys and values.
      *
-     * @return static New instance with the updated attributes.
+     * @return static New instance with the updated `attributes` value.
      *
      * @phpstan-param mixed[] $values
-     *
-     * Usage example:
-     * ```php
-     * $element->attributes(['id' => 'my-id', 'data-role' => 'button']);
-     * $element->attributes(['size' => ButtonSize::LARGE, 'disabled' => true]);
-     * ```
      */
     public function attributes(array $values): static
     {
         $new = clone $this;
 
-        $new->attributes = array_merge($new->attributes, $values);
+        $new->attributes = [...$new->attributes, ...$values];
 
         return $new;
     }
@@ -111,18 +94,16 @@ trait HasAttributes
     /**
      * Returns the value of a single HTML attribute.
      *
-     * If the attribute is not present, returns the provided default value.
+     * Usage example:
+     * ```php
+     * $id = $component->getAttribute('id', 'default-id');
+     * $id = $component->getAttribute(DataProperty::ID, 'default-id');
+     * ```
      *
      * @param string|UnitEnum $key Attribute name.
      * @param mixed $default Default value when the attribute is missing.
      *
      * @return mixed Attribute value or default.
-     *
-     * Usage example:
-     * ```php
-     * $id = $element->getAttribute('id', 'default-id');
-     * $id = $element->getAttribute(DataProperty::ID, 'default-id');
-     * ```
      */
     public function getAttribute(string|UnitEnum $key, mixed $default = null): mixed
     {
@@ -138,16 +119,16 @@ trait HasAttributes
     }
 
     /**
-     * Returns the array of HTML attributes for the element.
-     *
-     * @return array Attributes array assigned to the element.
-     *
-     * @phpstan-return mixed[]
+     * Returns the `array` of HTML attributes for the element.
      *
      * Usage example:
      * ```php
-     * $attrs = $element->getAttributes();
+     * $attributes = $component->getAttributes();
      * ```
+     *
+     * @return array Attributes `array` assigned to the element.
+     *
+     * @phpstan-return mixed[]
      */
     public function getAttributes(): array
     {
@@ -157,17 +138,15 @@ trait HasAttributes
     /**
      * Removes a specific HTML attribute from the element.
      *
-     * Creates a new instance without the specified attribute.
+     * Usage example:
+     * ```php
+     * $component = $component->removeAttribute('id');
+     * $component = $component->removeAttribute(DataProperty::ID);
+     * ```
      *
      * @param string|UnitEnum $key Attribute name to remove.
      *
-     * @return static New instance without the specified attribute.
-     *
-     * Usage example:
-     * ```php
-     * $element->removeAttribute('id');
-     * $element->removeAttribute(DataProperty::ID);
-     * ```
+     * @return static New instance without the specified `attribute` value.
      */
     public function removeAttribute(string|UnitEnum $key): static
     {
@@ -181,16 +160,13 @@ trait HasAttributes
     }
 
     /**
-     * Internal method to set a single attribute with prefix handling and value resolution.
-     *
-     * Modifies the current instance by setting or removing the specified attribute, supporting scalar, Closure and
-     * UnitEnum values. Handles normalization of keys with prefixes (for example, 'aria-', 'data-', 'on').
+     * Sets a single attribute with prefix handling and value resolution.
      *
      * @param mixed $key Attribute key (without the prefix if a prefix is supplied).
-     * @param bool|Closure|float|int|string|Stringable|UnitEnum|null $value Attribute value. Can be `null` to unset the
+     * @param bool|Closure|float|int|string|Stringable|UnitEnum|null $value Attribute value, or `null` to remove the
      * attribute.
      * @param string $prefix Optional prefix to prepend to the key (for example, 'aria-', 'data-', 'on').
-     * @param bool $boolToString Whether to convert boolean values to 'true'/'false' strings.
+     * @param bool $boolToString Whether to convert boolean values to `true`/`false` strings.
      *
      * @phpstan-param scalar|Stringable|UnitEnum|Closure(): mixed $value
      */

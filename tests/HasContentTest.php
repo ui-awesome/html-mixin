@@ -9,19 +9,15 @@ use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Mixin\HasContent;
 
 /**
- * Unit tests for {@see HasContent} mixin behavior.
- *
- * Verifies observable behavior for {@see HasContent} based on this test file only (test methods and assertions).
- * Statements are grounded in the string assertions and input values present here.
+ * Unit tests for the {@see HasContent} trait managing encoded content and raw HTML fragments.
  *
  * Test coverage.
- * - Accumulation order when mixing `content()` and `html()`.
- * - Appending encoded content via `content()`.
- * - Appending raw HTML via `html()`.
- * - Immutability for content assignment.
- * - Variadic parameter handling.
- *
- * {@see HasContent} for implementation details.
+ * - Ensures `getContent()` returns an empty string when content is not set.
+ * - Ensures fluent setters return new instances (immutability).
+ * - Sets encoded content via `content()`.
+ * - Sets raw HTML via `html()` without encoding.
+ * - Verifies mixed `content()` and `html()` calls preserve append order.
+ * - Verifies variadic arguments are appended by `content()` and `html()`.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.

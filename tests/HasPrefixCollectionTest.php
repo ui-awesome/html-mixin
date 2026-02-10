@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Mixin\Tests;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Stringable;
-use UIAwesome\Html\Interop\{BlockInterface, Inline, InlineInterface, VoidInterface};
+use UIAwesome\Html\Interop\Inline;
+use UIAwesome\Html\Mixin\Exception\Message;
 use UIAwesome\Html\Mixin\HasPrefixCollection;
+use UIAwesome\Html\Mixin\Tests\Support\Stub\Enum\Priority;
 
 /**
- * Unit tests for {@see HasPrefixCollection} trait behavior.
- *
- * Verifies observable behavior for {@see HasPrefixCollection} based on this test file only (test methods and
- * assertions).
+ * Unit tests for the {@see HasPrefixCollection} trait managing prefix content, tag, and attributes.
  *
  * Test coverage.
- * - Immutability for prefix-related setters.
- * - Prefix attribute assignment.
- * - Prefix class handling, including the override flag.
- * - Prefix string concatenation with variadic arguments.
- * - Prefix tag storage and reset.
- *
- * {@see HasPrefixCollection} for implementation details.
+ * - Ensures fluent setters return new instances (immutability).
+ * - Merges new prefix attributes with existing ones, overriding duplicates.
+ * - Sets the prefix attributes.
+ * - Sets the prefix class, including class override behavior.
+ * - Sets the prefix tag and supports resetting it to `false`.
+ * - Sets the prefix value from strings, variadic parts, and `Stringable` objects.
+ * - Throws `InvalidArgumentException` for empty or unsupported prefix attribute keys.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
@@ -63,14 +63,6 @@ final class HasPrefixCollectionTest extends TestCase
     {
         $instance = new class {
             use HasPrefixCollection;
-
-            /**
-             * @phpstan-return mixed[]
-             */
-            public function getPrefixAttributes(): array
-            {
-                return $this->prefixAttributes;
-            }
         };
 
         self::assertEmpty(
@@ -95,18 +87,38 @@ final class HasPrefixCollectionTest extends TestCase
         );
     }
 
+    public function testSetPrefixAttributesWithExistingValues(): void
+    {
+        $instance = new class {
+            use HasPrefixCollection;
+        };
+
+        $instance = $instance->prefixAttributes(
+            [
+                'id' => 'my-id',
+            ],
+        );
+        $instance = $instance->prefixAttributes(
+            [
+                'class' => 'my-class',
+                'id' => 'new-id',
+            ],
+        );
+
+        self::assertSame(
+            [
+                'id' => 'new-id',
+                'class' => 'my-class',
+            ],
+            $instance->getPrefixAttributes(),
+            'Should merge new attributes with existing ones, overriding duplicates.',
+        );
+    }
+
     public function testSetPrefixClassValue(): void
     {
         $instance = new class {
             use HasPrefixCollection;
-
-            /**
-             * @phpstan-return mixed[]
-             */
-            public function getPrefixAttributes(): array
-            {
-                return $this->prefixAttributes;
-            }
         };
 
         self::assertEmpty(
@@ -118,7 +130,7 @@ final class HasPrefixCollectionTest extends TestCase
 
         self::assertSame(
             'prefix-class',
-            $instance->getPrefixAttributes()['class'] ?? '',
+            $instance->getPrefixAttribute('class', ''),
             'Should return the correct prefix class after setting it.',
         );
 
@@ -126,7 +138,7 @@ final class HasPrefixCollectionTest extends TestCase
 
         self::assertSame(
             'prefix-class prefix-class-1',
-            $instance->getPrefixAttributes()['class'] ?? '',
+            $instance->getPrefixAttribute('class', ''),
             'Should return the correct prefix class after setting it.',
         );
 
@@ -134,7 +146,7 @@ final class HasPrefixCollectionTest extends TestCase
 
         self::assertSame(
             'override-class',
-            $instance->getPrefixAttributes()['class'] ?? '',
+            $instance->getPrefixAttribute('class', ''),
             'Should return the correct prefix class after setting it.',
         );
     }
@@ -143,11 +155,6 @@ final class HasPrefixCollectionTest extends TestCase
     {
         $instance = new class {
             use HasPrefixCollection;
-
-            public function getPrefixTag(): bool|BlockInterface|InlineInterface|VoidInterface
-            {
-                return $this->prefixTag;
-            }
         };
 
         self::assertFalse(
@@ -175,11 +182,6 @@ final class HasPrefixCollectionTest extends TestCase
     {
         $instance = new class {
             use HasPrefixCollection;
-
-            public function getPrefix(): string
-            {
-                return $this->prefix;
-            }
         };
 
         self::assertEmpty(
@@ -200,11 +202,6 @@ final class HasPrefixCollectionTest extends TestCase
     {
         $instance = new class {
             use HasPrefixCollection;
-
-            public function getPrefix(): string
-            {
-                return $this->prefix;
-            }
         };
 
         $instance = $instance->prefix('Prefix', ' ', 'content');
@@ -220,11 +217,6 @@ final class HasPrefixCollectionTest extends TestCase
     {
         $instance = new class {
             use HasPrefixCollection;
-
-            public function getPrefix(): string
-            {
-                return $this->prefix;
-            }
         };
 
         $stringable = new class implements Stringable {
@@ -241,5 +233,33 @@ final class HasPrefixCollectionTest extends TestCase
             $instance->getPrefix(),
             'Should handle Stringable objects correctly.',
         );
+    }
+
+    public function testThrowInvalidArgumentExceptionForGetPrefixAttributeEmptyKey(): void
+    {
+        $instance = new class {
+            use HasPrefixCollection;
+        };
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(''),
+        );
+
+        $instance->getPrefixAttribute('');
+    }
+
+    public function testThrowInvalidArgumentExceptionForGetPrefixAttributeInvalidKey(): void
+    {
+        $instance = new class {
+            use HasPrefixCollection;
+        };
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(2),
+        );
+
+        $instance->getPrefixAttribute(Priority::HIGH);
     }
 }
