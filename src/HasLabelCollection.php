@@ -213,4 +213,26 @@ trait HasLabelCollection
 
         return $new;
     }
+
+    /**
+     * Removes a specific label attribute.
+     *
+     * Usage example:
+     * ```php
+     * $component->removeLabelAttribute('id');
+     * $component->removeLabelAttribute(DataProperty::ID);
+     * ```
+     *
+     * @param string|UnitEnum $key Attribute name to remove.
+     *
+     * @return static New instance without the specified label attribute.
+     */
+    public function removeLabelAttribute(string|UnitEnum $key): static
+    {
+        $new = clone $this;
+
+        AttributeBag::remove($new->labelAttributes, $key);
+
+        return $new;
+    }
 }
