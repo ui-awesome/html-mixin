@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Mixin;
 
-use InvalidArgumentException;
 use Stringable;
-use UIAwesome\Html\Helper\{CSSClass, Enum};
-use UIAwesome\Html\Mixin\Exception\Message;
+use UIAwesome\Html\Helper\{AttributeBag, CSSClass};
 use UnitEnum;
 
 /**
@@ -67,15 +65,7 @@ trait HasLabelCollection
      */
     public function getLabelAttribute(string|UnitEnum $key, mixed $default = null): mixed
     {
-        $normalizedKey = Enum::normalizeValue($key);
-
-        if ($normalizedKey === '' || is_string($normalizedKey) === false) {
-            throw new InvalidArgumentException(
-                Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage($normalizedKey),
-            );
-        }
-
-        return $this->labelAttributes[$normalizedKey] ?? $default;
+        return AttributeBag::get($this->labelAttributes, $key, $default);
     }
 
     /**
@@ -147,7 +137,8 @@ trait HasLabelCollection
     public function labelAttributes(array $attributes): static
     {
         $new = clone $this;
-        $new->labelAttributes = [...$new->labelAttributes, ...$attributes];
+
+        AttributeBag::merge($new->labelAttributes, $attributes);
 
         return $new;
     }
@@ -179,11 +170,7 @@ trait HasLabelCollection
     {
         $new = clone $this;
 
-        if ($value === null) {
-            unset($new->labelAttributes['class']);
-        } else {
-            CSSClass::add($new->labelAttributes, $value, $override);
-        }
+        CSSClass::add($new->labelAttributes, $value, $override);
 
         return $new;
     }
