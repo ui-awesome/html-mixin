@@ -2,6 +2,8 @@
 
 ## 0.3.6 Under development
 
+- Enh #51: Add `HasLabelCollection` mixin for managing label tag and attributes (@terabytesoftw)
+
 ## 0.3.5 February 9, 2026
 
 - Enh #49: Add `HasContainer` mixin for managing container tag and attributes (@terabytesoftw)
