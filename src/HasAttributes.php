@@ -144,7 +144,7 @@ trait HasAttributes
      *
      * @return static New instance with the updated `attributes` value.
      *
-     * @phpstan-param scalar|Stringable|UnitEnum|Closure(): mixed $value
+     * @phpstan-param scalar|Closure(): mixed|Stringable|UnitEnum|null $value
      */
     public function setAttribute(
         string|UnitEnum $key,

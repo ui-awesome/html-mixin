@@ -248,7 +248,7 @@ trait HasContainerCollection
      *
      * @return static New instance with the updated `containerAttributes` value.
      *
-     * @phpstan-param scalar|Stringable|UnitEnum|Closure(): mixed $value
+     * @phpstan-param scalar|Closure(): mixed|Stringable|UnitEnum|null $value
      */
     public function setContainerAttribute(
         string|UnitEnum $key,

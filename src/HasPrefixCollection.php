@@ -252,7 +252,7 @@ trait HasPrefixCollection
      *
      * @return static New instance with the updated `prefixAttributes` value.
      *
-     * @phpstan-param scalar|Stringable|UnitEnum|Closure(): mixed $value
+     * @phpstan-param scalar|Closure(): mixed|Stringable|UnitEnum|null $value
      */
     public function setPrefixAttribute(
         string|UnitEnum $key,
