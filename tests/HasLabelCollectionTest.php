@@ -109,7 +109,6 @@ final class HasLabelCollectionTest extends TestCase
         );
     }
 
-
     public function testLabelClassValue(): void
     {
         $instance = new class {

@@ -82,6 +82,7 @@ final class HasAttributesTest extends TestCase
             'Should merge new attributes with existing ones, overriding duplicates.',
         );
     }
+
     public function testGetAttributeValue(): void
     {
         $instance = new class {

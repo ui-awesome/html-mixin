@@ -249,6 +249,7 @@ final class HasContainerCollectionTest extends TestCase
             'Should return the correct container tag after setting it.',
         );
     }
+
     public function testGetContainerAttributeValue(): void
     {
         $instance = new class {
