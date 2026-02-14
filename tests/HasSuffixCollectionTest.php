@@ -186,6 +186,22 @@ final class HasSuffixCollectionTest extends TestCase
         );
     }
 
+    public function testSetSuffixTagFalseValue(): void
+    {
+        $instance = new class {
+            use HasSuffixCollection;
+        };
+
+        $instance = $instance->suffixTag(Block::DIV);
+
+        $instance = $instance->suffixTag(false);
+
+        self::assertFalse(
+            $instance->getSuffixTag(),
+            "Should return 'false' after setting the suffix tag to 'false'.",
+        );
+    }
+
     public function testSetSuffixTagValue(): void
     {
         $instance = new class {
@@ -203,22 +219,6 @@ final class HasSuffixCollectionTest extends TestCase
             Block::DIV,
             $instance->getSuffixTag(),
             'Should return the correct suffix tag after setting it.',
-        );
-    }
-
-    public function testSetSuffixTagFalseValue(): void
-    {
-        $instance = new class {
-            use HasSuffixCollection;
-        };
-
-        $instance = $instance->suffixTag(Block::DIV);
-
-        $instance = $instance->suffixTag(false);
-
-        self::assertFalse(
-            $instance->getSuffixTag(),
-            "Should return 'false' after setting the suffix tag to 'false'.",
         );
     }
 
