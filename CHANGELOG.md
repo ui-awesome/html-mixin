@@ -1,5 +1,7 @@
 # ChangeLog
 
+## 0.3.7 Under development
+
 ## 0.3.6 February 14, 2026
 
 - Enh #51: Add `HasLabelCollection` mixin for managing label tag and attributes (@terabytesoftw)
