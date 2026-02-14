@@ -51,12 +51,12 @@ final class HasPrefixCollectionTest extends TestCase
         self::assertSame(
             'prefix-id',
             $instance->getPrefixAttribute('id'),
-            "Should return the correct 'id' attribute prefix attribute after setting it.",
+            "Should return the correct 'id' attribute after setting it.",
         );
         self::assertSame(
             'prefix-class',
             $instance->getPrefixAttribute('class'),
-            "Should return the correct 'class' attribute prefix attribute after setting it.",
+            "Should return the correct 'class' attribute after setting it.",
         );
         self::assertSame(
             'default-value',
