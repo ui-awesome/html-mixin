@@ -25,7 +25,7 @@ trait HasContent
      *
      * Usage example:
      * ```php
-     * $component = $component->content('Hello, <World>!');
+     * $component->content('Hello, <World>!');
      * ```
      *
      * @param string|Stringable ...$values Content to be encoded and appended.
@@ -48,7 +48,7 @@ trait HasContent
      *
      * Usage example:
      * ```php
-     * $content = $component->getContent();
+     * $component->getContent();
      * ```
      *
      * @return string Content value assigned to the element. Never `null`.
@@ -63,7 +63,7 @@ trait HasContent
      *
      * Usage example:
      * ```php
-     * $component = $component->html('<strong>Hello, World!</strong>');
+     * $component->html('<strong>Hello, World!</strong>');
      * ```
      *
      * @param string|Stringable ...$values Raw HTML content to be appended.

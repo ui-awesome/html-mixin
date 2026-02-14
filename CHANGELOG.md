@@ -3,6 +3,7 @@
 ## 0.3.6 Under development
 
 - Enh #51: Add `HasLabelCollection` mixin for managing label tag and attributes (@terabytesoftw)
+- Bug #52: Refactored attribute handling across mixins to use `AttributeBag` in `HasAttributes`, `HasContainerCollection`, `HasPrefixCollection`, and `HasSuffixCollection` for improved consistency and maintainability (@terabytesoftw)
 
 ## 0.3.5 February 9, 2026
 

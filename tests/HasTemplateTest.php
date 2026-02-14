@@ -31,7 +31,7 @@ final class HasTemplateTest extends TestCase
         self::assertSame(
             '',
             $instance->getTemplate(),
-            'Should return an empty string when no template is set.',
+            "Should return an empty 'string' when no template is set.",
         );
     }
 

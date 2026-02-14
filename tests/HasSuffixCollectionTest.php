@@ -23,7 +23,7 @@ use UIAwesome\Html\Mixin\Tests\Support\Stub\Enum\Priority;
  * - Sets the suffix class, including class override behavior.
  * - Sets the suffix tag and supports resetting it to `false`.
  * - Sets the suffix value from strings, variadic parts, and `Stringable` objects.
- * - Throws `InvalidArgumentException` for empty or unsupported suffix attribute keys.
+ * - Throws InvalidArgumentException for empty or unsupported suffix attribute keys.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
@@ -31,7 +31,42 @@ use UIAwesome\Html\Mixin\Tests\Support\Stub\Enum\Priority;
 #[Group('mixin')]
 final class HasSuffixCollectionTest extends TestCase
 {
-    public function testReturnNewInstanceWhenSettingAttributes(): void
+    public function testGetSuffixAttributeValue(): void
+    {
+        $instance = new class {
+            use HasSuffixCollection;
+        };
+
+        self::assertNull(
+            $instance->getSuffixAttribute('id'),
+            "Should return 'null' when no attributes are set.",
+        );
+
+        $instance = $instance->suffixAttributes(
+            [
+                'class' => 'suffix-class',
+                'id' => 'suffix-id',
+            ],
+        );
+
+        self::assertSame(
+            'suffix-id',
+            $instance->getSuffixAttribute('id'),
+            "Should return the correct 'id' attribute after setting it.",
+        );
+        self::assertSame(
+            'suffix-class',
+            $instance->getSuffixAttribute('class'),
+            "Should return the correct 'class' attribute after setting it.",
+        );
+        self::assertSame(
+            'default-value',
+            $instance->getSuffixAttribute('missing', 'default-value'),
+            'Should return the default value when the suffix attribute does not exist.',
+        );
+    }
+
+    public function testReturnNewInstanceWhenSettingSuffixCollection(): void
     {
         $instance = new class {
             use HasSuffixCollection;
@@ -159,7 +194,7 @@ final class HasSuffixCollectionTest extends TestCase
 
         self::assertFalse(
             $instance->getSuffixTag(),
-            'Should return false when no tag is set.',
+            "Should return 'false' when no tag is set.",
         );
 
         $instance = $instance->suffixTag(Block::DIV);
@@ -169,12 +204,21 @@ final class HasSuffixCollectionTest extends TestCase
             $instance->getSuffixTag(),
             'Should return the correct suffix tag after setting it.',
         );
+    }
+
+    public function testSetSuffixTagFalseValue(): void
+    {
+        $instance = new class {
+            use HasSuffixCollection;
+        };
+
+        $instance = $instance->suffixTag(Block::DIV);
 
         $instance = $instance->suffixTag(false);
 
         self::assertFalse(
             $instance->getSuffixTag(),
-            "Should return 'false' after resetting the suffix tag.",
+            "Should return 'false' after setting the suffix tag to 'false'.",
         );
     }
 

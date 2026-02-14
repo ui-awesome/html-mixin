@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Mixin;
 
-use InvalidArgumentException;
 use Stringable;
-use UIAwesome\Html\Helper\{CSSClass, Enum};
+use UIAwesome\Html\Helper\{AttributeBag, CSSClass};
 use UIAwesome\Html\Interop\{BlockInterface, InlineInterface, VoidInterface};
-use UIAwesome\Html\Mixin\Exception\Message;
 use UnitEnum;
 
 use function implode;
@@ -43,7 +41,7 @@ trait HasSuffixCollection
      *
      * Usage example:
      * ```php
-     * $suffix = $component->getSuffix();
+     * $component->getSuffix();
      * ```
      *
      * @return string Suffix content string assigned to the element.
@@ -58,7 +56,7 @@ trait HasSuffixCollection
      *
      * Usage example:
      * ```php
-     * $id = $component->getSuffixAttribute('id', 'default-id');
+     * $component->getSuffixAttribute('id', 'default-id');
      * ```
      *
      * @param string|UnitEnum $key Attribute name.
@@ -68,15 +66,7 @@ trait HasSuffixCollection
      */
     public function getSuffixAttribute(string|UnitEnum $key, mixed $default = null): mixed
     {
-        $normalizedKey = Enum::normalizeValue($key);
-
-        if ($normalizedKey === '' || is_string($normalizedKey) === false) {
-            throw new InvalidArgumentException(
-                Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage($normalizedKey),
-            );
-        }
-
-        return $this->suffixAttributes[$normalizedKey] ?? $default;
+        return AttributeBag::get($this->suffixAttributes, $key, $default);
     }
 
     /**
@@ -84,7 +74,7 @@ trait HasSuffixCollection
      *
      * Usage example:
      * ```php
-     * $attributes = $component->getSuffixAttributes();
+     * $component->getSuffixAttributes();
      * ```
      *
      * @return array Attributes `array` assigned to the suffix element.
@@ -101,7 +91,7 @@ trait HasSuffixCollection
      *
      * Usage example:
      * ```php
-     * $tag = $component->getSuffixTag();
+     * $component->getSuffixTag();
      * ```
      *
      * @return BlockInterface|false|InlineInterface|VoidInterface Tag name for the suffix element, or `false` to
@@ -117,7 +107,7 @@ trait HasSuffixCollection
      *
      * Usage example:
      * ```php
-     * $component = $component->suffix(' End', ' of ', 'element');
+     * $component->suffix(' End', ' of ', 'element');
      * ```
      *
      * @param string|Stringable ...$values Suffix content to set for the element.
@@ -137,7 +127,7 @@ trait HasSuffixCollection
      *
      * Usage example:
      * ```php
-     * $component = $component->suffixAttributes(['id' => 'suffix-id']);
+     * $component->suffixAttributes(['id' => 'suffix-id']);
      * ```
      *
      * @param array $values Associative array of attribute keys and values.
@@ -149,7 +139,8 @@ trait HasSuffixCollection
     public function suffixAttributes(array $values): static
     {
         $new = clone $this;
-        $new->suffixAttributes = [...$new->suffixAttributes, ...$values];
+
+        AttributeBag::merge($new->suffixAttributes, $values);
 
         return $new;
     }
@@ -159,8 +150,8 @@ trait HasSuffixCollection
      *
      * Usage example:
      * ```php
-     * $component = $component->suffixClass('new-class');
-     * $component = $component->suffixClass('override-class', true);
+     * $component->suffixClass('new-class');
+     * $component->suffixClass('override-class', true);
      * ```
      *
      * @param string|Stringable|UnitEnum $value CSS class name to add.
@@ -171,6 +162,7 @@ trait HasSuffixCollection
     public function suffixClass(string|Stringable|UnitEnum $value, bool $override = false): static
     {
         $new = clone $this;
+
         CSSClass::add($new->suffixAttributes, $value, $override);
 
         return $new;
@@ -181,8 +173,8 @@ trait HasSuffixCollection
      *
      * Usage example:
      * ```php
-     * $component = $component->suffixTag(\UIAwesome\Html\Interop\Inline::SPAN);
-     * $component = $component->suffixTag(false);
+     * $component->suffixTag(\UIAwesome\Html\Interop\Inline::SPAN);
+     * $component->suffixTag(false);
      * ```
      *
      * @param BlockInterface|false|InlineInterface|VoidInterface $value Tag name for the suffix element, or `false` to

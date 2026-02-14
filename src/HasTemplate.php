@@ -22,7 +22,7 @@ trait HasTemplate
      *
      * Usage example:
      * ```php
-     * $template = $component->getTemplate();
+     * $component->getTemplate();
      * ```
      *
      * @return string Template value assigned to the element. Never `null`.
@@ -37,7 +37,7 @@ trait HasTemplate
      *
      * Usage example:
      * ```php
-     * $component = $component->template('<div>{content}</div>');
+     * $component->template('<div>{content}</div>');
      * ```
      *
      * @param string $value Template string to set for the element.

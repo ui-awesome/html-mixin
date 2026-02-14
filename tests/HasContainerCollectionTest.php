@@ -17,11 +17,12 @@ use UIAwesome\Html\Mixin\Tests\Support\Stub\Enum\Priority;
  *
  * Test coverage.
  * - Ensures fluent setters return new instances (immutability).
- * - Merges new attributes with existing ones, overriding duplicates.
- * - Sets the container attributes.
- * - Sets the container rendering flag.
- * - Sets the container tag.
- * - Throws `InvalidArgumentException` for empty or unsupported container attribute keys.
+ * - Merges new container attributes with existing attributes and overrides duplicate keys.
+ * - Sets container attributes and returns expected values.
+ * - Sets container CSS classes, including merged and overridden values.
+ * - Sets container tag values and supports disabling the tag.
+ * - Throws InvalidArgumentException for empty or unsupported container attribute keys.
+ * - Verifies container rendering state after enabling and disabling it.
  *
  * @copyright Copyright (C) 2026 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
@@ -29,7 +30,42 @@ use UIAwesome\Html\Mixin\Tests\Support\Stub\Enum\Priority;
 #[Group('mixin')]
 final class HasContainerCollectionTest extends TestCase
 {
-    public function testReturnNewInstanceWhenSettingContainer(): void
+    public function testGetContainerAttributeValue(): void
+    {
+        $instance = new class {
+            use HasContainerCollection;
+        };
+
+        self::assertNull(
+            $instance->getContainerAttribute('id'),
+            "Should return 'null' when no attributes are set.",
+        );
+
+        $instance = $instance->containerAttributes(
+            [
+                'class' => 'container-class',
+                'id' => 'container-id',
+            ],
+        );
+
+        self::assertSame(
+            'container-id',
+            $instance->getContainerAttribute('id'),
+            "Should return the correct 'id' attribute after setting it.",
+        );
+        self::assertSame(
+            'container-class',
+            $instance->getContainerAttribute('class'),
+            "Should return the correct 'class' attribute after setting it.",
+        );
+        self::assertSame(
+            'default-value',
+            $instance->getContainerAttribute('missing', 'default-value'),
+            'Should return the default value when the container attribute does not exist.',
+        );
+    }
+
+    public function testReturnNewInstanceWhenSettingContainerCollection(): void
     {
         $instance = new class {
             use HasContainerCollection;
@@ -48,37 +84,11 @@ final class HasContainerCollectionTest extends TestCase
         self::assertNotSame(
             $instance,
             $instance->containerClass(''),
-            'Should return a new instance when setting the container class, ensuring immutability.',
+            "Should return a new instance when setting the container 'class' attribute, ensuring immutability.",
         );
         self::assertNotSame(
             $instance,
             $instance->containerTag(false),
-            'Should return a new instance when setting the container tag, ensuring immutability.',
-        );
-    }
-
-    public function testReturnNewInstanceWhenSettingContainerAttributes(): void
-    {
-        $instance = new class {
-            use HasContainerCollection;
-        };
-
-        self::assertNotSame(
-            $instance,
-            $instance->containerAttributes([]),
-            'Should return a new instance when setting the container attributes, ensuring immutability.',
-        );
-    }
-
-    public function testReturnNewInstanceWhenSettingContainerTag(): void
-    {
-        $instance = new class {
-            use HasContainerCollection;
-        };
-
-        self::assertNotSame(
-            $instance,
-            $instance->containerTag(Block::DIV),
             'Should return a new instance when setting the container tag, ensuring immutability.',
         );
     }
@@ -91,7 +101,7 @@ final class HasContainerCollectionTest extends TestCase
 
         self::assertEmpty(
             $instance->getContainerAttributes(),
-            'Should return an empty array when no attributes are set.',
+            "Should return an empty 'array' when no attributes are set.",
         );
 
         $instance = $instance->containerAttributes(
@@ -147,7 +157,7 @@ final class HasContainerCollectionTest extends TestCase
 
         self::assertEmpty(
             $instance->getContainerAttributes(),
-            'Should return an empty array when no attributes are set.',
+            "Should return an empty 'array' when no attributes are set.",
         );
 
         $instance = $instance->containerClass('container-class');
@@ -155,7 +165,7 @@ final class HasContainerCollectionTest extends TestCase
         self::assertSame(
             'container-class',
             $instance->getContainerAttribute('class', ''),
-            'Should return the correct container class after setting it.',
+            "Should return the correct container 'class' attribute after setting it.",
         );
 
         $instance = $instance->containerClass('container-class-1');
@@ -163,7 +173,7 @@ final class HasContainerCollectionTest extends TestCase
         self::assertSame(
             'container-class container-class-1',
             $instance->getContainerAttribute('class', ''),
-            'Should return the correct container class after setting it.',
+            "Should return the correct container 'class' attribute after setting it.",
         );
 
         $instance = $instance->containerClass('override-class', true);
@@ -171,7 +181,22 @@ final class HasContainerCollectionTest extends TestCase
         self::assertSame(
             'override-class',
             $instance->getContainerAttribute('class', ''),
-            'Should return the correct container class after setting it.',
+            "Should return the correct container 'class' attribute after setting it.",
+        );
+    }
+
+    public function testSetContainerTagFalseValue(): void
+    {
+        $instance = new class {
+            use HasContainerCollection;
+        };
+
+        $instance = $instance->containerTag(Block::SECTION);
+        $instance = $instance->containerTag(false);
+
+        self::assertFalse(
+            $instance->getContainerTag(),
+            "Should return 'false' after setting the container tag to 'false'.",
         );
     }
 
@@ -183,7 +208,7 @@ final class HasContainerCollectionTest extends TestCase
 
         self::assertFalse(
             $instance->getContainerTag(),
-            'Should return false when no tag is set.',
+            "Should return 'false' when no tag is set.",
         );
 
         $instance = $instance->containerTag(Block::SECTION);
@@ -203,21 +228,21 @@ final class HasContainerCollectionTest extends TestCase
 
         self::assertFalse(
             $instance->isContainer(),
-            'Should return false when container is not set.',
+            "Should return 'false' when container is not set.",
         );
 
         $instance = $instance->container(true);
 
         self::assertTrue(
             $instance->isContainer(),
-            'Should return true after setting container to true.',
+            "Should return 'true' after setting container to 'true'.",
         );
 
         $instance = $instance->container(false);
 
         self::assertFalse(
             $instance->isContainer(),
-            'Should return false after setting container to false.',
+            "Should return 'false' after setting container to 'false'.",
         );
     }
 
