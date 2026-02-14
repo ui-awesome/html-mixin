@@ -65,6 +65,21 @@ final class HasContainerCollectionTest extends TestCase
         );
     }
 
+    public function testRemoveContainerSingleAttributeValue(): void
+    {
+        $instance = new class {
+            use HasContainerCollection;
+        };
+
+        $instance = $instance->addContainerAttribute('id', 'container-id');
+        $instance = $instance->removeContainerAttribute('id');
+
+        self::assertNull(
+            $instance->getContainerAttribute('id'),
+            "Should return 'null' after removing the 'id' attribute.",
+        );
+    }
+
     public function testReturnNewInstanceWhenSettingContainerCollection(): void
     {
         $instance = new class {
@@ -90,6 +105,21 @@ final class HasContainerCollectionTest extends TestCase
             $instance,
             $instance->containerTag(false),
             'Should return a new instance when setting the container tag, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->addContainerAttribute('id', 'value'),
+            'Should return a new instance when adding a container attribute, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->removeContainerAttribute('id'),
+            'Should return a new instance when removing a container attribute, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->setContainerAttribute('hidden', true, 'aria-', true),
+            'Should return a new instance when setting a container attribute, ensuring immutability.',
         );
     }
 
@@ -149,6 +179,76 @@ final class HasContainerCollectionTest extends TestCase
         );
     }
 
+    public function testSetContainerAttributeWithClosureValue(): void
+    {
+        $instance = new class {
+            use HasContainerCollection;
+        };
+
+        $closure = static fn(): string => 'resolved-value';
+
+        $instance = $instance->setContainerAttribute('test', $closure, 'event-');
+
+        self::assertSame(
+            ['event-test' => 'resolved-value'],
+            $instance->getContainerAttributes(),
+            "Should return the correct 'event-test' attribute after setting it.",
+        );
+    }
+
+    public function testSetContainerAttributeWithNullValueRemovesAttribute(): void
+    {
+        $instance = new class {
+            use HasContainerCollection;
+        };
+
+        $instance = $instance
+            ->setContainerAttribute('label', 'Container', 'aria-')
+            ->setContainerAttribute('hidden', true, 'aria-', true)
+            ->setContainerAttribute('label', null, 'aria-');
+
+        self::assertSame(
+            ['aria-hidden' => 'true'],
+            $instance->getContainerAttributes(),
+            "Should remove the attribute when 'null' value is provided.",
+        );
+    }
+
+    public function testSetContainerAttributeWithPrefixValue(): void
+    {
+        $instance = new class {
+            use HasContainerCollection;
+        };
+
+        $instance = $instance
+            ->setContainerAttribute('label', 'Container', 'aria-')
+            ->setContainerAttribute('hidden', true, 'aria-', true);
+
+        self::assertSame(
+            [
+                'aria-label' => 'Container',
+                'aria-hidden' => 'true',
+            ],
+            $instance->getContainerAttributes(),
+            "Should return the correct 'aria-' attributes after setting them.",
+        );
+    }
+
+    public function testSetContainerAttributeWithPrefixValueAndBoolStringFalse(): void
+    {
+        $instance = new class {
+            use HasContainerCollection;
+        };
+
+        $instance = $instance->setContainerAttribute('disabled', true, 'data-');
+
+        self::assertSame(
+            ['data-disabled' => true],
+            $instance->getContainerAttributes(),
+            "Should return the correct 'data-disabled' attribute after setting it.",
+        );
+    }
+
     public function testSetContainerClassValue(): void
     {
         $instance = new class {
@@ -182,6 +282,21 @@ final class HasContainerCollectionTest extends TestCase
             'override-class',
             $instance->getContainerAttribute('class', ''),
             "Should return the correct container 'class' attribute after setting it.",
+        );
+    }
+
+    public function testSetContainerSingleAttributeValue(): void
+    {
+        $instance = new class {
+            use HasContainerCollection;
+        };
+
+        $instance = $instance->addContainerAttribute('id', 'container-id');
+
+        self::assertSame(
+            'container-id',
+            $instance->getContainerAttribute('id'),
+            "Should return the correct 'id' attribute after setting it.",
         );
     }
 

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Mixin;
 
+use Closure;
+use Stringable;
 use UIAwesome\Html\Helper\AttributeBag;
 use UnitEnum;
 
@@ -127,6 +129,32 @@ trait HasAttributes
         $new = clone $this;
 
         AttributeBag::remove($new->attributes, $key);
+
+        return $new;
+    }
+
+    /**
+     * Sets a single attribute with prefix handling and value resolution.
+     *
+     * @param string|UnitEnum $key Attribute key (without the prefix if a prefix is supplied).
+     * @param bool|Closure|float|int|string|Stringable|UnitEnum|null $value Attribute value, or `null` to remove the
+     * attribute.
+     * @param string $prefix Optional prefix to prepend to the key (for example, `aria-`, `data-`, `on-`).
+     * @param bool $boolToString Whether to convert boolean values to `true` and `false` strings.
+     *
+     * @return static New instance with the updated `attributes` value.
+     *
+     * @phpstan-param scalar|Stringable|UnitEnum|Closure(): mixed $value
+     */
+    public function setAttribute(
+        string|UnitEnum $key,
+        bool|float|int|string|Closure|Stringable|UnitEnum|null $value,
+        string $prefix = '',
+        bool $boolToString = false,
+    ): static {
+        $new = clone $this;
+
+        AttributeBag::set($new->attributes, $key, $value, $prefix, $boolToString);
 
         return $new;
     }

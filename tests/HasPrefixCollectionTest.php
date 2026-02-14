@@ -65,6 +65,21 @@ final class HasPrefixCollectionTest extends TestCase
         );
     }
 
+    public function testRemovePrefixSingleAttributeValue(): void
+    {
+        $instance = new class {
+            use HasPrefixCollection;
+        };
+
+        $instance = $instance->addPrefixAttribute('id', 'prefix-id');
+        $instance = $instance->removePrefixAttribute('id');
+
+        self::assertNull(
+            $instance->getPrefixAttribute('id'),
+            "Should return 'null' after removing the 'id' attribute.",
+        );
+    }
+
     public function testReturnNewInstanceWhenSettingPrefixCollection(): void
     {
         $instance = new class {
@@ -90,6 +105,21 @@ final class HasPrefixCollectionTest extends TestCase
             $instance,
             $instance->prefixTag(Inline::MARK),
             'Should return a new instance when setting the prefix tag, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->addPrefixAttribute('id', 'value'),
+            'Should return a new instance when adding a prefix attribute, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->removePrefixAttribute('id'),
+            'Should return a new instance when removing a prefix attribute, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->setPrefixAttribute('hidden', true, 'aria-', true),
+            'Should return a new instance when setting a prefix attribute, ensuring immutability.',
         );
     }
 
@@ -149,6 +179,76 @@ final class HasPrefixCollectionTest extends TestCase
         );
     }
 
+    public function testSetPrefixAttributeWithClosureValue(): void
+    {
+        $instance = new class {
+            use HasPrefixCollection;
+        };
+
+        $closure = static fn(): string => 'resolved-value';
+
+        $instance = $instance->setPrefixAttribute('test', $closure, 'event-');
+
+        self::assertSame(
+            ['event-test' => 'resolved-value'],
+            $instance->getPrefixAttributes(),
+            "Should return the correct 'event-test' attribute after setting it.",
+        );
+    }
+
+    public function testSetPrefixAttributeWithNullValueRemovesAttribute(): void
+    {
+        $instance = new class {
+            use HasPrefixCollection;
+        };
+
+        $instance = $instance
+            ->setPrefixAttribute('label', 'Prefix', 'aria-')
+            ->setPrefixAttribute('hidden', true, 'aria-', true)
+            ->setPrefixAttribute('label', null, 'aria-');
+
+        self::assertSame(
+            ['aria-hidden' => 'true'],
+            $instance->getPrefixAttributes(),
+            "Should remove the attribute when 'null' value is provided.",
+        );
+    }
+
+    public function testSetPrefixAttributeWithPrefixValue(): void
+    {
+        $instance = new class {
+            use HasPrefixCollection;
+        };
+
+        $instance = $instance
+            ->setPrefixAttribute('label', 'Prefix', 'aria-')
+            ->setPrefixAttribute('hidden', true, 'aria-', true);
+
+        self::assertSame(
+            [
+                'aria-label' => 'Prefix',
+                'aria-hidden' => 'true',
+            ],
+            $instance->getPrefixAttributes(),
+            "Should return the correct 'aria-' attributes after setting them.",
+        );
+    }
+
+    public function testSetPrefixAttributeWithPrefixValueAndBoolStringFalse(): void
+    {
+        $instance = new class {
+            use HasPrefixCollection;
+        };
+
+        $instance = $instance->setPrefixAttribute('disabled', true, 'data-');
+
+        self::assertSame(
+            ['data-disabled' => true],
+            $instance->getPrefixAttributes(),
+            "Should return the correct 'data-disabled' attribute after setting it.",
+        );
+    }
+
     public function testSetPrefixClassValue(): void
     {
         $instance = new class {
@@ -182,6 +282,21 @@ final class HasPrefixCollectionTest extends TestCase
             'override-class',
             $instance->getPrefixAttribute('class', ''),
             "Should return the correct prefix 'class' attribute after setting it.",
+        );
+    }
+
+    public function testSetPrefixSingleAttributeValue(): void
+    {
+        $instance = new class {
+            use HasPrefixCollection;
+        };
+
+        $instance = $instance->addPrefixAttribute('id', 'prefix-id');
+
+        self::assertSame(
+            'prefix-id',
+            $instance->getPrefixAttribute('id'),
+            "Should return the correct 'id' attribute after setting it.",
         );
     }
 
