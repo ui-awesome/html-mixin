@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Mixin\Tests;
 
 use InvalidArgumentException;
+use PHPForge\Support\Stub\BackedInteger;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Interop\Block;
 use UIAwesome\Html\Mixin\Exception\Message;
 use UIAwesome\Html\Mixin\HasContainerCollection;
-use UIAwesome\Html\Mixin\Tests\Support\Stub\Enum\Priority;
 
 /**
  * Unit tests for the {@see HasContainerCollection} trait managing the container tag and attributes.
@@ -271,6 +271,6 @@ final class HasContainerCollectionTest extends TestCase
             Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(2),
         );
 
-        $instance->getContainerAttribute(Priority::HIGH);
+        $instance->getContainerAttribute(BackedInteger::VALUE);
     }
 }

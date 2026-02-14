@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace UIAwesome\Html\Mixin\Tests\Support\Provider;
+namespace UIAwesome\Html\Mixin\Tests\Provider;
 
 use UIAwesome\Html\Mixin\Values\AttributeProperty;
 use UnitEnum;

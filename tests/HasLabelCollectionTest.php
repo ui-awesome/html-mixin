@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Mixin\Tests;
 
 use InvalidArgumentException;
+use PHPForge\Support\Stub\BackedInteger;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Mixin\Exception\Message;
 use UIAwesome\Html\Mixin\HasLabelCollection;
-use UIAwesome\Html\Mixin\Tests\Support\Stub\Enum\Priority;
 
 /**
  * Unit tests for the {@see HasLabelCollection} trait managing label content and label attributes.
@@ -292,6 +292,6 @@ final class HasLabelCollectionTest extends TestCase
             Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(2),
         );
 
-        $instance->getLabelAttribute(Priority::HIGH);
+        $instance->getLabelAttribute(BackedInteger::VALUE);
     }
 }
