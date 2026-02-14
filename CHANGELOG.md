@@ -4,6 +4,7 @@
 
 - Enh #51: Add `HasLabelCollection` mixin for managing label tag and attributes (@terabytesoftw)
 - Bug #52: Refactored attribute handling across mixins to use `AttributeBag` in `HasAttributes`, `HasContainerCollection`, `HasPrefixCollection`, and `HasSuffixCollection` for improved consistency and maintainability (@terabytesoftw)
+- Bug #53: Replace enum usage with `BackedInteger` in attribute tests and remove unused enum files (@terabytesoftw)
 
 ## 0.3.5 February 9, 2026
 

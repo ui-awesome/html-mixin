@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Mixin\Tests;
 
 use InvalidArgumentException;
+use PHPForge\Support\Stub\{BackedInteger, BackedString};
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Mixin\Exception\Message;
 use UIAwesome\Html\Mixin\HasAttributes;
-use UIAwesome\Html\Mixin\Tests\Support\Stub\Enum\{Priority, Status};
 
 /**
  * Unit tests for the {@see HasAttributes} trait managing HTML attributes.
@@ -180,11 +180,11 @@ final class HasAttributesTest extends TestCase
             'Should return the correct attributes after setting a single attribute.',
         );
 
-        $instance = $instance->addAttribute(Status::ACTIVE, 'active-status');
+        $instance = $instance->addAttribute(BackedString::VALUE, 'active-status');
 
         self::assertSame(
             'active-status',
-            $instance->getAttribute(Status::ACTIVE),
+            $instance->getAttribute(BackedString::VALUE),
             'Should return the value when using an enum key.',
         );
     }
@@ -229,7 +229,7 @@ final class HasAttributesTest extends TestCase
             Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(2),
         );
 
-        $instance->getAttribute(Priority::HIGH);
+        $instance->getAttribute(BackedInteger::VALUE);
     }
 
     public function testThrowInvalidArgumentExceptionForSetSingleAttributeWithEmptyKey(): void
@@ -257,6 +257,6 @@ final class HasAttributesTest extends TestCase
             Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(2),
         );
 
-        $instance->addAttribute(Priority::HIGH, 'value');
+        $instance->addAttribute(BackedInteger::VALUE, 'value');
     }
 }

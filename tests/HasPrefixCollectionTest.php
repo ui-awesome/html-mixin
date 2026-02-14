@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Mixin\Tests;
 
 use InvalidArgumentException;
+use PHPForge\Support\Stub\BackedInteger;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Interop\Inline;
 use UIAwesome\Html\Mixin\Exception\Message;
 use UIAwesome\Html\Mixin\HasPrefixCollection;
-use UIAwesome\Html\Mixin\Tests\Support\Stub\Enum\Priority;
 
 /**
  * Unit tests for the {@see HasPrefixCollection} trait managing prefix content, tag, and attributes.
@@ -265,6 +265,6 @@ final class HasPrefixCollectionTest extends TestCase
             Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(2),
         );
 
-        $instance->getPrefixAttribute(Priority::HIGH);
+        $instance->getPrefixAttribute(BackedInteger::VALUE);
     }
 }

@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Mixin\Tests;
 
 use InvalidArgumentException;
+use PHPForge\Support\Stub\BackedInteger;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Stringable;
 use UIAwesome\Html\Interop\{Block, Inline};
 use UIAwesome\Html\Mixin\Exception\Message;
 use UIAwesome\Html\Mixin\HasSuffixCollection;
-use UIAwesome\Html\Mixin\Tests\Support\Stub\Enum\Priority;
 
 /**
  * Unit tests for the {@see HasSuffixCollection} trait managing suffix content, tag, and attributes.
@@ -304,6 +304,6 @@ final class HasSuffixCollectionTest extends TestCase
             Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(2),
         );
 
-        $instance->getSuffixAttribute(Priority::HIGH);
+        $instance->getSuffixAttribute(BackedInteger::VALUE);
     }
 }
