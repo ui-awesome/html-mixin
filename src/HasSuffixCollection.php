@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Mixin;
 
-use Closure;
 use Stringable;
 use UIAwesome\Html\Helper\{AttributeBag, CSSClass};
 use UIAwesome\Html\Interop\{BlockInterface, InlineInterface, VoidInterface};
@@ -36,29 +35,6 @@ trait HasSuffixCollection
      * Tag name for the suffix element, or `false` to disable.
      */
     protected false|BlockInterface|InlineInterface|VoidInterface $suffixTag = false;
-
-    /**
-     * Sets a single HTML attribute for the suffix element.
-     *
-     * Usage example:
-     * ```php
-     * $component->addSuffixAttribute('id', 'my-id');
-     * $component->addSuffixAttribute('id', null);
-     * ```
-     *
-     * @param string|UnitEnum $key Attribute name.
-     * @param mixed $value Attribute value.
-     *
-     * @return static New instance with the updated `suffixAttributes` value.
-     */
-    public function addSuffixAttribute(string|UnitEnum $key, mixed $value): static
-    {
-        $new = clone $this;
-
-        AttributeBag::add($new->suffixAttributes, $key, $value);
-
-        return $new;
-    }
 
     /**
      * Returns the suffix content string assigned to the element.
@@ -127,59 +103,6 @@ trait HasSuffixCollection
     }
 
     /**
-     * Removes a specific HTML attribute from the suffix element.
-     *
-     * Usage example:
-     * ```php
-     * $component->removeSuffixAttribute('id');
-     * ```
-     *
-     * @param string|UnitEnum $key Attribute name to remove.
-     *
-     * @return static New instance without the specified suffix attribute.
-     */
-    public function removeSuffixAttribute(string|UnitEnum $key): static
-    {
-        $new = clone $this;
-
-        AttributeBag::remove($new->suffixAttributes, $key);
-
-        return $new;
-    }
-
-    /**
-     * Sets a single attribute with prefix handling and value resolution for the suffix element.
-     *
-     * Usage example:
-     * ```php
-     * $component->setSuffixAttribute('label', 'Label', 'aria-');
-     * $component->setSuffixAttribute('hidden', true, 'aria-', true);
-     * ```
-     *
-     * @param string|UnitEnum $key Attribute key without prefix.
-     * @param bool|Closure|float|int|string|Stringable|UnitEnum|null $value Attribute value, or `null` to remove the
-     * attribute.
-     * @param string $prefix Prefix to prepend to the key.
-     * @param bool $boolToString Whether to convert booleans to `true` and `false` strings.
-     *
-     * @return static New instance with the updated `suffixAttributes` value.
-     *
-     * @phpstan-param scalar|Closure(): mixed|Stringable|UnitEnum|null $value
-     */
-    public function setSuffixAttribute(
-        string|UnitEnum $key,
-        bool|float|int|string|Closure|Stringable|UnitEnum|null $value,
-        string $prefix = '',
-        bool $boolToString = false,
-    ): static {
-        $new = clone $this;
-
-        AttributeBag::set($new->suffixAttributes, $key, $value, $prefix, $boolToString);
-
-        return $new;
-    }
-
-    /**
      * Sets the suffix content string for the element.
      *
      * Usage example:
@@ -217,7 +140,7 @@ trait HasSuffixCollection
     {
         $new = clone $this;
 
-        AttributeBag::merge($new->suffixAttributes, $values);
+        AttributeBag::setMany($new->suffixAttributes, $values);
 
         return $new;
     }
@@ -241,6 +164,50 @@ trait HasSuffixCollection
         $new = clone $this;
 
         CSSClass::add($new->suffixAttributes, $value, $override);
+
+        return $new;
+    }
+
+    /**
+     * Removes a specific HTML attribute from the suffix element.
+     *
+     * Usage example:
+     * ```php
+     * $component->suffixRemoveAttribute('id');
+     * ```
+     *
+     * @param string|UnitEnum $key Attribute name to remove.
+     *
+     * @return static New instance without the specified suffix attribute.
+     */
+    public function suffixRemoveAttribute(string|UnitEnum $key): static
+    {
+        $new = clone $this;
+
+        AttributeBag::remove($new->suffixAttributes, $key);
+
+        return $new;
+    }
+
+    /**
+     * Sets a single HTML attribute for the suffix element.
+     *
+     * Usage example:
+     * ```php
+     * $component->suffixSetAttribute('id', 'my-id');
+     * $component->suffixSetAttribute('id', null);
+     * ```
+     *
+     * @param string|UnitEnum $key Attribute name.
+     * @param mixed $value Attribute value.
+     *
+     * @return static New instance with the updated `suffixAttributes` value.
+     */
+    public function suffixSetAttribute(string|UnitEnum $key, mixed $value): static
+    {
+        $new = clone $this;
+
+        AttributeBag::set($new->suffixAttributes, $key, $value);
 
         return $new;
     }

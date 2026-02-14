@@ -3,6 +3,7 @@
 ## 0.3.7 Under development
 
 - Enh #54: Add `setAttribute()` prefixed attribute APIs to `HasContainerCollection`, `HasLabelCollection`, `HasPrefixCollection`, and `HasSuffixCollection` and related tests (@terabytesoftw)
+- Bug #55: Migrate mixin attribute setters and tests to the simplified API (@terabytesoftw)
 
 ## 0.3.6 February 14, 2026
 

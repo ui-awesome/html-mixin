@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use PHPForge\Support\Stub\BackedInteger;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
+use Stringable;
 use UIAwesome\Html\Mixin\Exception\Message;
 use UIAwesome\Html\Mixin\HasLabelCollection;
 
@@ -30,7 +31,7 @@ use UIAwesome\Html\Mixin\HasLabelCollection;
 #[Group('mixin')]
 final class HasLabelCollectionTest extends TestCase
 {
-    public function testIsLabel(): void
+    public function testIsLabelValue(): void
     {
         $instance = new class {
             use HasLabelCollection;
@@ -56,92 +57,7 @@ final class HasLabelCollectionTest extends TestCase
         );
     }
 
-    public function testRemoveLabelAttribute(): void
-    {
-        $instance = new class {
-            use HasLabelCollection;
-        };
-
-        $instance = $instance->labelAttributes(
-            [
-                'class' => 'label',
-                'id' => 'label-id',
-            ],
-        );
-
-        $instance = $instance->removeLabelAttribute('class');
-
-        self::assertSame(
-            ['id' => 'label-id'],
-            $instance->getLabelAttributes(),
-            "Should remove the 'class' attribute from the label attributes.",
-        );
-    }
-
-    public function testRemoveLabelSingleAttributeValue(): void
-    {
-        $instance = new class {
-            use HasLabelCollection;
-        };
-
-        $instance = $instance->addLabelAttribute('id', 'label-id');
-        $instance = $instance->removeLabelAttribute('id');
-
-        self::assertNull(
-            $instance->getLabelAttribute('id'),
-            "Should return 'null' after removing the 'id' attribute.",
-        );
-    }
-
-    public function testReturnNewInstanceWhenSettingLabel(): void
-    {
-        $instance = new class {
-            use HasLabelCollection;
-        };
-
-        self::assertNotSame(
-            $instance,
-            $instance->label('Label'),
-            'Should return a new instance when setting the label content, ensuring immutability.',
-        );
-        self::assertNotSame(
-            $instance,
-            $instance->labelAttributes([]),
-            'Should return a new instance when setting the label attributes, ensuring immutability.',
-        );
-        self::assertNotSame(
-            $instance,
-            $instance->labelClass(''),
-            "Should return a new instance when setting the label 'class' attribute, ensuring immutability.",
-        );
-        self::assertNotSame(
-            $instance,
-            $instance->labelFor('for'),
-            "Should return a new instance when setting the label 'for' attribute, ensuring immutability.",
-        );
-        self::assertNotSame(
-            $instance,
-            $instance->notLabel(),
-            'Should return a new instance when disabling the label, ensuring immutability.',
-        );
-        self::assertNotSame(
-            $instance,
-            $instance->removeLabelAttribute('class'),
-            'Should return a new instance when removing a label attribute, ensuring immutability.',
-        );
-        self::assertNotSame(
-            $instance,
-            $instance->addLabelAttribute('id', 'value'),
-            'Should return a new instance when adding a label attribute, ensuring immutability.',
-        );
-        self::assertNotSame(
-            $instance,
-            $instance->setLabelAttribute('hidden', true, 'aria-', true),
-            'Should return a new instance when setting a label attribute, ensuring immutability.',
-        );
-    }
-
-    public function testSetLabelAttributesValue(): void
+    public function testLabelAttributesValue(): void
     {
         $instance = new class {
             use HasLabelCollection;
@@ -169,7 +85,7 @@ final class HasLabelCollectionTest extends TestCase
         );
     }
 
-    public function testSetLabelAttributesWithExistingValues(): void
+    public function testLabelAttributesWithExistingValues(): void
     {
         $instance = new class {
             use HasLabelCollection;
@@ -193,77 +109,8 @@ final class HasLabelCollectionTest extends TestCase
         );
     }
 
-    public function testSetLabelAttributeWithClosureValue(): void
-    {
-        $instance = new class {
-            use HasLabelCollection;
-        };
 
-        $closure = static fn(): string => 'resolved-value';
-
-        $instance = $instance->setLabelAttribute('test', $closure, 'event-');
-
-        self::assertSame(
-            ['event-test' => 'resolved-value'],
-            $instance->getLabelAttributes(),
-            "Should return the correct 'event-test' attribute after setting it.",
-        );
-    }
-
-    public function testSetLabelAttributeWithNullValueRemovesAttribute(): void
-    {
-        $instance = new class {
-            use HasLabelCollection;
-        };
-
-        $instance = $instance
-            ->setLabelAttribute('label', 'Label', 'aria-')
-            ->setLabelAttribute('hidden', true, 'aria-', true)
-            ->setLabelAttribute('label', null, 'aria-');
-
-        self::assertSame(
-            ['aria-hidden' => 'true'],
-            $instance->getLabelAttributes(),
-            "Should remove the attribute when 'null' value is provided.",
-        );
-    }
-
-    public function testSetLabelAttributeWithPrefixValue(): void
-    {
-        $instance = new class {
-            use HasLabelCollection;
-        };
-
-        $instance = $instance
-            ->setLabelAttribute('label', 'Label', 'aria-')
-            ->setLabelAttribute('hidden', true, 'aria-', true);
-
-        self::assertSame(
-            [
-                'aria-label' => 'Label',
-                'aria-hidden' => 'true',
-            ],
-            $instance->getLabelAttributes(),
-            "Should return the correct 'aria-' attributes after setting them.",
-        );
-    }
-
-    public function testSetLabelAttributeWithPrefixValueAndBoolStringFalse(): void
-    {
-        $instance = new class {
-            use HasLabelCollection;
-        };
-
-        $instance = $instance->setLabelAttribute('disabled', true, 'data-');
-
-        self::assertSame(
-            ['data-disabled' => true],
-            $instance->getLabelAttributes(),
-            "Should return the correct 'data-disabled' attribute after setting it.",
-        );
-    }
-
-    public function testSetLabelClassValue(): void
+    public function testLabelClassValue(): void
     {
         $instance = new class {
             use HasLabelCollection;
@@ -307,7 +154,7 @@ final class HasLabelCollectionTest extends TestCase
         );
     }
 
-    public function testSetLabelContent(): void
+    public function testLabelContentValue(): void
     {
         $instance = new class {
             use HasLabelCollection;
@@ -327,7 +174,22 @@ final class HasLabelCollectionTest extends TestCase
         );
     }
 
-    public function testSetLabelFor(): void
+    public function testLabelForNullValue(): void
+    {
+        $instance = new class {
+            use HasLabelCollection;
+        };
+
+        $instance = $instance->labelFor('input-id');
+        $instance = $instance->labelFor(null);
+
+        self::assertNull(
+            $instance->getLabelAttribute('for'),
+            "Should return 'null' after setting the 'for' attribute to 'null'.",
+        );
+    }
+
+    public function testLabelForValue(): void
     {
         $instance = new class {
             use HasLabelCollection;
@@ -347,33 +209,162 @@ final class HasLabelCollectionTest extends TestCase
         );
     }
 
-    public function testSetLabelForNullValue(): void
+    public function testLabelRemoveAttribute(): void
     {
         $instance = new class {
             use HasLabelCollection;
         };
 
-        $instance = $instance->labelFor('input-id');
-        $instance = $instance->labelFor(null);
+        $instance = $instance->labelAttributes(
+            [
+                'class' => 'label',
+                'id' => 'label-id',
+            ],
+        );
 
-        self::assertNull(
-            $instance->getLabelAttribute('for'),
-            "Should return 'null' after setting the 'for' attribute to 'null'.",
+        $instance = $instance->labelRemoveAttribute('class');
+
+        self::assertSame(
+            ['id' => 'label-id'],
+            $instance->getLabelAttributes(),
+            "Should remove the 'class' attribute from the label attributes.",
         );
     }
 
-    public function testSetLabelSingleAttributeValue(): void
+    public function testLabelSetAttributeValue(): void
     {
         $instance = new class {
             use HasLabelCollection;
         };
 
-        $instance = $instance->addLabelAttribute('id', 'label-id');
+        $instance = $instance->labelSetAttribute('id', 'label-id');
 
         self::assertSame(
             'label-id',
             $instance->getLabelAttribute('id'),
             "Should return the correct 'id' attribute after setting it.",
+        );
+    }
+
+    public function testLabelSetAttributeWithClosureValue(): void
+    {
+        $instance = new class {
+            use HasLabelCollection;
+        };
+
+        $closure = static fn(): string => 'resolved-value';
+
+        $instance = $instance->labelSetAttribute('event-test', $closure);
+
+        self::assertSame(
+            ['event-test' => $closure],
+            $instance->getLabelAttributes(),
+            "Should return the correct 'event-test' attribute after setting it.",
+        );
+    }
+
+    public function testLabelSetAttributeWithNullValueRemovesAttribute(): void
+    {
+        $instance = new class {
+            use HasLabelCollection;
+        };
+
+        $instance = $instance
+            ->labelSetAttribute('aria-label', 'Label')
+            ->labelSetAttribute('aria-hidden', true)
+            ->labelSetAttribute('aria-label', null);
+
+        self::assertSame(
+            ['aria-hidden' => true],
+            $instance->getLabelAttributes(),
+            "Should remove the attribute when 'null' value is provided.",
+        );
+    }
+
+    public function testLabelSetAttributeWithStringableValue(): void
+    {
+        $instance = new class {
+            use HasLabelCollection;
+        };
+
+        $stringable = new class implements Stringable {
+            public function __toString(): string
+            {
+                return 'Stringable value';
+            }
+        };
+
+        $instance = $instance->labelSetAttribute('stringable', $stringable);
+
+        self::assertSame(
+            $stringable,
+            $instance->getLabelAttribute('stringable'),
+            'Should handle Stringable objects correctly.',
+        );
+    }
+
+    public function testLabelWithStringableValue(): void
+    {
+        $instance = new class {
+            use HasLabelCollection;
+        };
+
+        $stringable = new class implements Stringable {
+            public function __toString(): string
+            {
+                return 'Stringable content';
+            }
+        };
+
+        $instance = $instance->label($stringable);
+
+        self::assertSame(
+            'Stringable content',
+            $instance->getLabel(),
+            'Should handle Stringable objects correctly.',
+        );
+    }
+
+    public function testReturnNewInstanceWhenSettingLabel(): void
+    {
+        $instance = new class {
+            use HasLabelCollection;
+        };
+
+        self::assertNotSame(
+            $instance,
+            $instance->label('Label'),
+            'Should return a new instance when setting the label content, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->labelAttributes([]),
+            'Should return a new instance when setting the label attributes, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->labelClass(''),
+            "Should return a new instance when setting the label 'class' attribute, ensuring immutability.",
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->labelFor(''),
+            "Should return a new instance when setting the label 'for' attribute, ensuring immutability.",
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->labelRemoveAttribute('tests'),
+            'Should return a new instance when removing a label attribute, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->labelSetAttribute('tests', ''),
+            'Should return a new instance when adding a label attribute, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->notLabel(),
+            'Should return a new instance when disabling the label, ensuring immutability.',
         );
     }
 

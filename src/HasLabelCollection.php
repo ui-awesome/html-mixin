@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Mixin;
 
-use Closure;
 use Stringable;
 use UIAwesome\Html\Helper\{AttributeBag, CSSClass};
 use UnitEnum;
@@ -35,29 +34,6 @@ trait HasLabelCollection
      * Whether to render the label.
      */
     private bool $notLabel = false;
-
-    /**
-     * Sets a single HTML attribute for the label element.
-     *
-     * Usage example:
-     * ```php
-     * $component->addLabelAttribute('id', 'my-id');
-     * $component->addLabelAttribute('id', null);
-     * ```
-     *
-     * @param string|UnitEnum $key Attribute name.
-     * @param mixed $value Attribute value.
-     *
-     * @return static New instance with the updated `labelAttributes` value.
-     */
-    public function addLabelAttribute(string|UnitEnum $key, mixed $value): static
-    {
-        $new = clone $this;
-
-        AttributeBag::add($new->labelAttributes, $key, $value);
-
-        return $new;
-    }
 
     /**
      * Returns the label content.
@@ -132,14 +108,14 @@ trait HasLabelCollection
      * $component->label('My Label');
      * ```
      *
-     * @param string $content Label content.
+     * @param string|Stringable $content Label content.
      *
      * @return static New instance with the updated `label` value.
      */
-    public function label(string $content): static
+    public function label(string|Stringable $content): static
     {
         $new = clone $this;
-        $new->label = $content;
+        $new->label = (string) $content;
 
         return $new;
     }
@@ -162,7 +138,7 @@ trait HasLabelCollection
     {
         $new = clone $this;
 
-        AttributeBag::merge($new->labelAttributes, $attributes);
+        AttributeBag::setMany($new->labelAttributes, $attributes);
 
         return $new;
     }
@@ -221,6 +197,51 @@ trait HasLabelCollection
     }
 
     /**
+     * Removes a specific label attribute.
+     *
+     * Usage example:
+     * ```php
+     * $component->labelRemoveAttribute('id');
+     * $component->labelRemoveAttribute(DataProperty::ID);
+     * ```
+     *
+     * @param string|UnitEnum $key Attribute name to remove.
+     *
+     * @return static New instance without the specified label attribute.
+     */
+    public function labelRemoveAttribute(string|UnitEnum $key): static
+    {
+        $new = clone $this;
+
+        AttributeBag::remove($new->labelAttributes, $key);
+
+        return $new;
+    }
+
+    /**
+     * Sets a single HTML attribute for the label element.
+     *
+     * Usage example:
+     * ```php
+     * $component->labelSetAttribute('id', 'my-id');
+     * $component->labelSetAttribute('id', null);
+     * ```
+     *
+     * @param string|UnitEnum $key Attribute name.
+     * @param mixed $value Attribute value.
+     *
+     * @return static New instance with the updated `labelAttributes` value.
+     */
+    public function labelSetAttribute(string|UnitEnum $key, mixed $value): static
+    {
+        $new = clone $this;
+
+        AttributeBag::set($new->labelAttributes, $key, $value);
+
+        return $new;
+    }
+
+    /**
      * Disables label rendering.
      *
      * Usage example:
@@ -234,60 +255,6 @@ trait HasLabelCollection
     {
         $new = clone $this;
         $new->notLabel = true;
-
-        return $new;
-    }
-
-    /**
-     * Removes a specific label attribute.
-     *
-     * Usage example:
-     * ```php
-     * $component->removeLabelAttribute('id');
-     * $component->removeLabelAttribute(DataProperty::ID);
-     * ```
-     *
-     * @param string|UnitEnum $key Attribute name to remove.
-     *
-     * @return static New instance without the specified label attribute.
-     */
-    public function removeLabelAttribute(string|UnitEnum $key): static
-    {
-        $new = clone $this;
-
-        AttributeBag::remove($new->labelAttributes, $key);
-
-        return $new;
-    }
-
-    /**
-     * Sets a single attribute with prefix handling and value resolution for the label element.
-     *
-     * Usage example:
-     * ```php
-     * $component->setLabelAttribute('label', 'Label', 'aria-');
-     * $component->setLabelAttribute('hidden', true, 'aria-', true);
-     * ```
-     *
-     * @param string|UnitEnum $key Attribute key without prefix.
-     * @param bool|Closure|float|int|string|Stringable|UnitEnum|null $value Attribute value, or `null` to remove the
-     * attribute.
-     * @param string $prefix Prefix to prepend to the key.
-     * @param bool $boolToString Whether to convert booleans to `true` and `false` strings.
-     *
-     * @return static New instance with the updated `labelAttributes` value.
-     *
-     * @phpstan-param scalar|Closure(): mixed|Stringable|UnitEnum|null $value
-     */
-    public function setLabelAttribute(
-        string|UnitEnum $key,
-        bool|float|int|string|Closure|Stringable|UnitEnum|null $value,
-        string $prefix = '',
-        bool $boolToString = false,
-    ): static {
-        $new = clone $this;
-
-        AttributeBag::set($new->labelAttributes, $key, $value, $prefix, $boolToString);
 
         return $new;
     }

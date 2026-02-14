@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Mixin;
 
-use Closure;
 use Stringable;
 use UIAwesome\Html\Helper\{AttributeBag, CSSClass};
 use UIAwesome\Html\Interop\BlockInterface;
@@ -34,29 +33,6 @@ trait HasContainerCollection
      * Tag name for the container element, or `false` to disable.
      */
     protected false|BlockInterface $containerTag = false;
-
-    /**
-     * Sets a single HTML attribute for the container element.
-     *
-     * Usage example:
-     * ```php
-     * $component->addContainerAttribute('id', 'my-id');
-     * $component->addContainerAttribute('id', null);
-     * ```
-     *
-     * @param string|UnitEnum $key Attribute name.
-     * @param mixed $value Attribute value.
-     *
-     * @return static New instance with the updated `containerAttributes` value.
-     */
-    public function addContainerAttribute(string|UnitEnum $key, mixed $value): static
-    {
-        $new = clone $this;
-
-        AttributeBag::add($new->containerAttributes, $key, $value);
-
-        return $new;
-    }
 
     /**
      * Sets whether to render the container.
@@ -96,7 +72,7 @@ trait HasContainerCollection
     {
         $new = clone $this;
 
-        AttributeBag::merge($new->containerAttributes, $attributes);
+        AttributeBag::setMany($new->containerAttributes, $attributes);
 
         return $new;
     }
@@ -120,6 +96,50 @@ trait HasContainerCollection
         $new = clone $this;
 
         CSSClass::add($new->containerAttributes, $value, $override);
+
+        return $new;
+    }
+
+    /**
+     * Removes a specific HTML attribute from the container element.
+     *
+     * Usage example:
+     * ```php
+     * $component->containerRemoveAttribute('id');
+     * ```
+     *
+     * @param string|UnitEnum $key Attribute name to remove.
+     *
+     * @return static New instance without the specified container attribute.
+     */
+    public function containerRemoveAttribute(string|UnitEnum $key): static
+    {
+        $new = clone $this;
+
+        AttributeBag::remove($new->containerAttributes, $key);
+
+        return $new;
+    }
+
+    /**
+     * Sets a single HTML attribute for the container element.
+     *
+     * Usage example:
+     * ```php
+     * $component->containerSetAttribute('id', 'my-id');
+     * $component->containerSetAttribute('id', null);
+     * ```
+     *
+     * @param string|UnitEnum $key Attribute name.
+     * @param mixed $value Attribute value.
+     *
+     * @return static New instance with the updated `containerAttributes` value.
+     */
+    public function containerSetAttribute(string|UnitEnum $key, mixed $value): static
+    {
+        $new = clone $this;
+
+        AttributeBag::set($new->containerAttributes, $key, $value);
 
         return $new;
     }
@@ -208,58 +228,5 @@ trait HasContainerCollection
     public function isContainer(): bool
     {
         return $this->container;
-    }
-
-    /**
-     * Removes a specific HTML attribute from the container element.
-     *
-     * Usage example:
-     * ```php
-     * $component->removeContainerAttribute('id');
-     * ```
-     *
-     * @param string|UnitEnum $key Attribute name to remove.
-     *
-     * @return static New instance without the specified container attribute.
-     */
-    public function removeContainerAttribute(string|UnitEnum $key): static
-    {
-        $new = clone $this;
-
-        AttributeBag::remove($new->containerAttributes, $key);
-
-        return $new;
-    }
-
-    /**
-     * Sets a single attribute with prefix handling and value resolution for the container element.
-     *
-     * Usage example:
-     * ```php
-     * $component->setContainerAttribute('label', 'Label', 'aria-');
-     * $component->setContainerAttribute('hidden', true, 'aria-', true);
-     * ```
-     *
-     * @param string|UnitEnum $key Attribute key without prefix.
-     * @param bool|Closure|float|int|string|Stringable|UnitEnum|null $value Attribute value, or `null` to remove the
-     * attribute.
-     * @param string $prefix Prefix to prepend to the key.
-     * @param bool $boolToString Whether to convert booleans to `true` and `false` strings.
-     *
-     * @return static New instance with the updated `containerAttributes` value.
-     *
-     * @phpstan-param scalar|Closure(): mixed|Stringable|UnitEnum|null $value
-     */
-    public function setContainerAttribute(
-        string|UnitEnum $key,
-        bool|float|int|string|Closure|Stringable|UnitEnum|null $value,
-        string $prefix = '',
-        bool $boolToString = false,
-    ): static {
-        $new = clone $this;
-
-        AttributeBag::set($new->containerAttributes, $key, $value, $prefix, $boolToString);
-
-        return $new;
     }
 }
