@@ -18,6 +18,7 @@ use UIAwesome\Html\Mixin\HasAttributes;
  * - Ensures fluent setters return new instances (immutability).
  * - Removes attributes and returns expected values.
  * - Sets attributes in bulk and merges new values over existing keys.
+ * - Sets attributes with optional prefixes and boolean string conversion.
  * - Sets single attributes for scalar and enum keys.
  * - Throws InvalidArgumentException for empty or unsupported attribute keys.
  *
@@ -104,6 +105,11 @@ final class HasAttributesTest extends TestCase
             $instance->removeAttribute('tests'),
             'Should return a new instance when removing an attribute, ensuring immutability.',
         );
+        self::assertNotSame(
+            $instance,
+            $instance->setAttribute('tests', ''),
+            'Should return a new instance when setting an attribute, ensuring immutability.',
+        );
     }
 
     public function testSetAttributesValue(): void
@@ -157,6 +163,76 @@ final class HasAttributesTest extends TestCase
             ],
             $instance->getAttributes(),
             'Should merge new attributes with existing ones, overriding duplicates.',
+        );
+    }
+
+    public function testSetAttributesWithPrefixValue(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        $instance = $instance
+            ->setAttribute('label', 'Label', 'aria-')
+            ->setAttribute('hidden', true, 'aria-', true);
+
+        self::assertSame(
+            [
+                'aria-label' => 'Label',
+                'aria-hidden' => 'true',
+            ],
+            $instance->getAttributes(),
+            "Should return the correct 'aria-' attributes after setting them.",
+        );
+    }
+
+    public function testSetAttributesWithPrefixValueAndBoolStringFalse(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        $instance = $instance->setAttribute('disabled', true, 'data-');
+
+        self::assertSame(
+            ['data-disabled' => true],
+            $instance->getAttributes(),
+            "Should return the correct 'data-disabled' attribute after setting it.",
+        );
+    }
+
+    public function testSetAttributeWithClosureValue(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        $closure = static fn(): string => 'resolved-value';
+
+        $instance = $instance->setAttribute('test', $closure, 'data-');
+
+        self::assertSame(
+            ['data-test' => 'resolved-value'],
+            $instance->getAttributes(),
+            "Should return the correct 'data-test' attribute after setting it.",
+        );
+    }
+
+    public function testSetAttributeWithNullValueRemovesAttribute(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        $instance = $instance
+            ->setAttribute('label', 'Label', 'aria-')
+            ->setAttribute('hidden', true, 'aria-', true)
+            ->setAttribute('label', null, 'aria-');
+
+        self::assertSame(
+            ['aria-hidden' => 'true'],
+            $instance->getAttributes(),
+            "Should remove the attribute when 'null' value is provided.",
         );
     }
 

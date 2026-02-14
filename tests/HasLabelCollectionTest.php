@@ -78,6 +78,21 @@ final class HasLabelCollectionTest extends TestCase
         );
     }
 
+    public function testRemoveLabelSingleAttributeValue(): void
+    {
+        $instance = new class {
+            use HasLabelCollection;
+        };
+
+        $instance = $instance->addLabelAttribute('id', 'label-id');
+        $instance = $instance->removeLabelAttribute('id');
+
+        self::assertNull(
+            $instance->getLabelAttribute('id'),
+            "Should return 'null' after removing the 'id' attribute.",
+        );
+    }
+
     public function testReturnNewInstanceWhenSettingLabel(): void
     {
         $instance = new class {
@@ -113,6 +128,16 @@ final class HasLabelCollectionTest extends TestCase
             $instance,
             $instance->removeLabelAttribute('class'),
             'Should return a new instance when removing a label attribute, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->addLabelAttribute('id', 'value'),
+            'Should return a new instance when adding a label attribute, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->setLabelAttribute('hidden', true, 'aria-', true),
+            'Should return a new instance when setting a label attribute, ensuring immutability.',
         );
     }
 
@@ -165,6 +190,76 @@ final class HasLabelCollectionTest extends TestCase
             ],
             $instance->getLabelAttributes(),
             'Should merge new attributes with existing ones, overriding duplicates.',
+        );
+    }
+
+    public function testSetLabelAttributeWithClosureValue(): void
+    {
+        $instance = new class {
+            use HasLabelCollection;
+        };
+
+        $closure = static fn(): string => 'resolved-value';
+
+        $instance = $instance->setLabelAttribute('test', $closure, 'event-');
+
+        self::assertSame(
+            ['event-test' => 'resolved-value'],
+            $instance->getLabelAttributes(),
+            "Should return the correct 'event-test' attribute after setting it.",
+        );
+    }
+
+    public function testSetLabelAttributeWithNullValueRemovesAttribute(): void
+    {
+        $instance = new class {
+            use HasLabelCollection;
+        };
+
+        $instance = $instance
+            ->setLabelAttribute('label', 'Label', 'aria-')
+            ->setLabelAttribute('hidden', true, 'aria-', true)
+            ->setLabelAttribute('label', null, 'aria-');
+
+        self::assertSame(
+            ['aria-hidden' => 'true'],
+            $instance->getLabelAttributes(),
+            "Should remove the attribute when 'null' value is provided.",
+        );
+    }
+
+    public function testSetLabelAttributeWithPrefixValue(): void
+    {
+        $instance = new class {
+            use HasLabelCollection;
+        };
+
+        $instance = $instance
+            ->setLabelAttribute('label', 'Label', 'aria-')
+            ->setLabelAttribute('hidden', true, 'aria-', true);
+
+        self::assertSame(
+            [
+                'aria-label' => 'Label',
+                'aria-hidden' => 'true',
+            ],
+            $instance->getLabelAttributes(),
+            "Should return the correct 'aria-' attributes after setting them.",
+        );
+    }
+
+    public function testSetLabelAttributeWithPrefixValueAndBoolStringFalse(): void
+    {
+        $instance = new class {
+            use HasLabelCollection;
+        };
+
+        $instance = $instance->setLabelAttribute('disabled', true, 'data-');
+
+        self::assertSame(
+            ['data-disabled' => true],
+            $instance->getLabelAttributes(),
+            "Should return the correct 'data-disabled' attribute after setting it.",
         );
     }
 
@@ -264,6 +359,21 @@ final class HasLabelCollectionTest extends TestCase
         self::assertNull(
             $instance->getLabelAttribute('for'),
             "Should return 'null' after setting the 'for' attribute to 'null'.",
+        );
+    }
+
+    public function testSetLabelSingleAttributeValue(): void
+    {
+        $instance = new class {
+            use HasLabelCollection;
+        };
+
+        $instance = $instance->addLabelAttribute('id', 'label-id');
+
+        self::assertSame(
+            'label-id',
+            $instance->getLabelAttribute('id'),
+            "Should return the correct 'id' attribute after setting it.",
         );
     }
 

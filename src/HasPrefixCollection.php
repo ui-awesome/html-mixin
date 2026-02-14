@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Mixin;
 
+use Closure;
 use Stringable;
 use UIAwesome\Html\Helper\{AttributeBag, CSSClass};
 use UIAwesome\Html\Interop\{BlockInterface, InlineInterface, VoidInterface};
@@ -35,6 +36,29 @@ trait HasPrefixCollection
      * Tag name for the prefix element, or `false` to disable.
      */
     protected false|BlockInterface|InlineInterface|VoidInterface $prefixTag = false;
+
+    /**
+     * Sets a single HTML attribute for the prefix element.
+     *
+     * Usage example:
+     * ```php
+     * $component->addPrefixAttribute('id', 'my-id');
+     * $component->addPrefixAttribute('id', null);
+     * ```
+     *
+     * @param string|UnitEnum $key Attribute name.
+     * @param mixed $value Attribute value.
+     *
+     * @return static New instance with the updated `prefixAttributes` value.
+     */
+    public function addPrefixAttribute(string|UnitEnum $key, mixed $value): static
+    {
+        $new = clone $this;
+
+        AttributeBag::add($new->prefixAttributes, $key, $value);
+
+        return $new;
+    }
 
     /**
      * Returns the prefix content string assigned to the element.
@@ -186,6 +210,59 @@ trait HasPrefixCollection
     {
         $new = clone $this;
         $new->prefixTag = $value;
+
+        return $new;
+    }
+
+    /**
+     * Removes a specific HTML attribute from the prefix element.
+     *
+     * Usage example:
+     * ```php
+     * $component->removePrefixAttribute('id');
+     * ```
+     *
+     * @param string|UnitEnum $key Attribute name to remove.
+     *
+     * @return static New instance without the specified prefix attribute.
+     */
+    public function removePrefixAttribute(string|UnitEnum $key): static
+    {
+        $new = clone $this;
+
+        AttributeBag::remove($new->prefixAttributes, $key);
+
+        return $new;
+    }
+
+    /**
+     * Sets a single attribute with prefix handling and value resolution for the prefix element.
+     *
+     * Usage example:
+     * ```php
+     * $component->setPrefixAttribute('label', 'Label', 'aria-');
+     * $component->setPrefixAttribute('hidden', true, 'aria-', true);
+     * ```
+     *
+     * @param string|UnitEnum $key Attribute key without prefix.
+     * @param bool|Closure|float|int|string|Stringable|UnitEnum|null $value Attribute value, or `null` to remove the
+     * attribute.
+     * @param string $prefix Prefix to prepend to the key.
+     * @param bool $boolToString Whether to convert booleans to `true` and `false` strings.
+     *
+     * @return static New instance with the updated `prefixAttributes` value.
+     *
+     * @phpstan-param scalar|Closure(): mixed|Stringable|UnitEnum|null $value
+     */
+    public function setPrefixAttribute(
+        string|UnitEnum $key,
+        bool|float|int|string|Closure|Stringable|UnitEnum|null $value,
+        string $prefix = '',
+        bool $boolToString = false,
+    ): static {
+        $new = clone $this;
+
+        AttributeBag::set($new->prefixAttributes, $key, $value, $prefix, $boolToString);
 
         return $new;
     }
