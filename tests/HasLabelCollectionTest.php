@@ -21,7 +21,7 @@ use UIAwesome\Html\Mixin\Tests\Support\Stub\Enum\Priority;
  * - Sets label CSS classes, including merged and overridden values.
  * - Sets label for attribute and returns expected value.
  * - Sets label text content and returns the expected value.
- * - Throws `InvalidArgumentException` for empty or unsupported attribute keys.
+ * - Throws InvalidArgumentException for empty or unsupported attribute keys.
  * - Verifies label rendering state after setting content and disabling rendering.
  *
  * @copyright Copyright (C) 2026 Terabytesoftw.
@@ -97,12 +97,12 @@ final class HasLabelCollectionTest extends TestCase
         self::assertNotSame(
             $instance,
             $instance->labelClass(''),
-            'Should return a new instance when setting the label class, ensuring immutability.',
+            "Should return a new instance when setting the label 'class' attribute, ensuring immutability.",
         );
         self::assertNotSame(
             $instance,
             $instance->labelFor('for'),
-            'Should return a new instance when setting the label for attribute, ensuring immutability.',
+            "Should return a new instance when setting the label 'for' attribute, ensuring immutability.",
         );
         self::assertNotSame(
             $instance,

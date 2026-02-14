@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Mixin;
 
-use InvalidArgumentException;
 use Stringable;
-use UIAwesome\Html\Helper\{CSSClass, Enum};
+use UIAwesome\Html\Helper\{AttributeBag, CSSClass};
 use UIAwesome\Html\Interop\BlockInterface;
-use UIAwesome\Html\Mixin\Exception\Message;
 use UnitEnum;
 
 /**
@@ -41,7 +39,7 @@ trait HasContainerCollection
      *
      * Usage example:
      * ```php
-     * $component = $component->container(true);
+     * $component->container(true);
      * ```
      *
      * @param bool $value Set to `true` to render the container element, or `false` to skip rendering.
@@ -61,7 +59,7 @@ trait HasContainerCollection
      *
      * Usage example:
      * ```php
-     * $component = $component->containerAttributes(['class' => 'wrapper']);
+     * $component->containerAttributes(['class' => 'wrapper']);
      * ```
      *
      * @param array $attributes Array of attributes to apply to the container element.
@@ -73,7 +71,8 @@ trait HasContainerCollection
     public function containerAttributes(array $attributes): static
     {
         $new = clone $this;
-        $new->containerAttributes = [...$new->containerAttributes, ...$attributes];
+
+        AttributeBag::merge($new->containerAttributes, $attributes);
 
         return $new;
     }
@@ -83,8 +82,8 @@ trait HasContainerCollection
      *
      * Usage example:
      * ```php
-     * $component = $component->containerClass('new-class');
-     * $component = $component->containerClass('override-class', true);
+     * $component->containerClass('new-class');
+     * $component->containerClass('override-class', true);
      * ```
      *
      * @param string|Stringable|UnitEnum $value CSS class name to add.
@@ -95,6 +94,7 @@ trait HasContainerCollection
     public function containerClass(string|Stringable|UnitEnum $value, bool $override = false): static
     {
         $new = clone $this;
+
         CSSClass::add($new->containerAttributes, $value, $override);
 
         return $new;
@@ -105,8 +105,8 @@ trait HasContainerCollection
      *
      * Usage example:
      * ```php
-     * $component = $component->containerTag(Block::SECTION);
-     * $component = $component->containerTag(false);
+     * $component->containerTag(Block::SECTION);
+     * $component->containerTag(false);
      * ```
      *
      * @param BlockInterface|false $value Tag name for the container element, or `false` to disable.
@@ -126,7 +126,7 @@ trait HasContainerCollection
      *
      * Usage example:
      * ```php
-     * $id = $component->getContainerAttribute('id', 'default-id');
+     * $component->getContainerAttribute('id', 'default-id');
      * ```
      *
      * @param string|UnitEnum $key Attribute name.
@@ -136,19 +136,16 @@ trait HasContainerCollection
      */
     public function getContainerAttribute(string|UnitEnum $key, mixed $default = null): mixed
     {
-        $normalizedKey = Enum::normalizeValue($key);
-
-        if ($normalizedKey === '' || is_string($normalizedKey) === false) {
-            throw new InvalidArgumentException(
-                Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage($normalizedKey),
-            );
-        }
-
-        return $this->containerAttributes[$normalizedKey] ?? $default;
+        return AttributeBag::get($this->containerAttributes, $key, $default);
     }
 
     /**
      * Returns the `array` of HTML attributes for the container element.
+     *
+     * Usage example:
+     * ```php
+     * $component->getContainerAttributes();
+     * ```
      *
      * @return array Attributes `array` assigned to the container element.
      *
@@ -162,6 +159,11 @@ trait HasContainerCollection
     /**
      * Returns the tag name for the container element.
      *
+     * Usage example:
+     * ```php
+     * $component->getContainerTag();
+     * ```
+     *
      * @return BlockInterface|false Tag name for the container element, or `false` to disable.
      */
     public function getContainerTag(): false|BlockInterface
@@ -171,6 +173,11 @@ trait HasContainerCollection
 
     /**
      * Returns whether the container element should be rendered.
+     *
+     * Usage example:
+     * ```php
+     * $component->isContainer();
+     * ```
      *
      * @return bool `true` if the container element should be rendered, or `false` to skip rendering.
      */

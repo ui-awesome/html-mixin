@@ -53,7 +53,7 @@ final class HasContentTest extends TestCase
         self::assertSame(
             '',
             $instance->getContent(),
-            'Should return an empty string when no content is set.',
+            "Should return an empty 'string' when no content is set.",
         );
     }
 
@@ -95,7 +95,7 @@ final class HasContentTest extends TestCase
         self::assertSame(
             '&lt;script&gt;alert("xss")&lt;/script&gt;',
             $instance->getContent(),
-            'Should encode special characters when using content().',
+            "Should encode special characters when using 'content()'.",
         );
     }
 
@@ -111,7 +111,7 @@ final class HasContentTest extends TestCase
         self::assertSame(
             '<span>Raw Content</span>',
             $instance->getContent(),
-            'Should NOT encode characters when using html(), allowing raw markup.',
+            "Should NOT encode characters when using 'html()', allowing raw markup.",
         );
     }
 
@@ -127,7 +127,7 @@ final class HasContentTest extends TestCase
         self::assertSame(
             'OneTwoThreeFourFive',
             $instance->getContent(),
-            'Should handle variadic parameters correctly for both content() and html().',
+            "Should handle variadic parameters correctly for both 'content()' and 'html()'.",
         );
     }
 }

@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Mixin;
 
-use InvalidArgumentException;
 use Stringable;
-use UIAwesome\Html\Helper\{CSSClass, Enum};
+use UIAwesome\Html\Helper\{AttributeBag, CSSClass};
 use UIAwesome\Html\Interop\{BlockInterface, InlineInterface, VoidInterface};
-use UIAwesome\Html\Mixin\Exception\Message;
 use UnitEnum;
 
 use function implode;
@@ -43,7 +41,7 @@ trait HasPrefixCollection
      *
      * Usage example:
      * ```php
-     * $prefix = $component->getPrefix();
+     * $component->getPrefix();
      * ```
      *
      * @return string Prefix content string assigned to the element.
@@ -58,7 +56,7 @@ trait HasPrefixCollection
      *
      * Usage example:
      * ```php
-     * $id = $component->getPrefixAttribute('id', 'default-id');
+     * $component->getPrefixAttribute('id', 'default-id');
      * ```
      *
      * @param string|UnitEnum $key Attribute name.
@@ -68,15 +66,7 @@ trait HasPrefixCollection
      */
     public function getPrefixAttribute(string|UnitEnum $key, mixed $default = null): mixed
     {
-        $normalizedKey = Enum::normalizeValue($key);
-
-        if ($normalizedKey === '' || is_string($normalizedKey) === false) {
-            throw new InvalidArgumentException(
-                Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage($normalizedKey),
-            );
-        }
-
-        return $this->prefixAttributes[$normalizedKey] ?? $default;
+        return AttributeBag::get($this->prefixAttributes, $key, $default);
     }
 
     /**
@@ -84,7 +74,7 @@ trait HasPrefixCollection
      *
      * Usage example:
      * ```php
-     * $attributes = $component->getPrefixAttributes();
+     * $component->getPrefixAttributes();
      * ```
      *
      * @return array Attributes `array` assigned to the prefix element.
@@ -101,7 +91,7 @@ trait HasPrefixCollection
      *
      * Usage example:
      * ```php
-     * $tag = $component->getPrefixTag();
+     * $component->getPrefixTag();
      * ```
      *
      * @return BlockInterface|false|InlineInterface|VoidInterface Tag name for the prefix element, or `false` to
@@ -117,7 +107,7 @@ trait HasPrefixCollection
      *
      * Usage example:
      * ```php
-     * $component = $component->prefix('Start ', 'of ', 'element');
+     * $component->prefix('Start ', 'of ', 'element');
      * ```
      *
      * @param string|Stringable ...$values Prefix content to set for the element.
@@ -137,7 +127,7 @@ trait HasPrefixCollection
      *
      * Usage example:
      * ```php
-     * $component = $component->prefixAttributes(['id' => 'prefix-id']);
+     * $component->prefixAttributes(['id' => 'prefix-id']);
      * ```
      *
      * @param array $values Associative array of attribute keys and values.
@@ -149,7 +139,8 @@ trait HasPrefixCollection
     public function prefixAttributes(array $values): static
     {
         $new = clone $this;
-        $new->prefixAttributes = [...$new->prefixAttributes, ...$values];
+
+        AttributeBag::merge($new->prefixAttributes, $values);
 
         return $new;
     }
@@ -159,8 +150,8 @@ trait HasPrefixCollection
      *
      * Usage example:
      * ```php
-     * $component = $component->prefixClass('new-class');
-     * $component = $component->prefixClass('override-class', true);
+     * $component->prefixClass('new-class');
+     * $component->prefixClass('override-class', true);
      * ```
      *
      * @param string|Stringable|UnitEnum $value CSS class name to add.
@@ -171,6 +162,7 @@ trait HasPrefixCollection
     public function prefixClass(string|Stringable|UnitEnum $value, bool $override = false): static
     {
         $new = clone $this;
+
         CSSClass::add($new->prefixAttributes, $value, $override);
 
         return $new;
@@ -181,8 +173,8 @@ trait HasPrefixCollection
      *
      * Usage example:
      * ```php
-     * $component = $component->prefixTag(\UIAwesome\Html\Interop\Inline::SPAN);
-     * $component = $component->prefixTag(false);
+     * $component->prefixTag(\UIAwesome\Html\Interop\Inline::SPAN);
+     * $component->prefixTag(false);
      * ```
      *
      * @param BlockInterface|false|InlineInterface|VoidInterface $value Tag name for the prefix element, or `false` to
