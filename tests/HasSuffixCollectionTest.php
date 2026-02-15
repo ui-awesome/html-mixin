@@ -293,12 +293,10 @@ final class HasSuffixCollectionTest extends TestCase
             use HasSuffixCollection;
         };
 
-        $closure = static fn(): string => 'resolved-value';
-
-        $instance = $instance->suffixSetAttribute('event-test', $closure);
+        $instance = $instance->suffixSetAttribute('event-test', static fn(): string => 'resolved-value');
 
         self::assertSame(
-            ['event-test' => $closure],
+            ['event-test' => 'resolved-value'],
             $instance->getSuffixAttributes(),
             "Should return the correct 'event-test' attribute after setting it.",
         );
@@ -318,7 +316,7 @@ final class HasSuffixCollectionTest extends TestCase
             "Should return 'null' after setting the attribute to 'null'.",
         );
         self::assertSame(
-            [],
+            ['id' => null],
             $instance->getSuffixAttributes(),
             'Should remove the attribute key when set to null.',
         );

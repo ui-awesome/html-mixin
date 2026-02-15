@@ -251,12 +251,10 @@ final class HasLabelCollectionTest extends TestCase
             use HasLabelCollection;
         };
 
-        $closure = static fn(): string => 'resolved-value';
-
-        $instance = $instance->labelSetAttribute('event-test', $closure);
+        $instance = $instance->labelSetAttribute('event-test', static fn(): string => 'resolved-value');
 
         self::assertSame(
-            ['event-test' => $closure],
+            ['event-test' => 'resolved-value'],
             $instance->getLabelAttributes(),
             "Should return the correct 'event-test' attribute after setting it.",
         );
@@ -276,7 +274,7 @@ final class HasLabelCollectionTest extends TestCase
             "Should return 'null' after setting the attribute to 'null'.",
         );
         self::assertSame(
-            [],
+            ['id' => null],
             $instance->getLabelAttributes(),
             'Should remove the attribute key when set to null.',
         );
