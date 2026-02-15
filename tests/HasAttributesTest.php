@@ -62,6 +62,7 @@ final class HasAttributesTest extends TestCase
             "Should remove the prefixed 'aria-label' attribute.",
         );
     }
+
     public function testAttributesValue(): void
     {
         $instance = new class {
