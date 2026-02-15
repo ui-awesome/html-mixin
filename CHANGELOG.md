@@ -1,5 +1,7 @@
 # ChangeLog
 
+## 0.4.2 Under development
+
 ## 0.4.1 February 15, 2026
 
 - Bug #56: Update attribute tests to directly use resolved values instead of closures (@terabytesoftw)
