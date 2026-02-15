@@ -63,12 +63,13 @@ final class MyComponent
 
 $component = new MyComponent();
 
-$attributes = $component
+$component = $component
     ->setAttribute('id', 'my-component')
     ->attributes(['class' => ['container'], 'role' => 'main'])
     ->attributes(['label' => 'Close'], 'aria-')
-    ->removeAttribute('role')
-    ->getAttributes();
+    ->removeAttribute('role');
+
+$component->getAttributes();
 // ['id' => 'my-component', 'class' => ['container'], 'aria-label' => 'Close']
 
 $component->getAttribute('id', 'default-id');
