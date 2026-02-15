@@ -199,12 +199,10 @@ final class HasPrefixCollectionTest extends TestCase
             use HasPrefixCollection;
         };
 
-        $closure = static fn(): string => 'resolved-value';
-
-        $instance = $instance->prefixSetAttribute('event-test', $closure);
+        $instance = $instance->prefixSetAttribute('event-test', static fn(): string => 'resolved-value');
 
         self::assertSame(
-            ['event-test' => $closure],
+            ['event-test' => 'resolved-value'],
             $instance->getPrefixAttributes(),
             "Should return the correct 'event-test' attribute after setting it.",
         );
@@ -224,9 +222,9 @@ final class HasPrefixCollectionTest extends TestCase
             "Should return 'null' after setting the attribute to 'null'.",
         );
         self::assertSame(
-            [],
+            ['id' => null],
             $instance->getPrefixAttributes(),
-            'Should remove the attribute key when set to null.',
+            "Should preserve the attribute key with a 'null' value when set to 'null'.",
         );
     }
 

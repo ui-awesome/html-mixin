@@ -197,14 +197,12 @@ final class HasAttributesTest extends TestCase
             use HasAttributes;
         };
 
-        $closure = static fn(): string => 'resolved-value';
-
-        $instance = $instance->setAttribute('test', $closure);
+        $instance = $instance->setAttribute('test', static fn(): string => 'resolved-value');
 
         self::assertSame(
-            ['test' => $closure],
+            ['test' => 'resolved-value'],
             $instance->getAttributes(),
-            "Should return the correct 'data-test' attribute after setting it.",
+            "Should return the correct 'test' attribute after setting it.",
         );
     }
 
@@ -222,9 +220,9 @@ final class HasAttributesTest extends TestCase
             "Should return 'null' after setting the attribute to 'null'.",
         );
         self::assertSame(
-            [],
+            ['id' => null],
             $instance->getAttributes(),
-            'Should remove the attribute key when set to null.',
+            "Should preserve the attribute key with a 'null' value when set to 'null'.",
         );
     }
 
