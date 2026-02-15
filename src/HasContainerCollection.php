@@ -91,7 +91,7 @@ trait HasContainerCollection
      *
      * @return static New instance with the updated `containerAttributes` value.
      */
-    public function containerClass(string|Stringable|UnitEnum|null$value, bool $override = false): static
+    public function containerClass(string|Stringable|UnitEnum|null $value, bool $override = false): static
     {
         $new = clone $this;
 
