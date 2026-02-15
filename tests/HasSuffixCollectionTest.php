@@ -196,6 +196,40 @@ final class HasSuffixCollectionTest extends TestCase
         );
     }
 
+    public function testSuffixAttributesPrefixSupport(): void
+    {
+        $instance = new class {
+            use HasSuffixCollection;
+        };
+
+        $instance = $instance->suffixSetAttribute('label', 'label', 'aria-');
+
+        self::assertSame(
+            'label',
+            $instance->getSuffixAttribute('label', null, 'aria-'),
+            "Should read the prefixed 'aria-label' attribute when using the 'aria-' prefix.",
+        );
+        self::assertNull(
+            $instance->getSuffixAttribute('label'),
+            "Should not read the prefixed 'aria-label' attribute without the prefix.",
+        );
+
+        $instance = $instance->suffixAttributes(['describedby' => 'suffix-id'], 'aria-');
+
+        self::assertSame(
+            'suffix-id',
+            $instance->getSuffixAttribute('describedby', null, 'aria-'),
+            "Should set and read prefixed attributes via 'suffixAttributes()'.",
+        );
+
+        $instance = $instance->suffixRemoveAttribute('label', 'aria-');
+
+        self::assertNull(
+            $instance->getSuffixAttribute('label', null, 'aria-'),
+            "Should remove the prefixed 'aria-label' attribute.",
+        );
+    }
+
     public function testSuffixAttributesValue(): void
     {
         $instance = new class {

@@ -57,16 +57,18 @@ trait HasPrefixCollection
      * Usage example:
      * ```php
      * $component->getPrefixAttribute('id', 'default-id');
+     * $component->getPrefixAttribute('label', 'default-label', 'aria-');
      * ```
      *
      * @param string|UnitEnum $key Attribute name.
      * @param mixed $default Default value when the attribute is missing.
+     * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
      *
      * @return mixed Attribute value or default.
      */
-    public function getPrefixAttribute(string|UnitEnum $key, mixed $default = null): mixed
+    public function getPrefixAttribute(string|UnitEnum $key, mixed $default = null, string $prefix = ''): mixed
     {
-        return AttributeBag::get($this->prefixAttributes, $key, $default);
+        return AttributeBag::get($this->prefixAttributes, $key, $default, $prefix);
     }
 
     /**
@@ -128,19 +130,21 @@ trait HasPrefixCollection
      * Usage example:
      * ```php
      * $component->prefixAttributes(['id' => 'prefix-id']);
+     * $component->prefixAttributes(['label' => 'Start'], 'aria-');
      * ```
      *
      * @param array $values Associative array of attribute keys and values.
+     * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
      *
      * @return static New instance with the updated `prefixAttributes` value.
      *
      * @phpstan-param mixed[] $values
      */
-    public function prefixAttributes(array $values): static
+    public function prefixAttributes(array $values, string $prefix = ''): static
     {
         $new = clone $this;
 
-        AttributeBag::setMany($new->prefixAttributes, $values);
+        AttributeBag::setMany($new->prefixAttributes, $values, $prefix);
 
         return $new;
     }
@@ -174,17 +178,19 @@ trait HasPrefixCollection
      * Usage example:
      * ```php
      * $component->prefixRemoveAttribute('id');
+     * $component->prefixRemoveAttribute('label', 'aria-');
      * ```
      *
      * @param string|UnitEnum $key Attribute name to remove.
+     * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
      *
      * @return static New instance without the specified prefix attribute.
      */
-    public function prefixRemoveAttribute(string|UnitEnum $key): static
+    public function prefixRemoveAttribute(string|UnitEnum $key, string $prefix = ''): static
     {
         $new = clone $this;
 
-        AttributeBag::remove($new->prefixAttributes, $key);
+        AttributeBag::remove($new->prefixAttributes, $key, $prefix);
 
         return $new;
     }
@@ -196,18 +202,20 @@ trait HasPrefixCollection
      * ```php
      * $component->prefixSetAttribute('id', 'my-id');
      * $component->prefixSetAttribute('id', null);
+     * $component->prefixSetAttribute('label', 'Start', 'aria-');
      * ```
      *
      * @param string|UnitEnum $key Attribute name.
      * @param mixed $value Attribute value.
+     * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
      *
      * @return static New instance with the updated `prefixAttributes` value.
      */
-    public function prefixSetAttribute(string|UnitEnum $key, mixed $value): static
+    public function prefixSetAttribute(string|UnitEnum $key, mixed $value, string $prefix = ''): static
     {
         $new = clone $this;
 
-        AttributeBag::set($new->prefixAttributes, $key, $value);
+        AttributeBag::set($new->prefixAttributes, $key, $value, $prefix);
 
         return $new;
     }

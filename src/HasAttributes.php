@@ -31,19 +31,21 @@ trait HasAttributes
      * ```php
      * $component->setAttributes(['id' => 'my-id', 'data-role' => 'button']);
      * $component->setAttributes(['size' => ButtonSize::LARGE, 'disabled' => true]);
+     * $component->setAttributes(['aria-label' => 'Close'], 'aria-');
      * ```
      *
      * @param array $values Associative array of attribute keys and values.
+     * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
      *
      * @return static New instance with the updated `attributes` value.
      *
      * @phpstan-param mixed[] $values
      */
-    public function attributes(array $values): static
+    public function attributes(array $values, string $prefix = ''): static
     {
         $new = clone $this;
 
-        AttributeBag::setMany($new->attributes, $values);
+        AttributeBag::setMany($new->attributes, $values, $prefix);
 
         return $new;
     }
@@ -55,16 +57,18 @@ trait HasAttributes
      * ```php
      * $component->getAttribute('id', 'default-id');
      * $component->getAttribute(DataProperty::ID, 'default-id');
+     * $component->getAttribute('aria-label', 'Default Label', 'aria-');
      * ```
      *
      * @param string|UnitEnum $key Attribute name.
      * @param mixed $default Default value when the attribute is missing.
+     * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
      *
      * @return mixed Attribute value or default.
      */
-    public function getAttribute(string|UnitEnum $key, mixed $default = null): mixed
+    public function getAttribute(string|UnitEnum $key, mixed $default = null, string $prefix = ''): mixed
     {
-        return AttributeBag::get($this->attributes, $key, $default);
+        return AttributeBag::get($this->attributes, $key, $default, $prefix);
     }
 
     /**
@@ -91,17 +95,19 @@ trait HasAttributes
      * ```php
      * $component->removeAttribute('id');
      * $component->removeAttribute(DataProperty::ID);
+     * $component->removeAttribute('aria-label', 'aria-');
      * ```
      *
      * @param string|UnitEnum $key Attribute name to remove.
+     * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
      *
      * @return static New instance without the specified `attribute` value.
      */
-    public function removeAttribute(string|UnitEnum $key): static
+    public function removeAttribute(string|UnitEnum $key, string $prefix = ''): static
     {
         $new = clone $this;
 
-        AttributeBag::remove($new->attributes, $key);
+        AttributeBag::remove($new->attributes, $key, $prefix);
 
         return $new;
     }
@@ -115,18 +121,20 @@ trait HasAttributes
      * $component->setAttribute(DataProperty::ID, 'my-id');
      * $component->setAttribute('size', ButtonSize::SMALL);
      * $component->setAttribute('id', null);
+     * $component->setAttribute('aria-label', 'Close', 'aria-');
      * ```
      *
      * @param string|UnitEnum $key Attribute name.
      * @param mixed $value Attribute value.
+     * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
      *
      * @return static New instance with the updated `attributes` value.
      */
-    public function setAttribute(string|UnitEnum $key, mixed $value): static
+    public function setAttribute(string|UnitEnum $key, mixed $value, string $prefix = ''): static
     {
         $new = clone $this;
 
-        AttributeBag::set($new->attributes, $key, $value);
+        AttributeBag::set($new->attributes, $key, $value, $prefix);
 
         return $new;
     }

@@ -57,16 +57,18 @@ trait HasSuffixCollection
      * Usage example:
      * ```php
      * $component->getSuffixAttribute('id', 'default-id');
+     * $component->getSuffixAttribute('label', 'default-label', 'aria-');
      * ```
      *
      * @param string|UnitEnum $key Attribute name.
      * @param mixed $default Default value when the attribute is missing.
+     * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
      *
      * @return mixed Attribute value or default.
      */
-    public function getSuffixAttribute(string|UnitEnum $key, mixed $default = null): mixed
+    public function getSuffixAttribute(string|UnitEnum $key, mixed $default = null, string $prefix = ''): mixed
     {
-        return AttributeBag::get($this->suffixAttributes, $key, $default);
+        return AttributeBag::get($this->suffixAttributes, $key, $default, $prefix);
     }
 
     /**
@@ -128,19 +130,21 @@ trait HasSuffixCollection
      * Usage example:
      * ```php
      * $component->suffixAttributes(['id' => 'suffix-id']);
+     * $component->suffixAttributes(['label' => 'End'], 'aria-');
      * ```
      *
      * @param array $values Associative array of attribute keys and values.
+     * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
      *
      * @return static New instance with the updated `suffixAttributes` value.
      *
      * @phpstan-param mixed[] $values
      */
-    public function suffixAttributes(array $values): static
+    public function suffixAttributes(array $values, string $prefix = ''): static
     {
         $new = clone $this;
 
-        AttributeBag::setMany($new->suffixAttributes, $values);
+        AttributeBag::setMany($new->suffixAttributes, $values, $prefix);
 
         return $new;
     }
@@ -174,17 +178,19 @@ trait HasSuffixCollection
      * Usage example:
      * ```php
      * $component->suffixRemoveAttribute('id');
+     * $component->suffixRemoveAttribute('label', 'aria-');
      * ```
      *
      * @param string|UnitEnum $key Attribute name to remove.
+     * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
      *
      * @return static New instance without the specified suffix attribute.
      */
-    public function suffixRemoveAttribute(string|UnitEnum $key): static
+    public function suffixRemoveAttribute(string|UnitEnum $key, string $prefix = ''): static
     {
         $new = clone $this;
 
-        AttributeBag::remove($new->suffixAttributes, $key);
+        AttributeBag::remove($new->suffixAttributes, $key, $prefix);
 
         return $new;
     }
@@ -196,18 +202,20 @@ trait HasSuffixCollection
      * ```php
      * $component->suffixSetAttribute('id', 'my-id');
      * $component->suffixSetAttribute('id', null);
+     * $component->suffixSetAttribute('label', 'End', 'aria-');
      * ```
      *
      * @param string|UnitEnum $key Attribute name.
      * @param mixed $value Attribute value.
+     * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
      *
      * @return static New instance with the updated `suffixAttributes` value.
      */
-    public function suffixSetAttribute(string|UnitEnum $key, mixed $value): static
+    public function suffixSetAttribute(string|UnitEnum $key, mixed $value, string $prefix = ''): static
     {
         $new = clone $this;
 
-        AttributeBag::set($new->suffixAttributes, $key, $value);
+        AttributeBag::set($new->suffixAttributes, $key, $value, $prefix);
 
         return $new;
     }

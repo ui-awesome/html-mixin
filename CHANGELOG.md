@@ -2,6 +2,8 @@
 
 ## 0.4.2 Under development
 
+- Enh #57: Add prefixed attribute support to `HasAttributes`, `HasLabelCollection`, `HasPrefixCollection`, and `HasSuffixCollection` in attribute bag methods (`attributes()`, `getAttribute()`, `setAttribute()`, `removeAttribute()` and the corresponding collection methods) (@terabytesoftw)
+
 ## 0.4.1 February 15, 2026
 
 - Bug #56: Update attribute tests to directly use resolved values instead of closures (@terabytesoftw)

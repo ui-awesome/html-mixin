@@ -29,6 +29,40 @@ use UIAwesome\Html\Mixin\HasAttributes;
 #[Group('mixin')]
 final class HasAttributesTest extends TestCase
 {
+    public function testAttributesPrefixSupport(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        $instance = $instance->setAttribute('label', 'label', 'aria-');
+
+        self::assertSame(
+            'label',
+            $instance->getAttribute('label', null, 'aria-'),
+            "Should read the prefixed 'aria-label' attribute when using the 'aria-' prefix.",
+        );
+        self::assertNull(
+            $instance->getAttribute('label'),
+            "Should not read the prefixed 'aria-label' attribute without the prefix.",
+        );
+
+        $instance = $instance->attributes(['describedby' => 'field-id'], 'aria-');
+
+        self::assertSame(
+            'field-id',
+            $instance->getAttribute('describedby', null, 'aria-'),
+            "Should set and read prefixed attributes via 'attributes()'.",
+        );
+
+        $instance = $instance->removeAttribute('label', 'aria-');
+
+        self::assertNull(
+            $instance->getAttribute('label', null, 'aria-'),
+            "Should remove the prefixed 'aria-label' attribute.",
+        );
+    }
+
     public function testAttributesValue(): void
     {
         $instance = new class {
