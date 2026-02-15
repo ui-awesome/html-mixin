@@ -1,6 +1,6 @@
 # ChangeLog
 
-## 0.4.2 Under development
+## 0.4.2 February 15, 2026
 
 - Enh #57: Add prefixed attribute support to `HasAttributes`, `HasLabelCollection`, `HasPrefixCollection`, and `HasSuffixCollection` in attribute bag methods (`attributes()`, `getAttribute()`, `setAttribute()`, `removeAttribute()` and the corresponding collection methods) (@terabytesoftw)
 
