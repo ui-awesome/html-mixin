@@ -86,12 +86,12 @@ trait HasContainerCollection
      * $component->containerClass('override-class', true);
      * ```
      *
-     * @param string|Stringable|UnitEnum $value CSS class name to add.
+     * @param string|Stringable|UnitEnum|null $value CSS class name to add.
      * @param bool $override Whether to override existing class value.
      *
      * @return static New instance with the updated `containerAttributes` value.
      */
-    public function containerClass(string|Stringable|UnitEnum $value, bool $override = false): static
+    public function containerClass(string|Stringable|UnitEnum|null$value, bool $override = false): static
     {
         $new = clone $this;
 

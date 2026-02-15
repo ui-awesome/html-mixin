@@ -262,21 +262,23 @@ final class HasLabelCollectionTest extends TestCase
         );
     }
 
-    public function testLabelSetAttributeWithNullValueRemovesAttribute(): void
+    public function testLabelSetAttributeWithNullValue(): void
     {
         $instance = new class {
             use HasLabelCollection;
         };
 
-        $instance = $instance
-            ->labelSetAttribute('aria-label', 'Label')
-            ->labelSetAttribute('aria-hidden', true)
-            ->labelSetAttribute('aria-label', null);
+        $instance = $instance->labelSetAttribute('id', 'label-id');
+        $instance = $instance->labelSetAttribute('id', null);
 
+        self::assertNull(
+            $instance->getLabelAttribute('id'),
+            "Should return 'null' after setting the attribute to 'null'.",
+        );
         self::assertSame(
-            ['aria-hidden' => true],
+            [],
             $instance->getLabelAttributes(),
-            "Should remove the attribute when 'null' value is provided.",
+            'Should remove the attribute key when set to null.',
         );
     }
 

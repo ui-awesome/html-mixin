@@ -175,21 +175,23 @@ final class HasContainerCollectionTest extends TestCase
         );
     }
 
-    public function testContainerSetAttributeWithNullValueRemovesAttribute(): void
+    public function testContainerSetAttributeWithNullValue(): void
     {
         $instance = new class {
             use HasContainerCollection;
         };
 
-        $instance = $instance
-            ->containerSetAttribute('aria-label', 'Container')
-            ->containerSetAttribute('aria-hidden', true)
-            ->containerSetAttribute('aria-label', null);
+        $instance = $instance->containerSetAttribute('id', 'my-id');
+        $instance = $instance->containerSetAttribute('id', null);
 
+        self::assertNull(
+            $instance->getContainerAttribute('id'),
+            "Should return 'null' after setting the attribute to 'null'.",
+        );
         self::assertSame(
-            ['aria-hidden' => true],
+            [],
             $instance->getContainerAttributes(),
-            "Should remove the attribute when 'null' value is provided.",
+            'Should remove the attribute key when set to null.',
         );
     }
 

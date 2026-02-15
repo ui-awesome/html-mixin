@@ -210,21 +210,23 @@ final class HasPrefixCollectionTest extends TestCase
         );
     }
 
-    public function testPrefixSetAttributeWithNullValueRemovesAttribute(): void
+    public function testPrefixSetAttributeWithNullValue(): void
     {
         $instance = new class {
             use HasPrefixCollection;
         };
 
-        $instance = $instance
-            ->prefixSetAttribute('aria-label', 'Prefix')
-            ->prefixSetAttribute('aria-hidden', true)
-            ->prefixSetAttribute('aria-label', null);
+        $instance = $instance->prefixSetAttribute('id', 'prefix-id');
+        $instance = $instance->prefixSetAttribute('id', null);
 
+        self::assertNull(
+            $instance->getPrefixAttribute('id'),
+            "Should return 'null' after setting the attribute to 'null'.",
+        );
         self::assertSame(
-            ['aria-hidden' => true],
+            [],
             $instance->getPrefixAttributes(),
-            "Should remove the attribute when 'null' value is provided.",
+            'Should remove the attribute key when set to null.',
         );
     }
 

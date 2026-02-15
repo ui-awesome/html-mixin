@@ -221,6 +221,11 @@ final class HasAttributesTest extends TestCase
             $instance->getAttribute('id'),
             "Should return 'null' after setting the attribute to 'null'.",
         );
+        self::assertSame(
+            [],
+            $instance->getAttributes(),
+            'Should remove the attribute key when set to null.',
+        );
     }
 
     public function testSetAttributeWithStringableValue(): void

@@ -304,21 +304,23 @@ final class HasSuffixCollectionTest extends TestCase
         );
     }
 
-    public function testSuffixSetAttributeWithNullValueRemovesAttribute(): void
+    public function testSuffixSetAttributeWithNullValue(): void
     {
         $instance = new class {
             use HasSuffixCollection;
         };
 
-        $instance = $instance
-            ->suffixSetAttribute('aria-label', 'Suffix')
-            ->suffixSetAttribute('aria-hidden', true)
-            ->suffixSetAttribute('aria-label', null);
+        $instance = $instance->suffixSetAttribute('id', 'suffix-id');
+        $instance = $instance->suffixSetAttribute('id', null);
 
+        self::assertNull(
+            $instance->getSuffixAttribute('id'),
+            "Should return 'null' after setting the attribute to 'null'.",
+        );
         self::assertSame(
-            ['aria-hidden' => true],
+            [],
             $instance->getSuffixAttributes(),
-            "Should remove the attribute when 'null' value is provided.",
+            'Should remove the attribute key when set to null.',
         );
     }
 
