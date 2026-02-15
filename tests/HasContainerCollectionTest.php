@@ -189,7 +189,7 @@ final class HasContainerCollectionTest extends TestCase
         self::assertSame(
             ['id' => null],
             $instance->getContainerAttributes(),
-            'Should remove the attribute key when set to null.',
+            "Should preserve the attribute key with a 'null' value when set to 'null'.",
         );
     }
 
