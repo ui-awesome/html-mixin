@@ -202,7 +202,7 @@ final class HasAttributesTest extends TestCase
         self::assertSame(
             ['test' => 'resolved-value'],
             $instance->getAttributes(),
-            "Should return the correct 'data-test' attribute after setting it.",
+            "Should return the correct 'test' attribute after setting it.",
         );
     }
 
