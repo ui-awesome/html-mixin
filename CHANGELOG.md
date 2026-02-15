@@ -1,5 +1,7 @@
 # ChangeLog
 
+## 0.4.1 Under development
+
 ## 0.4.0 February 14, 2026
 
 - Enh #54: Add `setAttribute()` prefixed attribute APIs to `HasContainerCollection`, `HasLabelCollection`, `HasPrefixCollection`, and `HasSuffixCollection` and related tests (@terabytesoftw)
