@@ -1,12 +1,13 @@
 # ChangeLog
 
-## 0.4.1 Under development
+## 0.4.1 February 15, 2026
+
+- Bug #56: Update attribute tests to directly use resolved values instead of closures (@terabytesoftw)
 
 ## 0.4.0 February 14, 2026
 
 - Enh #54: Add `setAttribute()` prefixed attribute APIs to `HasContainerCollection`, `HasLabelCollection`, `HasPrefixCollection`, and `HasSuffixCollection` and related tests (@terabytesoftw)
 - Bug #55: Migrate mixin attribute setters and tests to the simplified API (@terabytesoftw)
-- Bug #56: Update attribute tests to directly use resolved values instead of closures (@terabytesoftw)
 
 ## 0.3.6 February 14, 2026
 
