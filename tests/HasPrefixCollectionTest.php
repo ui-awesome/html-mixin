@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use PHPForge\Support\Stub\BackedInteger;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
+use Stringable;
 use UIAwesome\Html\Interop\Inline;
 use UIAwesome\Html\Mixin\Exception\Message;
 use UIAwesome\Html\Mixin\HasPrefixCollection;
@@ -65,65 +66,7 @@ final class HasPrefixCollectionTest extends TestCase
         );
     }
 
-    public function testRemovePrefixSingleAttributeValue(): void
-    {
-        $instance = new class {
-            use HasPrefixCollection;
-        };
-
-        $instance = $instance->addPrefixAttribute('id', 'prefix-id');
-        $instance = $instance->removePrefixAttribute('id');
-
-        self::assertNull(
-            $instance->getPrefixAttribute('id'),
-            "Should return 'null' after removing the 'id' attribute.",
-        );
-    }
-
-    public function testReturnNewInstanceWhenSettingPrefixCollection(): void
-    {
-        $instance = new class {
-            use HasPrefixCollection;
-        };
-
-        self::assertNotSame(
-            $instance,
-            $instance->prefix(''),
-            'Should return a new instance when setting the prefix, ensuring immutability.',
-        );
-        self::assertNotSame(
-            $instance,
-            $instance->prefixAttributes([]),
-            'Should return a new instance when setting the prefix attributes, ensuring immutability.',
-        );
-        self::assertNotSame(
-            $instance,
-            $instance->prefixClass('class-name'),
-            "Should return a new instance when setting the prefix 'class' attribute, ensuring immutability.",
-        );
-        self::assertNotSame(
-            $instance,
-            $instance->prefixTag(Inline::MARK),
-            'Should return a new instance when setting the prefix tag, ensuring immutability.',
-        );
-        self::assertNotSame(
-            $instance,
-            $instance->addPrefixAttribute('id', 'value'),
-            'Should return a new instance when adding a prefix attribute, ensuring immutability.',
-        );
-        self::assertNotSame(
-            $instance,
-            $instance->removePrefixAttribute('id'),
-            'Should return a new instance when removing a prefix attribute, ensuring immutability.',
-        );
-        self::assertNotSame(
-            $instance,
-            $instance->setPrefixAttribute('hidden', true, 'aria-', true),
-            'Should return a new instance when setting a prefix attribute, ensuring immutability.',
-        );
-    }
-
-    public function testSetPrefixAttributesValue(): void
+    public function testPrefixAttributesValue(): void
     {
         $instance = new class {
             use HasPrefixCollection;
@@ -151,7 +94,7 @@ final class HasPrefixCollectionTest extends TestCase
         );
     }
 
-    public function testSetPrefixAttributesWithExistingValues(): void
+    public function testPrefixAttributesWithExistingValues(): void
     {
         $instance = new class {
             use HasPrefixCollection;
@@ -179,77 +122,7 @@ final class HasPrefixCollectionTest extends TestCase
         );
     }
 
-    public function testSetPrefixAttributeWithClosureValue(): void
-    {
-        $instance = new class {
-            use HasPrefixCollection;
-        };
-
-        $closure = static fn(): string => 'resolved-value';
-
-        $instance = $instance->setPrefixAttribute('test', $closure, 'event-');
-
-        self::assertSame(
-            ['event-test' => 'resolved-value'],
-            $instance->getPrefixAttributes(),
-            "Should return the correct 'event-test' attribute after setting it.",
-        );
-    }
-
-    public function testSetPrefixAttributeWithNullValueRemovesAttribute(): void
-    {
-        $instance = new class {
-            use HasPrefixCollection;
-        };
-
-        $instance = $instance
-            ->setPrefixAttribute('label', 'Prefix', 'aria-')
-            ->setPrefixAttribute('hidden', true, 'aria-', true)
-            ->setPrefixAttribute('label', null, 'aria-');
-
-        self::assertSame(
-            ['aria-hidden' => 'true'],
-            $instance->getPrefixAttributes(),
-            "Should remove the attribute when 'null' value is provided.",
-        );
-    }
-
-    public function testSetPrefixAttributeWithPrefixValue(): void
-    {
-        $instance = new class {
-            use HasPrefixCollection;
-        };
-
-        $instance = $instance
-            ->setPrefixAttribute('label', 'Prefix', 'aria-')
-            ->setPrefixAttribute('hidden', true, 'aria-', true);
-
-        self::assertSame(
-            [
-                'aria-label' => 'Prefix',
-                'aria-hidden' => 'true',
-            ],
-            $instance->getPrefixAttributes(),
-            "Should return the correct 'aria-' attributes after setting them.",
-        );
-    }
-
-    public function testSetPrefixAttributeWithPrefixValueAndBoolStringFalse(): void
-    {
-        $instance = new class {
-            use HasPrefixCollection;
-        };
-
-        $instance = $instance->setPrefixAttribute('disabled', true, 'data-');
-
-        self::assertSame(
-            ['data-disabled' => true],
-            $instance->getPrefixAttributes(),
-            "Should return the correct 'data-disabled' attribute after setting it.",
-        );
-    }
-
-    public function testSetPrefixClassValue(): void
+    public function testPrefixClassValue(): void
     {
         $instance = new class {
             use HasPrefixCollection;
@@ -285,13 +158,33 @@ final class HasPrefixCollectionTest extends TestCase
         );
     }
 
-    public function testSetPrefixSingleAttributeValue(): void
+    public function testPrefixRemoveAttributeValue(): void
     {
         $instance = new class {
             use HasPrefixCollection;
         };
 
-        $instance = $instance->addPrefixAttribute('id', 'prefix-id');
+        $instance = $instance->prefixAttributes(
+            [
+                'class' => 'my-class',
+                'id' => 'my-id',
+            ],
+        );
+        $instance = $instance->prefixRemoveAttribute('id');
+
+        self::assertNull(
+            $instance->getPrefixAttribute('id'),
+            "Should return 'null' after removing the 'id' attribute.",
+        );
+    }
+
+    public function testPrefixSetAttributeValue(): void
+    {
+        $instance = new class {
+            use HasPrefixCollection;
+        };
+
+        $instance = $instance->prefixSetAttribute('id', 'prefix-id');
 
         self::assertSame(
             'prefix-id',
@@ -300,7 +193,66 @@ final class HasPrefixCollectionTest extends TestCase
         );
     }
 
-    public function testSetPrefixTagFalseValue(): void
+    public function testPrefixSetAttributeWithClosureValue(): void
+    {
+        $instance = new class {
+            use HasPrefixCollection;
+        };
+
+        $closure = static fn(): string => 'resolved-value';
+
+        $instance = $instance->prefixSetAttribute('event-test', $closure);
+
+        self::assertSame(
+            ['event-test' => $closure],
+            $instance->getPrefixAttributes(),
+            "Should return the correct 'event-test' attribute after setting it.",
+        );
+    }
+
+    public function testPrefixSetAttributeWithNullValue(): void
+    {
+        $instance = new class {
+            use HasPrefixCollection;
+        };
+
+        $instance = $instance->prefixSetAttribute('id', 'prefix-id');
+        $instance = $instance->prefixSetAttribute('id', null);
+
+        self::assertNull(
+            $instance->getPrefixAttribute('id'),
+            "Should return 'null' after setting the attribute to 'null'.",
+        );
+        self::assertSame(
+            [],
+            $instance->getPrefixAttributes(),
+            'Should remove the attribute key when set to null.',
+        );
+    }
+
+    public function testPrefixSetAttributeWithStringableValue(): void
+    {
+        $instance = new class {
+            use HasPrefixCollection;
+        };
+
+        $stringable = new class implements Stringable {
+            public function __toString(): string
+            {
+                return 'Stringable value';
+            }
+        };
+
+        $instance = $instance->prefixSetAttribute('stringable', $stringable);
+
+        self::assertSame(
+            $stringable,
+            $instance->getPrefixAttribute('stringable'),
+            'Should handle Stringable objects correctly.',
+        );
+    }
+
+    public function testPrefixSetTagFalseValue(): void
     {
         $instance = new class {
             use HasPrefixCollection;
@@ -315,7 +267,7 @@ final class HasPrefixCollectionTest extends TestCase
         );
     }
 
-    public function testSetPrefixTagValue(): void
+    public function testPrefixSetTagValue(): void
     {
         $instance = new class {
             use HasPrefixCollection;
@@ -335,7 +287,7 @@ final class HasPrefixCollectionTest extends TestCase
         );
     }
 
-    public function testSetPrefixValue(): void
+    public function testPrefixValue(): void
     {
         $instance = new class {
             use HasPrefixCollection;
@@ -352,6 +304,66 @@ final class HasPrefixCollectionTest extends TestCase
             'Prefix content',
             $instance->getPrefix(),
             'Should return the correct prefix after setting it.',
+        );
+    }
+
+    public function testPrefixWithStringableValue(): void
+    {
+        $instance = new class {
+            use HasPrefixCollection;
+        };
+
+        $stringable = new class implements Stringable {
+            public function __toString(): string
+            {
+                return 'Stringable content';
+            }
+        };
+
+        $instance = $instance->prefix($stringable);
+
+        self::assertSame(
+            'Stringable content',
+            $instance->getPrefix(),
+            'Should handle Stringable objects correctly.',
+        );
+    }
+
+    public function testReturnNewInstanceWhenSettingPrefixCollection(): void
+    {
+        $instance = new class {
+            use HasPrefixCollection;
+        };
+
+        self::assertNotSame(
+            $instance,
+            $instance->prefix(''),
+            'Should return a new instance when setting the prefix, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->prefixAttributes([]),
+            'Should return a new instance when setting the prefix attributes, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->prefixClass('class-name'),
+            "Should return a new instance when setting the prefix 'class' attribute, ensuring immutability.",
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->prefixRemoveAttribute('tests'),
+            'Should return a new instance when removing a prefix attribute, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->prefixSetAttribute('tests', ''),
+            'Should return a new instance when adding a prefix attribute, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->prefixTag(false),
+            'Should return a new instance when setting the prefix tag, ensuring immutability.',
         );
     }
 

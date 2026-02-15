@@ -9,7 +9,7 @@ use PHPForge\Support\Stub\BackedInteger;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Stringable;
-use UIAwesome\Html\Interop\{Block, Inline};
+use UIAwesome\Html\Interop\Block;
 use UIAwesome\Html\Mixin\Exception\Message;
 use UIAwesome\Html\Mixin\HasSuffixCollection;
 
@@ -66,21 +66,6 @@ final class HasSuffixCollectionTest extends TestCase
         );
     }
 
-    public function testRemoveSuffixSingleAttributeValue(): void
-    {
-        $instance = new class {
-            use HasSuffixCollection;
-        };
-
-        $instance = $instance->addSuffixAttribute('id', 'suffix-id');
-        $instance = $instance->removeSuffixAttribute('id');
-
-        self::assertNull(
-            $instance->getSuffixAttribute('id'),
-            "Should return 'null' after removing the 'id' attribute.",
-        );
-    }
-
     public function testReturnNewInstanceWhenSettingSuffixCollection(): void
     {
         $instance = new class {
@@ -104,149 +89,18 @@ final class HasSuffixCollectionTest extends TestCase
         );
         self::assertNotSame(
             $instance,
-            $instance->suffixTag(Inline::MARK),
-            'Should return a new instance when setting the suffix tag, ensuring immutability.',
-        );
-        self::assertNotSame(
-            $instance,
-            $instance->addSuffixAttribute('id', 'value'),
-            'Should return a new instance when adding a suffix attribute, ensuring immutability.',
-        );
-        self::assertNotSame(
-            $instance,
-            $instance->removeSuffixAttribute('id'),
+            $instance->suffixRemoveAttribute('id'),
             'Should return a new instance when removing a suffix attribute, ensuring immutability.',
         );
         self::assertNotSame(
             $instance,
-            $instance->setSuffixAttribute('hidden', true, 'aria-', true),
+            $instance->suffixSetAttribute('tests', ''),
             'Should return a new instance when setting a suffix attribute, ensuring immutability.',
         );
-    }
-
-    public function testSetSuffixAttributesValue(): void
-    {
-        $instance = new class {
-            use HasSuffixCollection;
-        };
-
-        self::assertEmpty(
-            $instance->getSuffixAttributes(),
-            'Should return an empty array when no attributes are set.',
-        );
-
-        $instance = $instance->suffixAttributes(
-            [
-                'data-value' => '123',
-                'id' => 'suffix-id',
-            ],
-        );
-
-        self::assertSame(
-            [
-                'data-value' => '123',
-                'id' => 'suffix-id',
-            ],
-            $instance->getSuffixAttributes(),
-            'Should return the correct suffix attributes after setting them.',
-        );
-    }
-
-    public function testSetSuffixAttributesWithExistingValues(): void
-    {
-        $instance = new class {
-            use HasSuffixCollection;
-        };
-
-        $instance = $instance->suffixAttributes(
-            [
-                'id' => 'my-id',
-            ],
-        );
-        $instance = $instance->suffixAttributes(
-            [
-                'class' => 'my-class',
-                'id' => 'new-id',
-            ],
-        );
-
-        self::assertSame(
-            [
-                'id' => 'new-id',
-                'class' => 'my-class',
-            ],
-            $instance->getSuffixAttributes(),
-            'Should merge new attributes with existing ones, overriding duplicates.',
-        );
-    }
-
-    public function testSetSuffixAttributeWithClosureValue(): void
-    {
-        $instance = new class {
-            use HasSuffixCollection;
-        };
-
-        $closure = static fn(): string => 'resolved-value';
-
-        $instance = $instance->setSuffixAttribute('test', $closure, 'event-');
-
-        self::assertSame(
-            ['event-test' => 'resolved-value'],
-            $instance->getSuffixAttributes(),
-            "Should return the correct 'event-test' attribute after setting it.",
-        );
-    }
-
-    public function testSetSuffixAttributeWithNullValueRemovesAttribute(): void
-    {
-        $instance = new class {
-            use HasSuffixCollection;
-        };
-
-        $instance = $instance
-            ->setSuffixAttribute('label', 'Suffix', 'aria-')
-            ->setSuffixAttribute('hidden', true, 'aria-', true)
-            ->setSuffixAttribute('label', null, 'aria-');
-
-        self::assertSame(
-            ['aria-hidden' => 'true'],
-            $instance->getSuffixAttributes(),
-            "Should remove the attribute when 'null' value is provided.",
-        );
-    }
-
-    public function testSetSuffixAttributeWithPrefixValue(): void
-    {
-        $instance = new class {
-            use HasSuffixCollection;
-        };
-
-        $instance = $instance
-            ->setSuffixAttribute('label', 'Suffix', 'aria-')
-            ->setSuffixAttribute('hidden', true, 'aria-', true);
-
-        self::assertSame(
-            [
-                'aria-label' => 'Suffix',
-                'aria-hidden' => 'true',
-            ],
-            $instance->getSuffixAttributes(),
-            "Should return the correct 'aria-' attributes after setting them.",
-        );
-    }
-
-    public function testSetSuffixAttributeWithPrefixValueAndBoolStringFalse(): void
-    {
-        $instance = new class {
-            use HasSuffixCollection;
-        };
-
-        $instance = $instance->setSuffixAttribute('disabled', true, 'data-');
-
-        self::assertSame(
-            ['data-disabled' => true],
-            $instance->getSuffixAttributes(),
-            "Should return the correct 'data-disabled' attribute after setting it.",
+        self::assertNotSame(
+            $instance,
+            $instance->suffixTag(false),
+            'Should return a new instance when setting the suffix tag, ensuring immutability.',
         );
     }
 
@@ -283,21 +137,6 @@ final class HasSuffixCollectionTest extends TestCase
             'override-class',
             $instance->getSuffixAttribute('class', ''),
             'Should return the correct suffix class after setting it.',
-        );
-    }
-
-    public function testSetSuffixSingleAttributeValue(): void
-    {
-        $instance = new class {
-            use HasSuffixCollection;
-        };
-
-        $instance = $instance->addSuffixAttribute('id', 'suffix-id');
-
-        self::assertSame(
-            'suffix-id',
-            $instance->getSuffixAttribute('id'),
-            "Should return the correct 'id' attribute after setting it.",
         );
     }
 
@@ -357,22 +196,157 @@ final class HasSuffixCollectionTest extends TestCase
         );
     }
 
-    public function testSetSuffixValueWithMultipleArguments(): void
+    public function testSuffixAttributesValue(): void
     {
         $instance = new class {
             use HasSuffixCollection;
         };
 
-        $instance = $instance->suffix('Suffix', ' ', 'content');
+        self::assertEmpty(
+            $instance->getSuffixAttributes(),
+            'Should return an empty array when no attributes are set.',
+        );
+
+        $instance = $instance->suffixAttributes(
+            [
+                'data-value' => '123',
+                'id' => 'suffix-id',
+            ],
+        );
 
         self::assertSame(
-            'Suffix content',
-            $instance->getSuffix(),
-            'Should concatenate multiple suffix arguments.',
+            [
+                'data-value' => '123',
+                'id' => 'suffix-id',
+            ],
+            $instance->getSuffixAttributes(),
+            'Should return the correct suffix attributes after setting them.',
         );
     }
 
-    public function testSetSuffixValueWithStringable(): void
+    public function testSuffixAttributesWithExistingValues(): void
+    {
+        $instance = new class {
+            use HasSuffixCollection;
+        };
+
+        $instance = $instance->suffixAttributes(
+            [
+                'id' => 'my-id',
+            ],
+        );
+        $instance = $instance->suffixAttributes(
+            [
+                'class' => 'my-class',
+                'id' => 'new-id',
+            ],
+        );
+
+        self::assertSame(
+            [
+                'id' => 'new-id',
+                'class' => 'my-class',
+            ],
+            $instance->getSuffixAttributes(),
+            'Should merge new attributes with existing ones, overriding duplicates.',
+        );
+    }
+
+    public function testSuffixRemoveAttributeValue(): void
+    {
+        $instance = new class {
+            use HasSuffixCollection;
+        };
+
+        $instance = $instance->suffixAttributes(
+            [
+                'class' => 'my-class',
+                'id' => 'my-id',
+            ],
+        );
+        $instance = $instance->suffixRemoveAttribute('id');
+
+        self::assertNull(
+            $instance->getSuffixAttribute('id'),
+            "Should return 'null' after removing the 'id' attribute.",
+        );
+    }
+
+    public function testSuffixSetAttributeValue(): void
+    {
+        $instance = new class {
+            use HasSuffixCollection;
+        };
+
+        $instance = $instance->suffixSetAttribute('id', 'suffix-id');
+
+        self::assertSame(
+            'suffix-id',
+            $instance->getSuffixAttribute('id'),
+            "Should return the correct 'id' attribute after setting it.",
+        );
+    }
+
+    public function testSuffixSetAttributeWithClosureValue(): void
+    {
+        $instance = new class {
+            use HasSuffixCollection;
+        };
+
+        $closure = static fn(): string => 'resolved-value';
+
+        $instance = $instance->suffixSetAttribute('event-test', $closure);
+
+        self::assertSame(
+            ['event-test' => $closure],
+            $instance->getSuffixAttributes(),
+            "Should return the correct 'event-test' attribute after setting it.",
+        );
+    }
+
+    public function testSuffixSetAttributeWithNullValue(): void
+    {
+        $instance = new class {
+            use HasSuffixCollection;
+        };
+
+        $instance = $instance->suffixSetAttribute('id', 'suffix-id');
+        $instance = $instance->suffixSetAttribute('id', null);
+
+        self::assertNull(
+            $instance->getSuffixAttribute('id'),
+            "Should return 'null' after setting the attribute to 'null'.",
+        );
+        self::assertSame(
+            [],
+            $instance->getSuffixAttributes(),
+            'Should remove the attribute key when set to null.',
+        );
+    }
+
+    public function testSuffixSetAttributeWithStringableValue(): void
+    {
+        $instance = new class {
+            use HasSuffixCollection;
+        };
+
+        $stringable = new class implements Stringable {
+            public function __toString(): string
+            {
+                return 'Stringable value';
+            }
+        };
+
+        $instance = $instance->suffixSetAttribute('stringable', $stringable);
+
+        self::assertSame(
+            $stringable,
+            $instance->getSuffixAttribute('stringable'),
+            'Should handle Stringable objects correctly.',
+        );
+    }
+
+    public function testSuffixWithStringableValue(): void
     {
         $instance = new class {
             use HasSuffixCollection;

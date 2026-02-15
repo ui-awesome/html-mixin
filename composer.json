@@ -12,7 +12,7 @@
     "license": "BSD-3-Clause",
     "require": {
         "php": "^8.1",
-        "ui-awesome/html-helper": "^0.6",
+        "ui-awesome/html-helper": "^0.7",
         "ui-awesome/html-interop": "^0.3"
     },
     "require-dev": {

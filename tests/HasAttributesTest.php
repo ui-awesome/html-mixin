@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use PHPForge\Support\Stub\{BackedInteger, BackedString};
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
+use Stringable;
 use UIAwesome\Html\Mixin\Exception\Message;
 use UIAwesome\Html\Mixin\HasAttributes;
 
@@ -28,6 +29,60 @@ use UIAwesome\Html\Mixin\HasAttributes;
 #[Group('mixin')]
 final class HasAttributesTest extends TestCase
 {
+    public function testAttributesValue(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        self::assertEmpty(
+            $instance->getAttributes(),
+            "Should return an empty 'array' when no attributes are set.",
+        );
+
+        $instance = $instance->attributes(
+            [
+                'class' => 'my-class',
+                'id' => 'my-id',
+            ],
+        );
+
+        self::assertSame(
+            [
+                'class' => 'my-class',
+                'id' => 'my-id',
+            ],
+            $instance->getAttributes(),
+            'Should return the correct attributes after setting them.',
+        );
+    }
+
+    public function testAttributesWithExistingValues(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        $instance = $instance->attributes(
+            ['id' => 'my-id'],
+        );
+        $instance = $instance->attributes(
+            [
+                'class' => 'my-class',
+                'id' => 'new-id',
+            ],
+        );
+
+        self::assertSame(
+            [
+                'id' => 'new-id',
+                'class' => 'my-class',
+            ],
+            $instance->getAttributes(),
+            'Should merge new attributes with existing ones, overriding duplicates.',
+        );
+    }
+
     public function testGetAttributeValue(): void
     {
         $instance = new class {
@@ -92,11 +147,6 @@ final class HasAttributesTest extends TestCase
 
         self::assertNotSame(
             $instance,
-            $instance->addAttribute('tests', ''),
-            'Should return a new instance when adding an attribute, ensuring immutability.',
-        );
-        self::assertNotSame(
-            $instance,
             $instance->attributes([]),
             'Should return a new instance when setting the attributes, ensuring immutability.',
         );
@@ -112,137 +162,13 @@ final class HasAttributesTest extends TestCase
         );
     }
 
-    public function testSetAttributesValue(): void
+    public function testSetAttributeValue(): void
     {
         $instance = new class {
             use HasAttributes;
         };
 
-        self::assertEmpty(
-            $instance->getAttributes(),
-            "Should return an empty 'array' when no attributes are set.",
-        );
-
-        $instance = $instance->attributes(
-            [
-                'class' => 'my-class',
-                'id' => 'my-id',
-            ],
-        );
-
-        self::assertSame(
-            [
-                'class' => 'my-class',
-                'id' => 'my-id',
-            ],
-            $instance->getAttributes(),
-            'Should return the correct attributes after setting them.',
-        );
-    }
-
-    public function testSetAttributesWithExistingValues(): void
-    {
-        $instance = new class {
-            use HasAttributes;
-        };
-
-        $instance = $instance->attributes(
-            ['id' => 'my-id'],
-        );
-        $instance = $instance->attributes(
-            [
-                'class' => 'my-class',
-                'id' => 'new-id',
-            ],
-        );
-
-        self::assertSame(
-            [
-                'id' => 'new-id',
-                'class' => 'my-class',
-            ],
-            $instance->getAttributes(),
-            'Should merge new attributes with existing ones, overriding duplicates.',
-        );
-    }
-
-    public function testSetAttributesWithPrefixValue(): void
-    {
-        $instance = new class {
-            use HasAttributes;
-        };
-
-        $instance = $instance
-            ->setAttribute('label', 'Label', 'aria-')
-            ->setAttribute('hidden', true, 'aria-', true);
-
-        self::assertSame(
-            [
-                'aria-label' => 'Label',
-                'aria-hidden' => 'true',
-            ],
-            $instance->getAttributes(),
-            "Should return the correct 'aria-' attributes after setting them.",
-        );
-    }
-
-    public function testSetAttributesWithPrefixValueAndBoolStringFalse(): void
-    {
-        $instance = new class {
-            use HasAttributes;
-        };
-
-        $instance = $instance->setAttribute('disabled', true, 'data-');
-
-        self::assertSame(
-            ['data-disabled' => true],
-            $instance->getAttributes(),
-            "Should return the correct 'data-disabled' attribute after setting it.",
-        );
-    }
-
-    public function testSetAttributeWithClosureValue(): void
-    {
-        $instance = new class {
-            use HasAttributes;
-        };
-
-        $closure = static fn(): string => 'resolved-value';
-
-        $instance = $instance->setAttribute('test', $closure, 'data-');
-
-        self::assertSame(
-            ['data-test' => 'resolved-value'],
-            $instance->getAttributes(),
-            "Should return the correct 'data-test' attribute after setting it.",
-        );
-    }
-
-    public function testSetAttributeWithNullValueRemovesAttribute(): void
-    {
-        $instance = new class {
-            use HasAttributes;
-        };
-
-        $instance = $instance
-            ->setAttribute('label', 'Label', 'aria-')
-            ->setAttribute('hidden', true, 'aria-', true)
-            ->setAttribute('label', null, 'aria-');
-
-        self::assertSame(
-            ['aria-hidden' => 'true'],
-            $instance->getAttributes(),
-            "Should remove the attribute when 'null' value is provided.",
-        );
-    }
-
-    public function testSetSingleAttributeValue(): void
-    {
-        $instance = new class {
-            use HasAttributes;
-        };
-
-        $instance = $instance->addAttribute('id', 'my-id');
+        $instance = $instance->setAttribute('id', 'my-id');
 
         self::assertSame(
             'my-id',
@@ -256,7 +182,7 @@ final class HasAttributesTest extends TestCase
             'Should return the correct attributes after setting a single attribute.',
         );
 
-        $instance = $instance->addAttribute(BackedString::VALUE, 'active-status');
+        $instance = $instance->setAttribute(BackedString::VALUE, 'active-status');
 
         self::assertSame(
             'active-status',
@@ -265,18 +191,62 @@ final class HasAttributesTest extends TestCase
         );
     }
 
-    public function testSetSingleAttributeWithNullValue(): void
+    public function testSetAttributeWithClosureValue(): void
     {
         $instance = new class {
             use HasAttributes;
         };
 
-        $instance = $instance->addAttribute('id', 'my-id');
-        $instance = $instance->addAttribute('id', null);
+        $closure = static fn(): string => 'resolved-value';
+
+        $instance = $instance->setAttribute('test', $closure);
+
+        self::assertSame(
+            ['test' => $closure],
+            $instance->getAttributes(),
+            "Should return the correct 'data-test' attribute after setting it.",
+        );
+    }
+
+    public function testSetAttributeWithNullValue(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        $instance = $instance->setAttribute('id', 'my-id');
+        $instance = $instance->setAttribute('id', null);
 
         self::assertNull(
             $instance->getAttribute('id'),
             "Should return 'null' after setting the attribute to 'null'.",
+        );
+        self::assertSame(
+            [],
+            $instance->getAttributes(),
+            'Should remove the attribute key when set to null.',
+        );
+    }
+
+    public function testSetAttributeWithStringableValue(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        $stringable = new class implements Stringable {
+            public function __toString(): string
+            {
+                return 'Stringable value';
+            }
+        };
+
+        $instance = $instance->setAttribute('stringable', $stringable);
+
+        self::assertSame(
+            $stringable,
+            $instance->getAttribute('stringable'),
+            'Should handle Stringable objects correctly.',
         );
     }
 
@@ -319,7 +289,7 @@ final class HasAttributesTest extends TestCase
             Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(''),
         );
 
-        $instance->addAttribute('', 'value');
+        $instance->setAttribute('', 'value');
     }
 
     public function testThrowInvalidArgumentExceptionForSetSingleAttributeWithInvalidKey(): void
@@ -333,6 +303,6 @@ final class HasAttributesTest extends TestCase
             Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(2),
         );
 
-        $instance->addAttribute(BackedInteger::VALUE, 'value');
+        $instance->setAttribute(BackedInteger::VALUE, 'value');
     }
 }

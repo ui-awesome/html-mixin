@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Mixin;
 
-use Closure;
-use Stringable;
 use UIAwesome\Html\Helper\AttributeBag;
 use UnitEnum;
 
@@ -27,37 +25,12 @@ trait HasAttributes
     protected array $attributes = [];
 
     /**
-     * Sets a single HTML attribute for the element.
-     *
-     * Usage example:
-     * ```php
-     * $component->addAttribute('id', 'my-id');
-     * $component->addAttribute(DataProperty::ID, 'my-id');
-     * $component->addAttribute('size', ButtonSize::SMALL);
-     * $component->addAttribute('id', null);
-     * ```
-     *
-     * @param string|UnitEnum $key Attribute name.
-     * @param mixed $value Attribute value.
-     *
-     * @return static New instance with the updated `attributes` value.
-     */
-    public function addAttribute(string|UnitEnum $key, mixed $value): static
-    {
-        $new = clone $this;
-
-        AttributeBag::add($new->attributes, $key, $value);
-
-        return $new;
-    }
-
-    /**
      * Sets one or more HTML attributes for the element.
      *
      * Usage example:
      * ```php
-     * $component->attributes(['id' => 'my-id', 'data-role' => 'button']);
-     * $component->attributes(['size' => ButtonSize::LARGE, 'disabled' => true]);
+     * $component->setAttributes(['id' => 'my-id', 'data-role' => 'button']);
+     * $component->setAttributes(['size' => ButtonSize::LARGE, 'disabled' => true]);
      * ```
      *
      * @param array $values Associative array of attribute keys and values.
@@ -70,7 +43,7 @@ trait HasAttributes
     {
         $new = clone $this;
 
-        AttributeBag::merge($new->attributes, $values);
+        AttributeBag::setMany($new->attributes, $values);
 
         return $new;
     }
@@ -134,27 +107,26 @@ trait HasAttributes
     }
 
     /**
-     * Sets a single attribute with prefix handling and value resolution.
+     * Sets a single HTML attribute for the element.
      *
-     * @param string|UnitEnum $key Attribute key (without the prefix if a prefix is supplied).
-     * @param bool|Closure|float|int|string|Stringable|UnitEnum|null $value Attribute value, or `null` to remove the
-     * attribute.
-     * @param string $prefix Optional prefix to prepend to the key (for example, `aria-`, `data-`, `on-`).
-     * @param bool $boolToString Whether to convert boolean values to `true` and `false` strings.
+     * Usage example:
+     * ```php
+     * $component->setAttribute('id', 'my-id');
+     * $component->setAttribute(DataProperty::ID, 'my-id');
+     * $component->setAttribute('size', ButtonSize::SMALL);
+     * $component->setAttribute('id', null);
+     * ```
+     *
+     * @param string|UnitEnum $key Attribute name.
+     * @param mixed $value Attribute value.
      *
      * @return static New instance with the updated `attributes` value.
-     *
-     * @phpstan-param scalar|Closure(): mixed|Stringable|UnitEnum|null $value
      */
-    public function setAttribute(
-        string|UnitEnum $key,
-        bool|float|int|string|Closure|Stringable|UnitEnum|null $value,
-        string $prefix = '',
-        bool $boolToString = false,
-    ): static {
+    public function setAttribute(string|UnitEnum $key, mixed $value): static
+    {
         $new = clone $this;
 
-        AttributeBag::set($new->attributes, $key, $value, $prefix, $boolToString);
+        AttributeBag::set($new->attributes, $key, $value);
 
         return $new;
     }
