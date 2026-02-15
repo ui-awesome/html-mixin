@@ -198,7 +198,7 @@ final class HasPrefixCollectionTest extends TestCase
         $instance = new class {
             use HasPrefixCollection;
         };
-        
+
         $instance = $instance->prefixSetAttribute('event-test', static fn(): string => 'resolved-value');
 
         self::assertSame(
