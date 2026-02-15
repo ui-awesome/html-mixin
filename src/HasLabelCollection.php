@@ -56,16 +56,18 @@ trait HasLabelCollection
      * Usage example:
      * ```php
      * $component->getLabelAttribute('id', 'default-id');
+     * $component->getLabelAttribute('label', 'default-label', 'aria-');
      * ```
      *
      * @param string|UnitEnum $key Attribute name.
      * @param mixed $default Default value when the attribute is missing.
+     * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
      *
      * @return mixed Attribute value, or `$default` when missing.
      */
-    public function getLabelAttribute(string|UnitEnum $key, mixed $default = null): mixed
+    public function getLabelAttribute(string|UnitEnum $key, mixed $default = null, string $prefix = ''): mixed
     {
-        return AttributeBag::get($this->labelAttributes, $key, $default);
+        return AttributeBag::get($this->labelAttributes, $key, $default, $prefix);
     }
 
     /**
@@ -126,19 +128,21 @@ trait HasLabelCollection
      * Usage example:
      * ```php
      * $component->labelAttributes(['class' => 'form-label']);
+     * $component->labelAttributes(['label' => 'Close'], 'aria-');
      * ```
      *
      * @param array $attributes Label attributes.
+     * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
      *
      * @return static New instance with the updated `labelAttributes` value.
      *
      * @phpstan-param mixed[] $attributes
      */
-    public function labelAttributes(array $attributes): static
+    public function labelAttributes(array $attributes, string $prefix = ''): static
     {
         $new = clone $this;
 
-        AttributeBag::setMany($new->labelAttributes, $attributes);
+        AttributeBag::setMany($new->labelAttributes, $attributes, $prefix);
 
         return $new;
     }
@@ -203,17 +207,19 @@ trait HasLabelCollection
      * ```php
      * $component->labelRemoveAttribute('id');
      * $component->labelRemoveAttribute(DataProperty::ID);
+     * $component->labelRemoveAttribute('label', 'aria-');
      * ```
      *
      * @param string|UnitEnum $key Attribute name to remove.
+     * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
      *
      * @return static New instance without the specified label attribute.
      */
-    public function labelRemoveAttribute(string|UnitEnum $key): static
+    public function labelRemoveAttribute(string|UnitEnum $key, string $prefix = ''): static
     {
         $new = clone $this;
 
-        AttributeBag::remove($new->labelAttributes, $key);
+        AttributeBag::remove($new->labelAttributes, $key, $prefix);
 
         return $new;
     }
@@ -225,18 +231,20 @@ trait HasLabelCollection
      * ```php
      * $component->labelSetAttribute('id', 'my-id');
      * $component->labelSetAttribute('id', null);
+     * $component->labelSetAttribute('label', 'Close', 'aria-');
      * ```
      *
      * @param string|UnitEnum $key Attribute name.
      * @param mixed $value Attribute value.
+     * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
      *
      * @return static New instance with the updated `labelAttributes` value.
      */
-    public function labelSetAttribute(string|UnitEnum $key, mixed $value): static
+    public function labelSetAttribute(string|UnitEnum $key, mixed $value, string $prefix = ''): static
     {
         $new = clone $this;
 
-        AttributeBag::set($new->labelAttributes, $key, $value);
+        AttributeBag::set($new->labelAttributes, $key, $value, $prefix);
 
         return $new;
     }

@@ -45,7 +45,7 @@ composer require ui-awesome/html-mixin:^0.4
 #### Managing HTML attributes with HasAttributes
 
 The `HasAttributes` trait provides a fluent, immutable API for managing HTML attributes on elements. Supports enum
-keys/values, closure-based values, and array merging.
+keys/values, closure-based values, prefix normalization (for example `aria-`, `data-`, `on`), and array merging.
 
 ```php
 <?php
@@ -64,14 +64,18 @@ final class MyComponent
 $component = new MyComponent();
 
 $attributes = $component
-    ->addAttribute('id', 'my-component')
-    ->attributes(['class' => ['container'], 'data-role' => 'main'])
-    ->removeAttribute('data-role')
+    ->setAttribute('id', 'my-component')
+    ->attributes(['class' => ['container'], 'role' => 'main'])
+    ->attributes(['label' => 'Close'], 'aria-')
+    ->removeAttribute('role')
     ->getAttributes();
-// ['id' => 'my-component', 'class' => ['container']]
+// ['id' => 'my-component', 'class' => ['container'], 'aria-label' => 'Close']
 
 $component->getAttribute('id', 'default-id');
 // 'my-component'
+
+$component->getAttribute('label', null, 'aria-');
+// 'Close'
 ```
 
 #### Managing content with encoding support

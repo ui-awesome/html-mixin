@@ -57,6 +57,40 @@ final class HasLabelCollectionTest extends TestCase
         );
     }
 
+    public function testLabelAttributesPrefixSupport(): void
+    {
+        $instance = new class {
+            use HasLabelCollection;
+        };
+
+        $instance = $instance->labelSetAttribute('label', 'label', 'aria-');
+
+        self::assertSame(
+            'label',
+            $instance->getLabelAttribute('label', null, 'aria-'),
+            "Should read the prefixed 'aria-label' attribute when using the 'aria-' prefix.",
+        );
+        self::assertNull(
+            $instance->getLabelAttribute('label'),
+            "Should not read the prefixed 'aria-label' attribute without the prefix.",
+        );
+
+        $instance = $instance->labelAttributes(['describedby' => 'field-id'], 'aria-');
+
+        self::assertSame(
+            'field-id',
+            $instance->getLabelAttribute('describedby', null, 'aria-'),
+            "Should set and read prefixed attributes via 'labelAttributes()'.",
+        );
+
+        $instance = $instance->labelRemoveAttribute('label', 'aria-');
+
+        self::assertNull(
+            $instance->getLabelAttribute('label', null, 'aria-'),
+            "Should remove the prefixed 'aria-label' attribute.",
+        );
+    }
+
     public function testLabelAttributesValue(): void
     {
         $instance = new class {

@@ -66,6 +66,40 @@ final class HasPrefixCollectionTest extends TestCase
         );
     }
 
+    public function testPrefixAttributesPrefixSupport(): void
+    {
+        $instance = new class {
+            use HasPrefixCollection;
+        };
+
+        $instance = $instance->prefixSetAttribute('label', 'label', 'aria-');
+
+        self::assertSame(
+            'label',
+            $instance->getPrefixAttribute('label', null, 'aria-'),
+            "Should read the prefixed 'aria-label' attribute when using the 'aria-' prefix.",
+        );
+        self::assertNull(
+            $instance->getPrefixAttribute('label'),
+            "Should not read the prefixed 'aria-label' attribute without the prefix.",
+        );
+
+        $instance = $instance->prefixAttributes(['describedby' => 'prefix-id'], 'aria-');
+
+        self::assertSame(
+            'prefix-id',
+            $instance->getPrefixAttribute('describedby', null, 'aria-'),
+            "Should set and read prefixed attributes via 'prefixAttributes()'.",
+        );
+
+        $instance = $instance->prefixRemoveAttribute('label', 'aria-');
+
+        self::assertNull(
+            $instance->getPrefixAttribute('label', null, 'aria-'),
+            "Should remove the prefixed 'aria-label' attribute.",
+        );
+    }
+
     public function testPrefixAttributesValue(): void
     {
         $instance = new class {
