@@ -59,7 +59,7 @@
                 </div>
                 <div class="alert-box">
                     <p class="alert-title"><strong>HasPrefix/SuffixCollection</strong></p>
-                    <p class="alert-content">Render content before/after elements with optional tag wrapping and independent attribute management</p>
+                    <p class="alert-content">Render content before/after elements with optional UnitEnum tag wrapping and independent attribute management</p>
                 </div>
             </div>
         </div>

@@ -6,7 +6,6 @@ namespace UIAwesome\Html\Mixin;
 
 use Stringable;
 use UIAwesome\Html\Helper\{AttributeBag, CSSClass};
-use UIAwesome\Html\Interop\BlockInterface;
 use UnitEnum;
 
 /**
@@ -32,7 +31,7 @@ trait HasContainerCollection
     /**
      * Tag name for the container element, or `false` to disable.
      */
-    protected false|BlockInterface $containerTag = false;
+    protected false|UnitEnum $containerTag = false;
 
     /**
      * Sets whether to render the container.
@@ -153,11 +152,11 @@ trait HasContainerCollection
      * $component->containerTag(false);
      * ```
      *
-     * @param BlockInterface|false $value Tag name for the container element, or `false` to disable.
+     * @param false|UnitEnum $value Tag name for the container element, or `false` to disable.
      *
      * @return static New instance with the updated `containerTag` value.
      */
-    public function containerTag(BlockInterface|false $value): static
+    public function containerTag(false|UnitEnum $value): static
     {
         $new = clone $this;
         $new->containerTag = $value;
@@ -208,9 +207,9 @@ trait HasContainerCollection
      * $component->getContainerTag();
      * ```
      *
-     * @return BlockInterface|false Tag name for the container element, or `false` to disable.
+     * @return false|UnitEnum Tag name for the container element, or `false` to disable.
      */
-    public function getContainerTag(): false|BlockInterface
+    public function getContainerTag(): false|UnitEnum
     {
         return $this->containerTag;
     }

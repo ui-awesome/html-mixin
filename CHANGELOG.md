@@ -1,6 +1,8 @@
 # ChangeLog
 
-## 0.4.3 Under development
+## 0.5.0 Under development
+
+- Bug #58: Remove `ui-awesome/html-interop` from runtime dependencies and keep it as development-only dependency for local tooling/tests (@terabytesoftw)
 
 ## 0.4.2 February 15, 2026
 

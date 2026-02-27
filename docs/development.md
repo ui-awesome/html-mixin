@@ -2,6 +2,14 @@
 
 This document describes development workflows and maintenance tasks for the project.
 
+## Tag enum contracts
+
+Mixin APIs that configure tags (`containerTag()`, `prefixTag()`, `suffixTag()`) now use `UnitEnum` as the shared
+contract. This package no longer requires `ui-awesome/html-interop` as a direct runtime dependency.
+
+- Reuse your own project enums, as long as they are enums (`UnitEnum`/backed enums).
+- Keep `ui-awesome/html-interop` only if your project already uses its tag enums.
+
 ## Sync Metadata
 
 To keep configuration files synchronized with the latest template updates, use the `sync-metadata` command. This command

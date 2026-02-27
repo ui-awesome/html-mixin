@@ -6,7 +6,6 @@ namespace UIAwesome\Html\Mixin;
 
 use Stringable;
 use UIAwesome\Html\Helper\{AttributeBag, CSSClass};
-use UIAwesome\Html\Interop\{BlockInterface, InlineInterface, VoidInterface};
 use UnitEnum;
 
 use function implode;
@@ -34,7 +33,7 @@ trait HasPrefixCollection
     /**
      * Tag name for the prefix element, or `false` to disable.
      */
-    protected false|BlockInterface|InlineInterface|VoidInterface $prefixTag = false;
+    protected false|UnitEnum $prefixTag = false;
 
     /**
      * Returns the prefix content string assigned to the element.
@@ -96,10 +95,9 @@ trait HasPrefixCollection
      * $component->getPrefixTag();
      * ```
      *
-     * @return BlockInterface|false|InlineInterface|VoidInterface Tag name for the prefix element, or `false` to
-     * disable.
+     * @return false|UnitEnum Tag name for the prefix element, or `false` to disable.
      */
-    public function getPrefixTag(): BlockInterface|false|InlineInterface|VoidInterface
+    public function getPrefixTag(): false|UnitEnum
     {
         return $this->prefixTag;
     }
@@ -158,7 +156,7 @@ trait HasPrefixCollection
      * $component->prefixClass('override-class', true);
      * ```
      *
-     * @param string|Stringable|UnitEnum|null$value CSS class name to add.
+     * @param string|Stringable|UnitEnum|null $value CSS class name to add.
      * @param bool $override Whether to override existing class value.
      *
      * @return static New instance with the updated `prefixAttributes` value.
@@ -225,16 +223,15 @@ trait HasPrefixCollection
      *
      * Usage example:
      * ```php
-     * $component->prefixTag(\UIAwesome\Html\Interop\Inline::SPAN);
+     * $component->prefixTag(Inline::SPAN);
      * $component->prefixTag(false);
      * ```
      *
-     * @param BlockInterface|false|InlineInterface|VoidInterface $value Tag name for the prefix element, or `false` to
-     * disable.
+     * @param false|UnitEnum $value Tag name for the prefix element, or `false` to disable.
      *
      * @return static New instance with the updated `prefixTag` value.
      */
-    public function prefixTag(false|BlockInterface|InlineInterface|VoidInterface $value = false): static
+    public function prefixTag(false|UnitEnum $value = false): static
     {
         $new = clone $this;
         $new->prefixTag = $value;
