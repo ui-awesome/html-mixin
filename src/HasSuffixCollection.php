@@ -6,7 +6,6 @@ namespace UIAwesome\Html\Mixin;
 
 use Stringable;
 use UIAwesome\Html\Helper\{AttributeBag, CSSClass};
-use UIAwesome\Html\Interop\{BlockInterface, InlineInterface, VoidInterface};
 use UnitEnum;
 
 use function implode;
@@ -34,7 +33,7 @@ trait HasSuffixCollection
     /**
      * Tag name for the suffix element, or `false` to disable.
      */
-    protected false|BlockInterface|InlineInterface|VoidInterface $suffixTag = false;
+    protected false|UnitEnum $suffixTag = false;
 
     /**
      * Returns the suffix content string assigned to the element.
@@ -96,10 +95,9 @@ trait HasSuffixCollection
      * $component->getSuffixTag();
      * ```
      *
-     * @return BlockInterface|false|InlineInterface|VoidInterface Tag name for the suffix element, or `false` to
-     * disable.
+     * @return false|UnitEnum Tag name for the suffix element, or `false` to disable.
      */
-    public function getSuffixTag(): BlockInterface|false|InlineInterface|VoidInterface
+    public function getSuffixTag(): false|UnitEnum
     {
         return $this->suffixTag;
     }
@@ -229,12 +227,11 @@ trait HasSuffixCollection
      * $component->suffixTag(false);
      * ```
      *
-     * @param BlockInterface|false|InlineInterface|VoidInterface $value Tag name for the suffix element, or `false` to
-     * disable.
+     * @param false|UnitEnum $value Tag name for the suffix element, or `false` to disable.
      *
      * @return static New instance with the updated `suffixTag` value.
      */
-    public function suffixTag(false|BlockInterface|InlineInterface|VoidInterface $value = false): static
+    public function suffixTag(false|UnitEnum $value = false): static
     {
         $new = clone $this;
         $new->suffixTag = $value;

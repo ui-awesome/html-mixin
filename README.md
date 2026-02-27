@@ -37,7 +37,7 @@
 ### Installation
 
 ```bash
-composer require ui-awesome/html-mixin:^0.4
+composer require ui-awesome/html-mixin:^0.5
 ```
 
 ### Quick start
@@ -150,6 +150,9 @@ echo $component
 The `HasPrefixCollection` and `HasSuffixCollection` traits add content before and after your element, optionally wrapped
 in tags with their own attributes.
 
+Tag APIs now accept `UnitEnum`, so your components can use any project enum without a direct runtime dependency on
+`ui-awesome/html-interop`.
+
 ```php
 <?php
 
@@ -158,7 +161,12 @@ declare(strict_types=1);
 namespace App\Component;
 
 use UIAwesome\Html\Mixin\{HasContent, HasPrefixCollection, HasSuffixCollection};
-use UIAwesome\Html\Interop\Inline;
+
+enum InlineTag: string
+{
+    case STRONG = 'strong';
+    case EM = 'em';
+}
 
 final class MyComponent
 {
@@ -178,9 +186,9 @@ echo $component
     ->content('Main Content')
     ->prefix('Prefix: ')
     ->prefixAttributes(['class' => 'prefix-badge'])
-    ->prefixTag(Inline::STRONG)
+    ->prefixTag(InlineTag::STRONG)
     ->suffix(' :Suffix')
-    ->suffixTag(Inline::EM)
+    ->suffixTag(InlineTag::EM)
     ->render();
 // <strong class="prefix-badge">Prefix: </strong>Main Content<em> :Suffix</em>
 ```
@@ -191,6 +199,7 @@ For detailed configuration options and advanced usage.
 
 - 🧪 [Testing Guide](docs/testing.md)
 - 🛠️ [Development Guide](docs/development.md)
+- ⬆️ [Upgrade Guide](UPGRADE.md)
 
 ## Package information
 
