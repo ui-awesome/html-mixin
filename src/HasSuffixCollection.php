@@ -223,7 +223,7 @@ trait HasSuffixCollection
      *
      * Usage example:
      * ```php
-     * $component->suffixTag(\UIAwesome\Html\InteropInline::SPAN);
+     * $component->suffixTag(Inline::SPAN);
      * $component->suffixTag(false);
      * ```
      *
