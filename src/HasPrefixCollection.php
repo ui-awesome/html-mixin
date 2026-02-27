@@ -223,7 +223,7 @@ trait HasPrefixCollection
      *
      * Usage example:
      * ```php
-     * $component->prefixTag(\UIAwesome\Html\Interop\Inline::SPAN);
+     * $component->prefixTag(Inline::SPAN);
      * $component->prefixTag(false);
      * ```
      *
