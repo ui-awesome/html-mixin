@@ -3,6 +3,7 @@
 ## 0.5.0 Under development
 
 - Bug #58: Remove `ui-awesome/html-interop` from runtime dependencies and keep it as development-only dependency for local tooling/tests (@terabytesoftw)
+- Enh #59: Update `HasAttributes` public API to replace attributes with `attributes()`, add single attributes with `addAttribute()`, and remove attributes on `null` values (@terabytesoftw)
 
 ## 0.4.2 February 15, 2026
 
