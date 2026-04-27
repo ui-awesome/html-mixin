@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Stringable;
 use UIAwesome\Html\Helper\Exception\Message;
 use UIAwesome\Html\Mixin\HasAttributes;
-use UnitEnum;
+use UIAwesome\Html\Mixin\Tests\Support\ExposeHasAttributesInternals;
 
 /**
  * Unit tests for the {@see HasAttributes} trait managing HTML attributes.
@@ -102,41 +102,15 @@ final class HasAttributesTest extends TestCase
     public function testAttributesPrefixSupportThroughProtectedInternals(): void
     {
         $instance = new class {
+            use ExposeHasAttributesInternals;
             use HasAttributes;
-
-            public function getAttributeForTest(string|UnitEnum $key, mixed $default = null, string $prefix = ''): mixed
-            {
-                return \UIAwesome\Html\Helper\AttributeBag::get($this->attributes, $key, $default, $prefix);
-            }
-
-            public function removeAttributeForTest(string|UnitEnum $key, string $prefix = ''): static
-            {
-                $new = clone $this;
-
-                \UIAwesome\Html\Helper\AttributeBag::remove($new->attributes, $key, $prefix);
-
-                return $new;
-            }
-
-            public function setAttributeForTest(string|UnitEnum $key, mixed $value, string $prefix = ''): static
-            {
-                return $this->setAttribute($key, $value, $prefix);
-            }
-
-            /**
-             * @param mixed[] $values
-             */
-            public function setAttributesForTest(array $values, string $prefix = ''): static
-            {
-                return $this->setAttributes($values, $prefix);
-            }
         };
 
         $instance = $instance->setAttributeForTest('label', 'label', 'aria-');
 
         self::assertSame(
             'label',
-            $instance->getAttributeForTest('label', null, 'aria-'),
+            $instance->getAttribute('aria-label'),
             "Should read the prefixed 'aria-label' attribute when using the 'aria-' prefix.",
         );
         self::assertNull(
@@ -148,7 +122,7 @@ final class HasAttributesTest extends TestCase
 
         self::assertSame(
             'field-id',
-            $instance->getAttributeForTest('describedby', null, 'aria-'),
+            $instance->getAttribute('aria-describedby'),
             "Should set and read prefixed attributes via internal 'setAttributes()'.",
         );
         self::assertSame(
@@ -157,10 +131,10 @@ final class HasAttributesTest extends TestCase
             'Should replace the attribute bag when setting prefixed attributes in bulk.',
         );
 
-        $instance = $instance->removeAttributeForTest('describedby', 'aria-');
+        $instance = $instance->removeAttribute('aria-describedby');
 
         self::assertNull(
-            $instance->getAttributeForTest('describedby', null, 'aria-'),
+            $instance->getAttribute('aria-describedby'),
             "Should remove the prefixed 'aria-describedby' attribute.",
         );
     }
@@ -268,20 +242,8 @@ final class HasAttributesTest extends TestCase
     public function testReturnNewInstanceWhenSettingAttributes(): void
     {
         $instance = new class {
+            use ExposeHasAttributesInternals;
             use HasAttributes;
-
-            public function setAttributeForTest(string|UnitEnum $key, mixed $value, string $prefix = ''): static
-            {
-                return $this->setAttribute($key, $value, $prefix);
-            }
-
-            /**
-             * @phpstan-param mixed[] $values
-             */
-            public function setAttributesForTest(array $values, string $prefix = ''): static
-            {
-                return $this->setAttributes($values, $prefix);
-            }
         };
 
         self::assertNotSame(
@@ -314,12 +276,8 @@ final class HasAttributesTest extends TestCase
     public function testSetAttributeWithClosureValueThroughProtectedInternal(): void
     {
         $instance = new class {
+            use ExposeHasAttributesInternals;
             use HasAttributes;
-
-            public function setAttributeForTest(string|UnitEnum $key, mixed $value, string $prefix = ''): static
-            {
-                return $this->setAttribute($key, $value, $prefix);
-            }
         };
 
         $instance = $instance->setAttributeForTest('test', static fn(): string => 'resolved-value');
