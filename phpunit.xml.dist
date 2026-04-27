@@ -11,7 +11,7 @@
   stopOnFailure="false"
 >
   <testsuites>
-    <testsuite name="Html-Mixin">
+    <testsuite name="Mixin">
       <directory>tests</directory>
     </testsuite>
   </testsuites>

@@ -9,18 +9,19 @@ use PHPForge\Support\Stub\{BackedInteger, BackedString};
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Stringable;
-use UIAwesome\Html\Mixin\Exception\Message;
+use UIAwesome\Html\Helper\Exception\Message;
 use UIAwesome\Html\Mixin\HasAttributes;
+use UnitEnum;
 
 /**
  * Unit tests for the {@see HasAttributes} trait managing HTML attributes.
  *
  * Test coverage.
+ * - Adds single attributes through the public API.
  * - Ensures fluent setters return new instances (immutability).
+ * - Replaces attributes through the public API.
  * - Removes attributes and returns expected values.
- * - Sets attributes in bulk and merges new values over existing keys.
- * - Sets attributes with optional prefixes and boolean string conversion.
- * - Sets single attributes for scalar and enum keys.
+ * - Sets prefixed attributes through protected internals exposed by test stubs.
  * - Throws InvalidArgumentException for empty or unsupported attribute keys.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
@@ -29,17 +30,113 @@ use UIAwesome\Html\Mixin\HasAttributes;
 #[Group('mixin')]
 final class HasAttributesTest extends TestCase
 {
-    public function testAttributesPrefixSupport(): void
+    public function testAddAttributeValue(): void
     {
         $instance = new class {
             use HasAttributes;
         };
 
-        $instance = $instance->setAttribute('label', 'label', 'aria-');
+        $instance = $instance->addAttribute('id', 'my-id');
+
+        self::assertSame(
+            'my-id',
+            $instance->getAttribute('id'),
+            "Should return the correct 'id' attribute after adding it.",
+        );
+        self::assertSame(
+            ['id' => 'my-id'],
+            $instance->getAttributes(),
+            'Should return the correct attributes after adding a single attribute.',
+        );
+
+        $instance = $instance->addAttribute(BackedString::VALUE, 'active-status');
+
+        self::assertSame(
+            'active-status',
+            $instance->getAttribute(BackedString::VALUE),
+            'Should return the value when using an enum key.',
+        );
+    }
+
+    public function testAddAttributeWithNullValueRemovesAttribute(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        $instance = $instance->addAttribute('id', 'my-id')->addAttribute('id', null);
+
+        self::assertNull(
+            $instance->getAttribute('id'),
+            "Should return 'null' after adding the attribute with a 'null' value.",
+        );
+        self::assertSame(
+            [],
+            $instance->getAttributes(),
+            "Should remove the attribute key when the value is 'null'.",
+        );
+    }
+
+    public function testAddAttributeWithStringableValue(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        $stringable = new class implements Stringable {
+            public function __toString(): string
+            {
+                return 'Stringable value';
+            }
+        };
+
+        $instance = $instance->addAttribute('stringable', $stringable);
+
+        self::assertSame(
+            $stringable,
+            $instance->getAttribute('stringable'),
+            'Should handle Stringable objects correctly.',
+        );
+    }
+
+    public function testAttributesPrefixSupportThroughProtectedInternals(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+
+            public function getAttributeForTest(string|UnitEnum $key, mixed $default = null, string $prefix = ''): mixed
+            {
+                return \UIAwesome\Html\Helper\AttributeBag::get($this->attributes, $key, $default, $prefix);
+            }
+
+            public function removeAttributeForTest(string|UnitEnum $key, string $prefix = ''): static
+            {
+                $new = clone $this;
+
+                \UIAwesome\Html\Helper\AttributeBag::remove($new->attributes, $key, $prefix);
+
+                return $new;
+            }
+
+            public function setAttributeForTest(string|UnitEnum $key, mixed $value, string $prefix = ''): static
+            {
+                return $this->setAttribute($key, $value, $prefix);
+            }
+
+            /**
+             * @param mixed[] $values
+             */
+            public function setAttributesForTest(array $values, string $prefix = ''): static
+            {
+                return $this->setAttributes($values, $prefix);
+            }
+        };
+
+        $instance = $instance->setAttributeForTest('label', 'label', 'aria-');
 
         self::assertSame(
             'label',
-            $instance->getAttribute('label', null, 'aria-'),
+            $instance->getAttributeForTest('label', null, 'aria-'),
             "Should read the prefixed 'aria-label' attribute when using the 'aria-' prefix.",
         );
         self::assertNull(
@@ -47,19 +144,40 @@ final class HasAttributesTest extends TestCase
             "Should not read the prefixed 'aria-label' attribute without the prefix.",
         );
 
-        $instance = $instance->attributes(['describedby' => 'field-id'], 'aria-');
+        $instance = $instance->setAttributesForTest(['describedby' => 'field-id'], 'aria-');
 
         self::assertSame(
             'field-id',
-            $instance->getAttribute('describedby', null, 'aria-'),
-            "Should set and read prefixed attributes via 'attributes()'.",
+            $instance->getAttributeForTest('describedby', null, 'aria-'),
+            "Should set and read prefixed attributes via internal 'setAttributes()'.",
+        );
+        self::assertSame(
+            ['aria-describedby' => 'field-id'],
+            $instance->getAttributes(),
+            'Should replace the attribute bag when setting prefixed attributes in bulk.',
         );
 
-        $instance = $instance->removeAttribute('label', 'aria-');
+        $instance = $instance->removeAttributeForTest('describedby', 'aria-');
 
         self::assertNull(
-            $instance->getAttribute('label', null, 'aria-'),
-            "Should remove the prefixed 'aria-label' attribute.",
+            $instance->getAttributeForTest('describedby', null, 'aria-'),
+            "Should remove the prefixed 'aria-describedby' attribute.",
+        );
+    }
+
+    public function testAttributesReplaceExistingValues(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        $instance = $instance->attributes(['id' => 'my-id']);
+        $instance = $instance->attributes(['class' => 'my-class']);
+
+        self::assertSame(
+            ['class' => 'my-class'],
+            $instance->getAttributes(),
+            'Should replace existing attributes instead of merging them.',
         );
     }
 
@@ -88,32 +206,6 @@ final class HasAttributesTest extends TestCase
             ],
             $instance->getAttributes(),
             'Should return the correct attributes after setting them.',
-        );
-    }
-
-    public function testAttributesWithExistingValues(): void
-    {
-        $instance = new class {
-            use HasAttributes;
-        };
-
-        $instance = $instance->attributes(
-            ['id' => 'my-id'],
-        );
-        $instance = $instance->attributes(
-            [
-                'class' => 'my-class',
-                'id' => 'new-id',
-            ],
-        );
-
-        self::assertSame(
-            [
-                'id' => 'new-id',
-                'class' => 'my-class',
-            ],
-            $instance->getAttributes(),
-            'Should merge new attributes with existing ones, overriding duplicates.',
         );
     }
 
@@ -177,6 +269,19 @@ final class HasAttributesTest extends TestCase
     {
         $instance = new class {
             use HasAttributes;
+
+            public function setAttributeForTest(string|UnitEnum $key, mixed $value, string $prefix = ''): static
+            {
+                return $this->setAttribute($key, $value, $prefix);
+            }
+
+            /**
+             * @phpstan-param mixed[] $values
+             */
+            public function setAttributesForTest(array $values, string $prefix = ''): static
+            {
+                return $this->setAttributes($values, $prefix);
+            }
         };
 
         self::assertNotSame(
@@ -186,52 +291,38 @@ final class HasAttributesTest extends TestCase
         );
         self::assertNotSame(
             $instance,
+            $instance->addAttribute('tests', ''),
+            'Should return a new instance when adding an attribute, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
             $instance->removeAttribute('tests'),
             'Should return a new instance when removing an attribute, ensuring immutability.',
         );
         self::assertNotSame(
             $instance,
-            $instance->setAttribute('tests', ''),
-            'Should return a new instance when setting an attribute, ensuring immutability.',
+            $instance->setAttributeForTest('tests', ''),
+            'Should return a new instance when setting an internal attribute, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->setAttributesForTest([]),
+            'Should return a new instance when setting internal attributes, ensuring immutability.',
         );
     }
 
-    public function testSetAttributeValue(): void
+    public function testSetAttributeWithClosureValueThroughProtectedInternal(): void
     {
         $instance = new class {
             use HasAttributes;
+
+            public function setAttributeForTest(string|UnitEnum $key, mixed $value, string $prefix = ''): static
+            {
+                return $this->setAttribute($key, $value, $prefix);
+            }
         };
 
-        $instance = $instance->setAttribute('id', 'my-id');
-
-        self::assertSame(
-            'my-id',
-            $instance->getAttribute('id'),
-            "Should return the correct 'id' attribute after setting it.",
-        );
-
-        self::assertSame(
-            ['id' => 'my-id'],
-            $instance->getAttributes(),
-            'Should return the correct attributes after setting a single attribute.',
-        );
-
-        $instance = $instance->setAttribute(BackedString::VALUE, 'active-status');
-
-        self::assertSame(
-            'active-status',
-            $instance->getAttribute(BackedString::VALUE),
-            'Should return the value when using an enum key.',
-        );
-    }
-
-    public function testSetAttributeWithClosureValue(): void
-    {
-        $instance = new class {
-            use HasAttributes;
-        };
-
-        $instance = $instance->setAttribute('test', static fn(): string => 'resolved-value');
+        $instance = $instance->setAttributeForTest('test', static fn(): string => 'resolved-value');
 
         self::assertSame(
             ['test' => 'resolved-value'],
@@ -240,46 +331,28 @@ final class HasAttributesTest extends TestCase
         );
     }
 
-    public function testSetAttributeWithNullValue(): void
+    public function testThrowInvalidArgumentExceptionForAddAttributeEmptyKey(): void
     {
         $instance = new class {
             use HasAttributes;
         };
 
-        $instance = $instance->setAttribute('id', 'my-id');
-        $instance = $instance->setAttribute('id', null);
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage());
 
-        self::assertNull(
-            $instance->getAttribute('id'),
-            "Should return 'null' after setting the attribute to 'null'.",
-        );
-        self::assertSame(
-            ['id' => null],
-            $instance->getAttributes(),
-            "Should preserve the attribute key with a 'null' value when set to 'null'.",
-        );
+        $instance->addAttribute('', 'value');
     }
 
-    public function testSetAttributeWithStringableValue(): void
+    public function testThrowInvalidArgumentExceptionForAddAttributeInvalidKey(): void
     {
         $instance = new class {
             use HasAttributes;
         };
 
-        $stringable = new class implements Stringable {
-            public function __toString(): string
-            {
-                return 'Stringable value';
-            }
-        };
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage());
 
-        $instance = $instance->setAttribute('stringable', $stringable);
-
-        self::assertSame(
-            $stringable,
-            $instance->getAttribute('stringable'),
-            'Should handle Stringable objects correctly.',
-        );
+        $instance->addAttribute(BackedInteger::VALUE, 'value');
     }
 
     public function testThrowInvalidArgumentExceptionForGetAttributeEmptyKey(): void
@@ -289,9 +362,7 @@ final class HasAttributesTest extends TestCase
         };
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(''),
-        );
+        $this->expectExceptionMessage(Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage());
 
         $instance->getAttribute('');
     }
@@ -303,38 +374,8 @@ final class HasAttributesTest extends TestCase
         };
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(2),
-        );
+        $this->expectExceptionMessage(Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage());
 
         $instance->getAttribute(BackedInteger::VALUE);
-    }
-
-    public function testThrowInvalidArgumentExceptionForSetSingleAttributeWithEmptyKey(): void
-    {
-        $instance = new class {
-            use HasAttributes;
-        };
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(''),
-        );
-
-        $instance->setAttribute('', 'value');
-    }
-
-    public function testThrowInvalidArgumentExceptionForSetSingleAttributeWithInvalidKey(): void
-    {
-        $instance = new class {
-            use HasAttributes;
-        };
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(2),
-        );
-
-        $instance->setAttribute(BackedInteger::VALUE, 'value');
     }
 }

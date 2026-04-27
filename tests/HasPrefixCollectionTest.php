@@ -256,9 +256,9 @@ final class HasPrefixCollectionTest extends TestCase
             "Should return 'null' after setting the attribute to 'null'.",
         );
         self::assertSame(
-            ['id' => null],
+            [],
             $instance->getPrefixAttributes(),
-            "Should preserve the attribute key with a 'null' value when set to 'null'.",
+            "Should remove the attribute key when set to 'null'.",
         );
     }
 

@@ -20,68 +20,52 @@ trait HasAttributes
     /**
      * HTML attributes array used by the implementing class.
      *
-     * @phpstan-var mixed[] $attributes
+     * @var mixed[]
      */
     protected array $attributes = [];
 
     /**
-     * Sets one or more HTML attributes for the element.
+     * Adds or updates a single HTML attribute for the element.
      *
-     * Usage example:
-     * ```php
-     * $component->setAttributes(['id' => 'my-id', 'data-role' => 'button']);
-     * $component->setAttributes(['size' => ButtonSize::LARGE, 'disabled' => true]);
-     * $component->setAttributes(['aria-label' => 'Close'], 'aria-');
-     * ```
+     * @param string|UnitEnum $key Attribute name.
+     * @param mixed $value Attribute value. Use `null` to remove the attribute.
      *
-     * @param array $values Associative array of attribute keys and values.
-     * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
-     *
-     * @return static New instance with the updated `attributes` value.
-     *
-     * @phpstan-param mixed[] $values
+     * @return static New instance with the updated attributes value.
      */
-    public function attributes(array $values, string $prefix = ''): static
+    public function addAttribute(string|UnitEnum $key, mixed $value): static
     {
-        $new = clone $this;
+        return $this->setAttribute($key, $value);
+    }
 
-        AttributeBag::setMany($new->attributes, $values, $prefix);
-
-        return $new;
+    /**
+     * Replaces all HTML attributes for the element.
+     *
+     * @param mixed[] $values Associative array of attribute keys and values.
+     *
+     * @return static New instance with the replaced attributes value.
+     */
+    public function attributes(array $values): static
+    {
+        return $this->setAttributes($values);
     }
 
     /**
      * Returns the value of a single HTML attribute.
      *
-     * Usage example:
-     * ```php
-     * $component->getAttribute('id', 'default-id');
-     * $component->getAttribute(DataProperty::ID, 'default-id');
-     * $component->getAttribute('aria-label', 'Default Label', 'aria-');
-     * ```
-     *
      * @param string|UnitEnum $key Attribute name.
      * @param mixed $default Default value when the attribute is missing.
-     * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
      *
      * @return mixed Attribute value or default.
      */
-    public function getAttribute(string|UnitEnum $key, mixed $default = null, string $prefix = ''): mixed
+    public function getAttribute(string|UnitEnum $key, mixed $default = null): mixed
     {
-        return AttributeBag::get($this->attributes, $key, $default, $prefix);
+        return AttributeBag::get($this->attributes, $key, $default);
     }
 
     /**
      * Returns the `array` of HTML attributes for the element.
      *
-     * Usage example:
-     * ```php
-     * $component->getAttributes();
-     * ```
-     *
-     * @return array Attributes `array` assigned to the element.
-     *
-     * @phpstan-return mixed[]
+     * @return mixed[] Attributes array assigned to the element.
      */
     public function getAttributes(): array
     {
@@ -91,50 +75,50 @@ trait HasAttributes
     /**
      * Removes a specific HTML attribute from the element.
      *
-     * Usage example:
-     * ```php
-     * $component->removeAttribute('id');
-     * $component->removeAttribute(DataProperty::ID);
-     * $component->removeAttribute('aria-label', 'aria-');
-     * ```
-     *
      * @param string|UnitEnum $key Attribute name to remove.
-     * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
      *
-     * @return static New instance without the specified `attribute` value.
+     * @return static New instance without the specified attribute value.
      */
-    public function removeAttribute(string|UnitEnum $key, string $prefix = ''): static
+    public function removeAttribute(string|UnitEnum $key): static
     {
         $new = clone $this;
 
-        AttributeBag::remove($new->attributes, $key, $prefix);
+        AttributeBag::remove($new->attributes, $key);
 
         return $new;
     }
 
     /**
-     * Sets a single HTML attribute for the element.
-     *
-     * Usage example:
-     * ```php
-     * $component->setAttribute('id', 'my-id');
-     * $component->setAttribute(DataProperty::ID, 'my-id');
-     * $component->setAttribute('size', ButtonSize::SMALL);
-     * $component->setAttribute('id', null);
-     * $component->setAttribute('aria-label', 'Close', 'aria-');
-     * ```
+     * Sets a single HTML attribute for internal fluent setters.
      *
      * @param string|UnitEnum $key Attribute name.
-     * @param mixed $value Attribute value.
+     * @param mixed $value Attribute value. Use `null` to remove the attribute.
      * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
      *
-     * @return static New instance with the updated `attributes` value.
+     * @return static New instance with the updated attributes value.
      */
-    public function setAttribute(string|UnitEnum $key, mixed $value, string $prefix = ''): static
+    private function setAttribute(string|UnitEnum $key, mixed $value, string $prefix = ''): static
     {
         $new = clone $this;
 
         AttributeBag::set($new->attributes, $key, $value, $prefix);
+
+        return $new;
+    }
+
+    /**
+     * Replaces all HTML attributes for internal fluent setters.
+     *
+     * @param mixed[] $values Associative array of attribute keys and values.
+     * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
+     *
+     * @return static New instance with the replaced attributes value.
+     */
+    private function setAttributes(array $values, string $prefix = ''): static
+    {
+        $new = clone $this;
+
+        AttributeBag::replace($new->attributes, $values, $prefix);
 
         return $new;
     }
