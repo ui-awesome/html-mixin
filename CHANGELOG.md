@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 
+## 0.5.1 Under development
+
 ## 0.5.0 April 29, 2026
 
 - fix: remove `ui-awesome/html-interop` from runtime dependencies and keep it as a development-only dependency for local tooling and tests.
