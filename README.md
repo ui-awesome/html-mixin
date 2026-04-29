@@ -196,7 +196,6 @@ echo $component
 For detailed configuration options and advanced usage.
 
 - 🧪 [Testing Guide](docs/testing.md)
-- 🛠️ [Development Guide](docs/development.md)
 - ⬆️ [Upgrade Guide](UPGRADE.md)
 
 ## Package information
