@@ -1,18 +1,25 @@
 {
     "name": "ui-awesome/html-mixin",
     "type": "library",
-    "description": "UI Awesome HTML Mixin Library for PHP.",
+    "description": "Reusable PHP traits for HTML rendering components: attribute management, content, templates, and prefix/suffix/label collections.",
     "keywords": [
         "ui-awesome",
         "html",
+        "html-mixin",
+        "traits",
         "mixin",
-        "library",
+        "attributes",
+        "content",
+        "template",
+        "prefix",
+        "suffix",
+        "label",
         "php"
     ],
     "license": "BSD-3-Clause",
     "require": {
         "php": "^8.3",
-        "ui-awesome/html-helper": "^0.8@dev"
+        "ui-awesome/html-helper": "^0.7@dev"
     },
     "require-dev": {
         "ui-awesome/html-interop": "^0.4@dev",
@@ -37,7 +44,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "0.5.x-dev"
+            "dev-main": "0.6.x-dev"
         }
     },
     "config": {

@@ -1,67 +1,52 @@
-<!-- Mobile layout - Single column -->
-<svg fill="none" viewBox="0 0 600 400" width="100%" height="580" xmlns="http://www.w3.org/2000/svg">
-    <foreignObject width="100%" height="100%">
-        <div xmlns="http://www.w3.org/1999/xhtml">
-            <style>
-                .container {
-                    display: grid;
-                    grid-template-columns: 1fr;
-                    gap: 16px;
-                    padding: 16px;
-                }
-                .alert-box {
-                    border-left: 4px solid #1f883d;
-                    padding: 12px;
-                    margin-bottom: 12px;
-                    border-radius: 6px;
-                    background: rgba(31, 136, 61, 0.1);
-                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-                    width: 100%;
-                    box-sizing: border-box;
-                }
-                .alert-title {
-                    margin: 0 0 8px 0;
-                    font-weight: 600;
-                    font-size: 14px;
-                }
-                .alert-content {
-                    margin: 0;
-                    line-height: 1.4;
-                    font-size: 12px;
-                }
+<!-- Mobile version - Single column -->
+<svg viewBox="0 0 620 620" width="100%" height="580" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        .box-bg { fill: #e6f4ea; stroke: #a7cdb3; stroke-width: 1; }
+        .title { font-weight: 700; font-size: 14px; fill: #1a202c; }
+        .content { font-size: 11px; fill: #4a5568; }
+    </style>
 
-                /* Light mode */
-                @media (prefers-color-scheme: light) {
-                    .alert-title { color: #000000; }
-                    .alert-content { color: #333333; }
-                    .alert-box { background: rgba(31, 136, 61, 0.1); }
-                }
-
-                /* Dark mode */
-                @media (prefers-color-scheme: dark) {
-                    .alert-title { color: #ffffff; }
-                    .alert-content { color: #ffffff; }
-                    .alert-box { background: rgba(31, 136, 61, 0.2); }
-                }
-            </style>
-            <div class="container">
-                <div class="alert-box">
-                    <p class="alert-title"><strong>HasAttributes</strong></p>
-                    <p class="alert-content">Immutable HTML attribute management with enum keys/values, closure support, and array merging</p>
-                </div>
-                <div class="alert-box">
-                    <p class="alert-title"><strong>HasContent</strong></p>
-                    <p class="alert-content">Safe content encoding for XSS protection via <code>content()</code> and raw HTML insertion via <code>html()</code></p>
-                </div>
-                <div class="alert-box">
-                    <p class="alert-title"><strong>HasTemplate</strong></p>
-                    <p class="alert-content">Custom template strings for flexible tag construction with immutable template management</p>
-                </div>
-                <div class="alert-box">
-                    <p class="alert-title"><strong>HasPrefix/SuffixCollection</strong></p>
-                    <p class="alert-content">Render content before/after elements with optional UnitEnum tag wrapping and independent attribute management</p>
-                </div>
-            </div>
-        </div>
-    </foreignObject>
+    <g>
+        <rect class="box-bg" x="16" y="16" width="588" height="84" rx="6"/>
+        <rect x="16" y="16" width="4" height="84" fill="#1f883d"/>
+        <text class="title" x="32" y="42">Attribute Management</text>
+        <text class="content" x="32" y="66">Immutable addAttribute(), attributes(), getAttribute() and removal APIs</text>
+        <text class="content" x="32" y="84">Prefix-aware keys &#8226; UnitEnum support &#8226; null values remove safely</text>
+    </g>
+    <g>
+        <rect class="box-bg" x="16" y="116" width="588" height="84" rx="6"/>
+        <rect x="16" y="116" width="4" height="84" fill="#1f883d"/>
+        <text class="title" x="32" y="142">Container Collection</text>
+        <text class="content" x="32" y="166">Toggle container rendering and manage container attributes immutably</text>
+        <text class="content" x="32" y="184">Class merging, attribute replacement and prefix-aware removal</text>
+    </g>
+    <g>
+        <rect class="box-bg" x="16" y="216" width="588" height="84" rx="6"/>
+        <rect x="16" y="216" width="4" height="84" fill="#1f883d"/>
+        <text class="title" x="32" y="242">Content Encoding</text>
+        <text class="content" x="32" y="266">Encoded content() values for safe output with Stringable support</text>
+        <text class="content" x="32" y="284">Explicit html() insertion for trusted raw markup</text>
+    </g>
+    <g>
+        <rect class="box-bg" x="16" y="316" width="588" height="84" rx="6"/>
+        <rect x="16" y="316" width="4" height="84" fill="#1f883d"/>
+        <text class="title" x="32" y="342">Label Collection</text>
+        <text class="content" x="32" y="366">Immutable label content, visibility state and label attributes</text>
+        <text class="content" x="32" y="384">Prefix-aware lookups for accessible component labels</text>
+    </g>
+    <g>
+        <rect class="box-bg" x="16" y="416" width="588" height="84" rx="6"/>
+        <rect x="16" y="416" width="4" height="84" fill="#1f883d"/>
+        <text class="title" x="32" y="442">Prefix &amp; Suffix Collections</text>
+        <text class="content" x="32" y="466">Render content before and after elements with optional UnitEnum tags</text>
+        <text class="content" x="32" y="484">Independent attributes, class merging and tag control</text>
+    </g>
+    <g>
+        <rect class="box-bg" x="16" y="516" width="588" height="84" rx="6"/>
+        <rect x="16" y="516" width="4" height="84" fill="#1f883d"/>
+        <text class="title" x="32" y="542">Template Strings</text>
+        <text class="content" x="32" y="566">Immutable template assignment for reusable component rendering</text>
+        <text class="content" x="32" y="584">Small mixin primitives with no framework coupling</text>
+    </g>
 </svg>

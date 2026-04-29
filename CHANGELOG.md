@@ -1,102 +1,107 @@
-# ChangeLog
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 
 ## 0.5.0 Under development
 
-- Bug #58: Remove `ui-awesome/html-interop` from runtime dependencies and keep it as development-only dependency for local tooling/tests (@terabytesoftw)
-- Enh #59: Update `HasAttributes` public API to replace attributes with `attributes()`, add single attributes with `addAttribute()`, and remove attributes on `null` values (@terabytesoftw)
+- fix: remove `ui-awesome/html-interop` from runtime dependencies and keep it as a development-only dependency for local tooling and tests.
+- feat: update `HasAttributes` to replace attributes with `attributes()`, add single attributes with `addAttribute()`, and remove attributes on `null` values.
+- docs: refresh package metadata and feature overview assets for the current mixin surface.
 
 ## 0.4.2 February 15, 2026
 
-- Enh #57: Add prefixed attribute support to `HasAttributes`, `HasLabelCollection`, `HasPrefixCollection`, and `HasSuffixCollection` in attribute bag methods (`attributes()`, `getAttribute()`, `setAttribute()`, `removeAttribute()` and the corresponding collection methods) (@terabytesoftw)
+- feat: add prefixed attribute support to `HasAttributes`, `HasLabelCollection`, `HasPrefixCollection`, and `HasSuffixCollection` through attribute bag methods and corresponding collection methods.
 
 ## 0.4.1 February 15, 2026
 
-- Bug #56: Update attribute tests to directly use resolved values instead of closures (@terabytesoftw)
+- test: update attribute tests to assert resolved values directly instead of closures.
 
 ## 0.4.0 February 14, 2026
 
-- Enh #54: Add `setAttribute()` prefixed attribute APIs to `HasContainerCollection`, `HasLabelCollection`, `HasPrefixCollection`, and `HasSuffixCollection` and related tests (@terabytesoftw)
-- Bug #55: Migrate mixin attribute setters and tests to the simplified API (@terabytesoftw)
+- feat: add prefixed `setAttribute()` APIs to `HasContainerCollection`, `HasLabelCollection`, `HasPrefixCollection`, and `HasSuffixCollection` with related tests.
+- refactor: migrate mixin attribute setters and tests to the simplified API.
 
 ## 0.3.6 February 14, 2026
 
-- Enh #51: Add `HasLabelCollection` mixin for managing label tag and attributes (@terabytesoftw)
-- Bug #52: Refactored attribute handling across mixins to use `AttributeBag` in `HasAttributes`, `HasContainerCollection`, `HasPrefixCollection`, and `HasSuffixCollection` for improved consistency and maintainability (@terabytesoftw)
-- Bug #53: Replace enum usage with `BackedInteger` in attribute tests and remove unused enum files (@terabytesoftw)
+- feat: add `HasLabelCollection` mixin for managing label tag and attributes.
+- refactor: use `AttributeBag` in `HasAttributes`, `HasContainerCollection`, `HasPrefixCollection`, and `HasSuffixCollection` for consistent attribute handling.
+- test: replace enum usage with `BackedInteger` in attribute tests and remove unused enum files.
 
 ## 0.3.5 February 9, 2026
 
-- Enh #49: Add `HasContainer` mixin for managing container tag and attributes (@terabytesoftw)
-- Enh #50: Rename `HasContainer` to `HasContainerCollection` and standardize PHPDoc in `src` and `tests` (@terabytesoftw)
+- feat: add `HasContainer` mixin for managing container tag and attributes.
+- refactor: rename `HasContainer` to `HasContainerCollection` and standardize PHPDoc in `src` and `tests`.
 
 ## 0.3.4 January 29, 2026
 
-- Dep #47: Update `ui-awesome/html-interop` requirement from `^0.2` to `^0.3` in `composer.json` (@terabytesoftw)
-- Enh #48: Add test coverage for `Closure` and `null` value resolution in `setAttribute()` method of `HasAttributes` mixin (@terabytesoftw)
+- chore: update the `ui-awesome/html-interop` requirement from `^0.2` to `^0.3` in `composer.json`.
+- test: add coverage for `Closure` and `null` value resolution in `HasAttributes::setAttribute()`.
 
 ## 0.3.3 January 28, 2026
 
-- Bug #43: Add section for automated refactoring using `Rector` in testing documentation (@terabytesoftw)
-- Bug #44: Update examples in `testing.md` for running Composer script with arguments (@terabytesoftw)
-- Bug #45: Update command syntax in `development.md` and `testing.md` for clarity and consistency (@terabytesoftw)
-- Bug #46: Remove redundant ignore rule in `actionlint.yml` configuration and update Rector command in `composer.json` to remove unnecessary 'src' argument (@terabytesoftw)
+- docs: add an automated refactoring section to the testing documentation.
+- docs: update testing examples for running Composer scripts with arguments.
+- docs: update command syntax in `development.md` and `testing.md` for clarity and consistency.
+- chore: remove the redundant ignore rule in `actionlint.yml` and update the Rector command in `composer.json`.
 
 ## 0.3.2 January 24, 2026
 
-- Enh #40: Add `php-forge/coding-standard` to development dependencies for code quality checks (@terabytesoftw)
-- Bug #41: Remove redundant cURL commands for `ecs.php` and `rector.php` in scripts section of `composer.json` (@terabytesoftw)
-- Bug #42: Remove references to `ecs.php` and `rector.php` from development documentation (@terabytesoftw)
+- chore: add `php-forge/coding-standard` to development dependencies for code quality checks.
+- chore: remove redundant cURL commands from the `composer.json` scripts section.
+- docs: remove references to `ecs.php` and `rector.php` from development documentation.
 
 ## 0.3.1 January 20, 2026
 
-- Bug #38: Remove redundant usage examples from `HasAttributes`, `HasPrefixCollection`, and `HasSuffixCollection` traits for clarity (@terabytesoftw)
-- Bug #39: Enhance documentation for `Message` enum to clarify error message templates and formatting usage (@terabytesoftw)
+- docs: remove redundant usage examples from `HasAttributes`, `HasPrefixCollection`, and `HasSuffixCollection`.
+- docs: clarify `Message` enum error message templates and formatting usage.
 
 ## 0.3.0 January 18, 2026
 
-- Enh #27: Refactor codebase to improve performance (@terabytesoftw)
-- Bug #28: Add test for setting attributes with prefix value in `HasAttributes` mixin (@terabytesoftw)
-- Enh #29: Add development guide and enhance testing documentation (@terabytesoftw)
-- Bug #30: Update `.editorconfig` and `phpunit.xml.dist` for consistency and clarity (@terabytesoftw)
-- Bug #31: Update import paths and fix namespace declarations in configuration files (@terabytesoftw)
-- Bug #32: Add `NullableTypeDeclarationFixer` to the configuration and update skip rules in `ECS` configuration (@terabytesoftw)
-- Enh #33: Add `getAttribute()` method to `HasAttributes` mixin for retrieving attribute values (@terabytesoftw)
-- Bug #34: Improve code examples in `README.md` for better readability and clarity (@terabytesoftw)
-- Bug #35: Improve `testing.md` for clarity and consistency in Composer script usage (@terabytesoftw)
-- Bug #36: Update documentation for various traits and enums to enhance clarity and consistency (@terabytesoftw)
-- Bug #37: Update documentation for test classes to enhance clarity and consistency (@terabytesoftw)
-- Enh #26: Update `ui-awesome/html-helper` to `0.2` and move `Components` to `ui-awesome/html-core-component` (@terabytesoftw)
+- refactor: improve codebase performance.
+- test: add coverage for setting attributes with prefix values in `HasAttributes`.
+- docs: add development guide and enhance testing documentation.
+- chore: update `.editorconfig` and `phpunit.xml.dist` for consistency and clarity.
+- fix: update import paths and namespace declarations in configuration files.
+- chore: add `NullableTypeDeclarationFixer` to the configuration and update ECS skip rules.
+- feat: add `getAttribute()` to `HasAttributes` for retrieving attribute values.
+- docs: improve `README.md` code examples for readability and clarity.
+- docs: improve `testing.md` for consistent Composer script usage.
+- docs: update documentation for traits and enums.
+- docs: update documentation for test classes.
+- chore: update `ui-awesome/html-helper` to `0.2` and move components to `ui-awesome/html-core-component`.
 
 ## 0.1.2 March 14, 2024
 
-- Enh #4: Add trait `HasFirstItemClass` class (@terabytesoftw)
-- Enh #5: Add trait `HasFirstLinkClass` class (@terabytesoftw)
-- Enh #6: Add trait `HasLastItemClass` class (@terabytesoftw)
-- Enh #7: Add trait `HasLastLinkClass` class (@terabytesoftw)
-- Bug #8: Add for overriding classes in `HasLastItemClass`, `HasLastLinkClass`, `HasFirstItemClass` and `HasFirstLinkClass` (@terabytesoftw)
-- Bug #9: Update phpdoc `CSS` class assignments (@terabytesoftw)
-- Bug #10: Better naming `HasLinkActiveClass` and `HasLinkDisableClass` (@terabytesoftw)
-- Enh #11: Add trait `HasLinkItemActiveClass` class (@terabytesoftw)
-- Bug #12: Update value default `override` `true` to `false` in `HasLinkItemActiveClass` (@terabytesoftw)
-- Enh #13: Add trait `HasLinkItemDisableClass` class (@terabytesoftw)
-- Bug #14: Update value default `override` `true` to `false` in `HasLinkActiveClass` and `HasLinkDisableClass` (@terabytesoftw)
-- Enh #15: Add trait `HasTemplateItems` class (@terabytesoftw)
-- Enh #16: Add trait `HasTemplateLinkItem` class (@terabytesoftw)
-- Bug #17: Better naming `HasTemplateItems` to `HasTemplateItem` (@terabytesoftw)
-- Bug #18: Add `linkTag()` method in `HasLinkCollection` trait (@terabytesoftw)
-- Enh #19: Add trait `HasLinkContainerCollection` class (@terabytesoftw)
-- Enh #20: Add trait `HasLinkActiveTag` class (@terabytesoftw)
-- Enh #21: Add trait `HasTag` class (@terabytesoftw)
-- Enh #22: Add trait `HasLinkAreaCurrent` class (@terabytesoftw)
-- Enh #23: Add trait `HasListItemAreaCurrent` class (@terabytesoftw)
-- Bug #24: Fix `linkAriaCurrent()` and `listItemAriaCurrent()` methods to accept a boolean value. (@terabytesoftw)
-- Bug #25: Fix `phpdoc` for `psalm` (@terabytesoftw)
+- feat: add `HasFirstItemClass` trait.
+- feat: add `HasFirstLinkClass` trait.
+- feat: add `HasLastItemClass` trait.
+- feat: add `HasLastLinkClass` trait.
+- fix: support overriding classes in `HasLastItemClass`, `HasLastLinkClass`, `HasFirstItemClass`, and `HasFirstLinkClass`.
+- docs: update PHPDoc for CSS class assignments.
+- refactor: rename `HasLinkActiveClass` and `HasLinkDisableClass`.
+- feat: add `HasLinkItemActiveClass` trait.
+- fix: change the default `override` value from `true` to `false` in `HasLinkItemActiveClass`.
+- feat: add `HasLinkItemDisableClass` trait.
+- fix: change the default `override` value from `true` to `false` in `HasLinkActiveClass` and `HasLinkDisableClass`.
+- feat: add `HasTemplateItems` trait.
+- feat: add `HasTemplateLinkItem` trait.
+- refactor: rename `HasTemplateItems` to `HasTemplateItem`.
+- feat: add `linkTag()` to `HasLinkCollection`.
+- feat: add `HasLinkContainerCollection` trait.
+- feat: add `HasLinkActiveTag` trait.
+- feat: add `HasTag` trait.
+- feat: add `HasLinkAreaCurrent` trait.
+- feat: add `HasListItemAreaCurrent` trait.
+- fix: allow boolean values in `linkAriaCurrent()` and `listItemAriaCurrent()`.
+- docs: fix PHPDoc for Psalm.
 
 ## 0.1.1 March 9, 2024
 
-- Enh #2: Add traits `components` classes (@terabytesoftw)
-- Bug #3: Fix trait `HasListContainerCollection` class and update `README.md` (@terabytesoftw)
+- feat: add component traits.
+- fix: update `HasListContainerCollection` and `README.md`.
 
 ## 0.1.0 March 5, 2024
 
-- Enh #1: Initial commit (@terabytesoftw)
+- feat: initial `ui-awesome/html-mixin` package structure.
