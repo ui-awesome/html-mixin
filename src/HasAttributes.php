@@ -18,9 +18,7 @@ use UnitEnum;
 trait HasAttributes
 {
     /**
-     * HTML attributes array used by the implementing class.
-     *
-     * @var mixed[]
+     * @var mixed[] HTML attributes array used by the implementing class.
      */
     protected array $attributes = [];
 
@@ -38,11 +36,11 @@ trait HasAttributes
     }
 
     /**
-     * Replaces all HTML attributes for the element.
+     * Adds or updates multiple HTML attributes for the element.
      *
      * @param mixed[] $values Associative array of attribute keys and values.
      *
-     * @return static New instance with the replaced attributes value.
+     * @return static New instance with the updated attributes value.
      */
     public function attributes(array $values): static
     {
@@ -89,6 +87,22 @@ trait HasAttributes
     }
 
     /**
+     * Replaces all HTML attributes for the element.
+     *
+     * @param mixed[] $values Associative array of attribute keys and values.
+     *
+     * @return static New instance with the replaced attributes value.
+     */
+    public function replaceAttributes(array $values): static
+    {
+        $new = clone $this;
+
+        AttributeBag::replace($new->attributes, $values);
+
+        return $new;
+    }
+
+    /**
      * Sets a single HTML attribute for internal fluent setters.
      *
      * @param string|UnitEnum $key Attribute name.
@@ -107,18 +121,18 @@ trait HasAttributes
     }
 
     /**
-     * Replaces all HTML attributes for internal fluent setters.
+     * Adds or updates multiple HTML attributes for internal fluent setters.
      *
      * @param mixed[] $values Associative array of attribute keys and values.
      * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
      *
-     * @return static New instance with the replaced attributes value.
+     * @return static New instance with the updated attributes value.
      */
     private function setAttributes(array $values, string $prefix = ''): static
     {
         $new = clone $this;
 
-        AttributeBag::replace($new->attributes, $values, $prefix);
+        AttributeBag::setMany($new->attributes, $values, $prefix);
 
         return $new;
     }
