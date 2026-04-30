@@ -19,8 +19,9 @@ use UIAwesome\Html\Mixin\Tests\Support\ExposeHasAttributesInternals;
  * Test coverage.
  * - Adds single attributes through the public API.
  * - Ensures fluent setters return new instances (immutability).
- * - Replaces attributes through the public API.
+ * - Merges attributes through the public API.
  * - Removes attributes and returns expected values.
+ * - Replaces attributes through the explicit replacement API.
  * - Sets prefixed attributes through protected internals exposed by test stubs.
  * - Throws InvalidArgumentException for empty or unsupported attribute keys.
  *
@@ -99,6 +100,25 @@ final class HasAttributesTest extends TestCase
         );
     }
 
+    public function testAttributesMergeExistingValues(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        $instance = $instance->attributes(['id' => 'my-id']);
+        $instance = $instance->attributes(['class' => 'my-class']);
+
+        self::assertSame(
+            [
+                'id' => 'my-id',
+                'class' => 'my-class',
+            ],
+            $instance->getAttributes(),
+            'Should merge existing attributes instead of replacing them.',
+        );
+    }
+
     public function testAttributesPrefixSupportThroughProtectedInternals(): void
     {
         $instance = new class {
@@ -126,9 +146,12 @@ final class HasAttributesTest extends TestCase
             "Should set and read prefixed attributes via internal 'setAttributes()'.",
         );
         self::assertSame(
-            ['aria-describedby' => 'field-id'],
+            [
+                'aria-label' => 'label',
+                'aria-describedby' => 'field-id',
+            ],
             $instance->getAttributes(),
-            'Should replace the attribute bag when setting prefixed attributes in bulk.',
+            'Should merge prefixed attributes in bulk.',
         );
 
         $instance = $instance->removeAttribute('aria-describedby');
@@ -136,22 +159,6 @@ final class HasAttributesTest extends TestCase
         self::assertNull(
             $instance->getAttribute('aria-describedby'),
             "Should remove the prefixed 'aria-describedby' attribute.",
-        );
-    }
-
-    public function testAttributesReplaceExistingValues(): void
-    {
-        $instance = new class {
-            use HasAttributes;
-        };
-
-        $instance = $instance->attributes(['id' => 'my-id']);
-        $instance = $instance->attributes(['class' => 'my-class']);
-
-        self::assertSame(
-            ['class' => 'my-class'],
-            $instance->getAttributes(),
-            'Should replace existing attributes instead of merging them.',
         );
     }
 
@@ -239,6 +246,27 @@ final class HasAttributesTest extends TestCase
         );
     }
 
+    public function testReplaceAttributesReplacesExistingValues(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        $original = $instance->attributes(['id' => 'my-id']);
+        $replacement = $original->replaceAttributes(['class' => 'my-class']);
+
+        self::assertSame(
+            ['id' => 'my-id'],
+            $original->getAttributes(),
+            'Should keep the original attributes unchanged after explicit replacement.',
+        );
+        self::assertSame(
+            ['class' => 'my-class'],
+            $replacement->getAttributes(),
+            'Should replace existing attributes through the explicit replacement API.',
+        );
+    }
+
     public function testReturnNewInstanceWhenSettingAttributes(): void
     {
         $instance = new class {
@@ -260,6 +288,11 @@ final class HasAttributesTest extends TestCase
             $instance,
             $instance->removeAttribute('tests'),
             'Should return a new instance when removing an attribute, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->replaceAttributes([]),
+            'Should return a new instance when replacing attributes, ensuring immutability.',
         );
         self::assertNotSame(
             $instance,

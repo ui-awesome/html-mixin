@@ -1,5 +1,12 @@
 # Upgrade Guide
 
+## 0.5.1
+
+### Attribute replacement
+
+- `HasAttributes::attributes()` now updates existing attributes instead of replacing the full attribute bag.
+- Use `replaceAttributes()` when you need to discard previous attributes before applying new ones.
+
 ## 0.5.0
 
 ### Runtime dependencies
