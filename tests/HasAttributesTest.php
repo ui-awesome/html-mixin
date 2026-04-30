@@ -108,14 +108,15 @@ final class HasAttributesTest extends TestCase
 
         $instance = $instance->attributes(['id' => 'my-id']);
         $instance = $instance->attributes(['class' => 'my-class']);
+        $instance = $instance->attributes(['class' => 'new-class']);
 
         self::assertSame(
             [
                 'id' => 'my-id',
-                'class' => 'my-class',
+                'class' => 'new-class',
             ],
             $instance->getAttributes(),
-            'Should merge existing attributes instead of replacing them.',
+            'Should merge new attributes and update existing attributes.',
         );
     }
 
