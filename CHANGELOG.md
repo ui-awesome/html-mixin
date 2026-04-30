@@ -7,6 +7,7 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 ## 0.5.1 Under development
 
 - fix: make `HasAttributes::attributes()` update existing attributes and add `replaceAttributes()` for full replacement.
+- docs: update README and feature assets for attribute update and replacement APIs.
 
 ## 0.5.0 April 29, 2026
 

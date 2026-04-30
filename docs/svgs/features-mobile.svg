@@ -11,7 +11,7 @@
         <rect class="box-bg" x="16" y="16" width="588" height="84" rx="6"/>
         <rect x="16" y="16" width="4" height="84" fill="#1f883d"/>
         <text class="title" x="32" y="42">Attribute Management</text>
-        <text class="content" x="32" y="66">Immutable addAttribute(), attributes(), getAttribute() and removal APIs</text>
+        <text class="content" x="32" y="66">Immutable add/update, replaceAttributes(), lookup and removal APIs</text>
         <text class="content" x="32" y="84">Prefix-aware keys &#8226; UnitEnum support &#8226; null values remove safely</text>
     </g>
     <g>
