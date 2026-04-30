@@ -10,7 +10,7 @@
         <rect class="box-bg" x="20" y="20" width="570" height="100" rx="6"/>
         <rect x="20" y="20" width="4" height="100" fill="#1f883d"/>
         <text class="title" x="40" y="50">Attribute Management</text>
-        <text class="content" x="40" y="78">Immutable addAttribute(), attributes(), getAttribute() and removal APIs</text>
+        <text class="content" x="40" y="78">Immutable add/update, replaceAttributes(), lookup and removal APIs</text>
         <text class="content" x="40" y="98">Prefix-aware keys &#8226; UnitEnum support &#8226; null values remove safely</text>
     </g>
 

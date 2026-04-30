@@ -42,8 +42,9 @@ composer require ui-awesome/html-mixin:^0.5
 
 #### Managing HTML attributes with HasAttributes
 
-The `HasAttributes` trait provides a fluent, immutable API for managing HTML attributes on elements. Supports enum
-keys/values, closure-based values, prefix normalization (for example `aria-`, `data-`, `on`), and array merging.
+The `HasAttributes` trait provides a fluent, immutable API for managing HTML attributes on elements. It supports enum
+keys/values, closure-based values, additive updates with `attributes()`, explicit replacement with `replaceAttributes()`,
+and `null` values for removing attributes.
 
 ```php
 <?php
@@ -62,19 +63,24 @@ final class MyComponent
 $component = new MyComponent();
 
 $component = $component
-    ->setAttribute('id', 'my-component')
-    ->attributes(['class' => ['container'], 'role' => 'main'])
-    ->attributes(['label' => 'Close'], 'aria-')
+    ->addAttribute('id', 'my-component')
+    ->attributes(['class' => 'container', 'role' => 'main'])
+    ->attributes(['data-state' => 'open', 'aria-label' => 'Close'])
     ->removeAttribute('role');
 
 $component->getAttributes();
-// ['id' => 'my-component', 'class' => ['container'], 'aria-label' => 'Close']
+// ['id' => 'my-component', 'class' => 'container', 'data-state' => 'open', 'aria-label' => 'Close']
 
 $component->getAttribute('id', 'default-id');
 // 'my-component'
 
-$component->getAttribute('label', null, 'aria-');
+$component->getAttribute('aria-label');
 // 'Close'
+
+$replacement = $component->replaceAttributes(['id' => 'replacement']);
+
+$replacement->getAttributes();
+// ['id' => 'replacement']
 ```
 
 #### Managing content with encoding support
