@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 
+## 0.6.1 Under development
+
 ## 0.6.0 April 30, 2026
 
 - fix: make `HasAttributes::attributes()` update existing attributes and add `replaceAttributes()` for full replacement.
