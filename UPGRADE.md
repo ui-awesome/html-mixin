@@ -1,6 +1,6 @@
 # Upgrade Guide
 
-## 0.5.1
+## 0.6.0
 
 ### Attribute replacement
 
