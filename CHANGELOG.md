@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - chore: migrate to `yii2-extensions/scaffold` consumer model with `php-forge/baseline` and `php-forge/coding-standard ^0.3@dev`.
 - docs: update changelog format to reference Conventional Commits.
+- chore: update dependencies and configuration files.
 
 ## 0.6.0 April 30, 2026
 
