@@ -19,7 +19,7 @@ use UnitEnum;
 final class AttributeProvider
 {
     /**
-     * @phpstan-return array<string, array{string|UnitEnum, scalar|Closure|null, mixed[], string}>
+     * @phpstan-return array<string, array{string|UnitEnum, scalar|Closure(): mixed|null, mixed[], string}>
      */
     public static function value(): array
     {
