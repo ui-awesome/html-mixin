@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Mixin\Tests\Provider;
 
+use Closure;
 use UIAwesome\Html\Mixin\Values\AttributeProperty;
 use UnitEnum;
 
@@ -18,7 +19,7 @@ use UnitEnum;
 final class AttributeProvider
 {
     /**
-     * @phpstan-return array<string, array{string|UnitEnum, scalar|\Closure(): mixed|null, mixed[], string}>
+     * @phpstan-return array<string, array{string|UnitEnum, scalar|Closure(): mixed|null, mixed[], string}>
      */
     public static function value(): array
     {
