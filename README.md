@@ -1,8 +1,8 @@
 <!-- markdownlint-disable MD041 -->
 <p align="center">
-    <picture>
+    <a href="https://github.com/ui-awesome/html-mixin" target="_blank">
         <img src="https://raw.githubusercontent.com/ui-awesome/.github/refs/heads/main/logo/ui_awesome.png" alt="UI Awesome" width="25%">
-    </picture>
+    </a>
     <h1 align="center">Html Mixin</h1>
     <br>
 </p>
