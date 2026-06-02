@@ -500,7 +500,7 @@ enum AttributeProperty: string
     case SCOPE = 'scope';
 
     /**
-     * `selected` — Indicates that an option should be pre-selected on page load.
+     * `selected` — Indicates that an option should be preselected on page load.
      */
     case SELECTED = 'selected';
 

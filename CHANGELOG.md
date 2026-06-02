@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - docs: update changelog format to reference Conventional Commits.
 - chore: update dependencies and configuration files.
 - docs: Correct image source order in `README.md` for feature overview.
+- docs: add Facebook follow badge to `README.md`.
 
 ## 0.6.0 April 30, 2026
 
