@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - docs: Correct image source order in `README.md` for feature overview.
 - docs: add Facebook follow badge to `README.md`.
 - docs: update logo link in `README.md` to use an anchor tag.
+- chore: update configuration files and dependencies, improve linter settings.
 
 ## 0.6.0 April 30, 2026
 

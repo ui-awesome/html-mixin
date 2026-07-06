@@ -11,10 +11,7 @@ use UnitEnum;
 /**
  * Provides an immutable API for label content and label attributes.
  *
- * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label
- *
- * @copyright Copyright (C) 2026 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
+ * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label
  */
 trait HasLabelCollection
 {
@@ -26,7 +23,7 @@ trait HasLabelCollection
     /**
      * Label attributes.
      *
-     * @phpstan-var mixed[] $labelAttributes
+     * @phpstan-var mixed[]
      */
     private array $labelAttributes = [];
 

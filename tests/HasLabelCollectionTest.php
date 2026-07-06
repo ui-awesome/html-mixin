@@ -14,19 +14,6 @@ use UIAwesome\Html\Mixin\HasLabelCollection;
 
 /**
  * Unit tests for the {@see HasLabelCollection} trait managing label content and label attributes.
- *
- * Test coverage.
- * - Ensures fluent setters return new instances (immutability).
- * - Merges new label attributes with existing attributes and overrides duplicate keys.
- * - Sets label attributes and returns expected values.
- * - Sets label CSS classes, including merged and overridden values.
- * - Sets label for attribute and returns expected value.
- * - Sets label text content and returns the expected value.
- * - Throws InvalidArgumentException for empty or unsupported attribute keys.
- * - Verifies label rendering state after setting content and disabling rendering.
- *
- * @copyright Copyright (C) 2026 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 #[Group('mixin')]
 final class HasLabelCollectionTest extends TestCase

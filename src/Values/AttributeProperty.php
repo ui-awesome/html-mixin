@@ -7,10 +7,7 @@ namespace UIAwesome\Html\Mixin\Values;
 /**
  * Defines HTML attribute names.
  *
- * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
+ * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes
  */
 enum AttributeProperty: string
 {

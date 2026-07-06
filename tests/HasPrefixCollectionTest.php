@@ -15,18 +15,6 @@ use UIAwesome\Html\Mixin\HasPrefixCollection;
 
 /**
  * Unit tests for the {@see HasPrefixCollection} trait managing prefix content, tag, and attributes.
- *
- * Test coverage.
- * - Ensures fluent setters return new instances (immutability).
- * - Merges new prefix attributes with existing ones, overriding duplicates.
- * - Sets prefix attributes and returns expected values.
- * - Sets prefix CSS classes, including merged and overridden values.
- * - Sets prefix tag values and supports disabling the tag.
- * - Sets prefix text content and returns the expected value.
- * - Throws InvalidArgumentException for empty or unsupported prefix attribute keys.
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 #[Group('mixin')]
 final class HasPrefixCollectionTest extends TestCase

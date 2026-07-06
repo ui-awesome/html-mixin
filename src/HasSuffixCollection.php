@@ -12,9 +12,6 @@ use function implode;
 
 /**
  * Provides an immutable API for managing suffix element and its attributes.
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 trait HasSuffixCollection
 {
@@ -26,7 +23,7 @@ trait HasSuffixCollection
     /**
      * HTML attributes array for the suffix element.
      *
-     * @phpstan-var mixed[] $suffixAttributes
+     * @phpstan-var mixed[]
      */
     protected array $suffixAttributes = [];
 

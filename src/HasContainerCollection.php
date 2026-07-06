@@ -10,9 +10,6 @@ use UnitEnum;
 
 /**
  * Provides an immutable API for managing the container element and its attributes.
- *
- * @copyright Copyright (C) 2026 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 trait HasContainerCollection
 {
@@ -24,7 +21,7 @@ trait HasContainerCollection
     /**
      * HTML attributes array for the container element.
      *
-     * @phpstan-var mixed[] $containerAttributes
+     * @phpstan-var mixed[]
      */
     protected array $containerAttributes = [];
 

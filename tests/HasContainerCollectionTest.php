@@ -15,18 +15,6 @@ use UIAwesome\Html\Mixin\HasContainerCollection;
 
 /**
  * Unit tests for the {@see HasContainerCollection} trait managing the container tag and attributes.
- *
- * Test coverage.
- * - Ensures fluent setters return new instances (immutability).
- * - Merges new container attributes with existing attributes and overrides duplicate keys.
- * - Sets container attributes and returns expected values.
- * - Sets container CSS classes, including merged and overridden values.
- * - Sets container tag values and supports disabling the tag.
- * - Throws InvalidArgumentException for empty or unsupported container attribute keys.
- * - Verifies container rendering state after enabling and disabling it.
- *
- * @copyright Copyright (C) 2026 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 #[Group('mixin')]
 final class HasContainerCollectionTest extends TestCase
