@@ -10,14 +10,6 @@ use UIAwesome\Html\Mixin\HasTemplate;
 
 /**
  * Unit tests for the {@see HasTemplate} trait managing component template strings.
- *
- * Test coverage.
- * - Ensures `getTemplate()` returns an empty string when template is not set.
- * - Ensures fluent setters return new instances (immutability).
- * - Sets the template value.
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 #[Group('mixin')]
 final class HasTemplateTest extends TestCase

@@ -6,9 +6,6 @@ namespace UIAwesome\Html\Mixin;
 
 /**
  * Provides an immutable API for managing the template string.
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 trait HasTemplate
 {

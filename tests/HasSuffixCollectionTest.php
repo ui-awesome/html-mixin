@@ -15,18 +15,6 @@ use UIAwesome\Html\Mixin\HasSuffixCollection;
 
 /**
  * Unit tests for the {@see HasSuffixCollection} trait managing suffix content, tag, and attributes.
- *
- * Test coverage.
- * - Ensures fluent setters return new instances (immutability).
- * - Merges new suffix attributes with existing ones, overriding duplicates.
- * - Sets the suffix attributes.
- * - Sets the suffix class, including class override behavior.
- * - Sets the suffix tag and supports resetting it to `false`.
- * - Sets the suffix value from strings, variadic parts, and `Stringable` objects.
- * - Throws InvalidArgumentException for empty or unsupported suffix attribute keys.
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 #[Group('mixin')]
 final class HasSuffixCollectionTest extends TestCase

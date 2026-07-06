@@ -12,9 +12,6 @@ use function implode;
 
 /**
  * Provides an immutable API for managing prefix element and its attributes.
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 trait HasPrefixCollection
 {
@@ -26,7 +23,7 @@ trait HasPrefixCollection
     /**
      * HTML attributes array for the prefix element.
      *
-     * @phpstan-var mixed[] $prefixAttributes
+     * @phpstan-var mixed[]
      */
     protected array $prefixAttributes = [];
 

@@ -15,18 +15,6 @@ use UIAwesome\Html\Mixin\Tests\Support\ExposeHasAttributesInternals;
 
 /**
  * Unit tests for the {@see HasAttributes} trait managing HTML attributes.
- *
- * Test coverage.
- * - Adds single attributes through the public API.
- * - Ensures fluent setters return new instances (immutability).
- * - Merges attributes through the public API.
- * - Removes attributes and returns expected values.
- * - Replaces attributes through the explicit replacement API.
- * - Sets prefixed attributes through protected internals exposed by test stubs.
- * - Throws InvalidArgumentException for empty or unsupported attribute keys.
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 #[Group('mixin')]
 final class HasAttributesTest extends TestCase

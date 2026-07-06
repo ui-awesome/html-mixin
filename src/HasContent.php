@@ -9,9 +9,6 @@ use UIAwesome\Html\Helper\Encode;
 
 /**
  * Provides an immutable API for managing element content.
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 trait HasContent
 {
