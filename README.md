@@ -18,6 +18,9 @@
     <a href="https://github.com/ui-awesome/html-mixin/actions/workflows/static.yml" target="_blank">
         <img src="https://img.shields.io/github/actions/workflow/status/ui-awesome/html-mixin/static.yml?style=for-the-badge&label=PHPStan&logo=github" alt="PHPStan">
     </a>
+    <a href="https://github.com/ui-awesome/html-mixin/actions/workflows/security.yml" target="_blank">
+        <img src="https://img.shields.io/github/actions/workflow/status/ui-awesome/html-mixin/security.yml?style=for-the-badge&label=Security&logo=github" alt="Security">
+    </a>
 </p>
 
 <p align="center">
@@ -210,11 +213,11 @@ For detailed configuration options and advanced usage.
 [![Latest Stable Version](https://img.shields.io/packagist/v/ui-awesome/html-mixin.svg?style=for-the-badge&logo=packagist&logoColor=white&label=Stable)](https://packagist.org/packages/ui-awesome/html-mixin)
 [![Total Downloads](https://img.shields.io/packagist/dt/ui-awesome/html-mixin.svg?style=for-the-badge&logo=composer&logoColor=white&label=Downloads)](https://packagist.org/packages/ui-awesome/html-mixin)
 
-## Quality code
+## Project status
 
 [![Codecov](https://img.shields.io/codecov/c/github/ui-awesome/html-mixin.svg?style=for-the-badge&logo=codecov&logoColor=white&label=Coverage)](https://codecov.io/github/ui-awesome/html-mixin)
 [![PHPStan Level Max](https://img.shields.io/badge/PHPStan-Level%20Max-4F5D95.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ui-awesome/html-mixin/actions/workflows/static.yml)
-[![Super-Linter](https://img.shields.io/github/actions/workflow/status/ui-awesome/html-mixin/linter.yml?style=for-the-badge&label=Super-Linter&logo=github)](https://github.com/ui-awesome/html-mixin/actions/workflows/linter.yml)
+[![Quality](https://img.shields.io/github/actions/workflow/status/ui-awesome/html-mixin/quality.yml?style=for-the-badge&label=Quality&logo=github)](https://github.com/ui-awesome/html-mixin/actions/workflows/quality.yml)
 [![StyleCI](https://img.shields.io/badge/StyleCI-Passed-44CC11.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.styleci.io/repos/767385551?branch=main)
 
 ## Our social networks

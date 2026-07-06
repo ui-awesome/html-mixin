@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - docs: add Facebook follow badge to `README.md`.
 - docs: update logo link in `README.md` to use an anchor tag.
 - chore: update configuration files and dependencies, improve linter settings.
+- ci: replace Super-Linter with reusable quality and security workflows, pin reusable workflow references, and refresh project status badges.
 
 ## 0.6.0 April 30, 2026
 
