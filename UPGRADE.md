@@ -1,5 +1,34 @@
 # Upgrade Guide
 
+## 0.7.0
+
+### Package-local `Exception\Message` enum removed
+
+The `UIAwesome\Html\Mixin\Exception\Message` enum has been removed.
+
+It was never thrown by this package: the `InvalidArgumentException` raised for empty or non-`string` attribute keys
+always originates from `ui-awesome/html-helper`, which uses
+`UIAwesome\Html\Helper\Exception\Message::KEY_MUST_BE_NON_EMPTY_STRING`.
+
+Code that catches those exceptions is unaffected, because the exception class and the message text are unchanged.
+Code that referenced the enum to build or assert the expected message must reference the helper enum instead.
+
+Before:
+
+```php
+use UIAwesome\Html\Mixin\Exception\Message;
+
+$this->expectExceptionMessage(Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage());
+```
+
+After:
+
+```php
+use UIAwesome\Html\Helper\Exception\Message;
+
+$this->expectExceptionMessage(Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage());
+```
+
 ## 0.6.0
 
 ### Attribute replacement

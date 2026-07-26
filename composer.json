@@ -39,7 +39,7 @@
         "phpstan/phpstan": "^2.2",
         "phpstan/phpstan-strict-rules": "^2.0",
         "phpunit/phpunit": "^12.5",
-        "ui-awesome/html-interop": "^0.4",
+        "ui-awesome/html-interop": "^0.5@dev",
         "yii2-extensions/scaffold": "^0.2"
     },
     "autoload": {
