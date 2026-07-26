@@ -9,8 +9,8 @@ use PHPForge\Support\Stub\BackedInteger;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Stringable;
+use UIAwesome\Html\Helper\Exception\Message;
 use UIAwesome\Html\Interop\Inline;
-use UIAwesome\Html\Mixin\Exception\Message;
 use UIAwesome\Html\Mixin\HasPrefixCollection;
 
 /**
