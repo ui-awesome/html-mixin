@@ -5,12 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.7.0 Under development
+## 0.7.0 July 29, 2026
 
 - refactor!: remove the package-local exception `Message` enum; the thrown exception always originates from `ui-awesome/html-helper`.
 - test: freeze the public `AttributeProperty` enum surface with contract coverage.
 - test: remove the unused `AttributeProvider` data provider.
-- chore: require `ui-awesome/html-interop` `^0.5@dev`.
 
 ## 0.6.1 July 21, 2026
 
