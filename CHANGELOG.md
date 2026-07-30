@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 0.7.1 Under development
 
+- docs: simplify the upgrade guide around public API migrations.
+
 ## 0.7.0 July 29, 2026
 
 - refactor!: remove the package-local exception `Message` enum; the thrown exception always originates from `ui-awesome/html-helper`.
