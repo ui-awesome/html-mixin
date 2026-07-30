@@ -28,8 +28,11 @@ previous attributes.
 
 ### Enum-backed tag APIs
 
-`containerTag()`, `prefixTag()`, and `suffixTag()`, together with their getters, now accept `false|UnitEnum` instead
-of the interop-specific element interfaces.
+`containerTag()`, `prefixTag()`, and `suffixTag()` now accept `false|UnitEnum`; their getters return
+`false|UnitEnum` instead of the interop-specific element interfaces.
+
+Applications that continue using `UIAwesome\Html\Interop` enums must require `ui-awesome/html-interop` directly,
+because it is no longer a runtime dependency.
 
 ```php
 enum InlineTag: string
