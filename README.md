@@ -38,7 +38,7 @@
 ### Installation
 
 ```bash
-composer require ui-awesome/html-mixin:^0.7
+composer require ui-awesome/html-mixin:^0.8
 ```
 
 ### Quick start
