@@ -28,9 +28,9 @@ trait HasLabelCollection
     private array $labelAttributes = [];
 
     /**
-     * Whether to render the label.
+     * Whether to skip rendering the label, or `null` when not configured.
      */
-    private bool $notLabel = false;
+    private bool|null $notLabel = null;
 
     /**
      * Returns the label content.
@@ -96,7 +96,7 @@ trait HasLabelCollection
      */
     public function isLabel(): bool
     {
-        return $this->notLabel === false && $this->label !== '';
+        return $this->notLabel !== true && $this->label !== '';
     }
 
     /**
@@ -247,19 +247,22 @@ trait HasLabelCollection
     }
 
     /**
-     * Disables label rendering.
+     * Sets whether to skip rendering the label.
      *
      * Usage example:
      * ```php
      * $component->notLabel();
+     * $component->notLabel(false);
      * ```
+     *
+     * @param bool $value Whether to skip rendering the label, or `false` to re-enable a suppressed label.
      *
      * @return static New instance with the updated `notLabel` value.
      */
-    public function notLabel(): static
+    public function notLabel(bool $value = true): static
     {
         $new = clone $this;
-        $new->notLabel = true;
+        $new->notLabel = $value;
 
         return $new;
     }

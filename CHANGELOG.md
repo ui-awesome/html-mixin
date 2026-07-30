@@ -5,9 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.7.1 Under development
+## 0.8.0 Under development
 
 - docs: simplify the upgrade guide around public API migrations.
+- feat!: accept an explicit flag in `HasLabelCollection::notLabel()` so callers can re-enable a suppressed label; the internal `notLabel` default becomes `null` to distinguish an unset flag from an explicit `false`.
 
 ## 0.7.0 July 29, 2026
 

@@ -42,6 +42,13 @@ final class HasLabelCollectionTest extends TestCase
             $instance->isLabel(),
             "Should return 'false' after disabling the label.",
         );
+
+        $instance = $instance->notLabel(false);
+
+        self::assertTrue(
+            $instance->isLabel(),
+            "Should return 'true' after re-enabling the label.",
+        );
     }
 
     public function testLabelAttributesPrefixSupport(): void
