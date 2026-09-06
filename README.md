@@ -98,7 +98,6 @@ passes through `Encode::content()` once. Existing entities keep the encoder's de
 `html()` still accepts only `string|Stringable` and appends trusted raw HTML without encoding. The `content`
 attribute of `Meta` is a separate API and is unchanged.
 
-
 ```php
 <?php
 
