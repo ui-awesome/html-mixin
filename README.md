@@ -88,7 +88,16 @@ $replacement->getAttributes();
 
 #### Managing content with encoding support
 
-The `HasContent` trait handles both safe encoded content and raw HTML with XSS protection through `Encode::content()`.
+The `HasContent` trait encodes `content()` values through `Encode::content()` and appends trusted `html()` values verbatim.
+
+`content()` accepts `string|Stringable|UnitEnum` values. String-backed enums use their value, integer-backed enums
+use their value converted to a string (including `0`), and pure enums use their case name. Each normalized value
+passes through `Encode::content()` once. Existing entities keep the encoder's default behavior (`&amp;` becomes
+`&amp;amp;`); quotes are not additionally escaped. Variadic order, chained accumulation, and immutability are unchanged.
+
+`html()` still accepts only `string|Stringable` and appends trusted raw HTML without encoding. The `content`
+attribute of `Meta` is a separate API and is unchanged.
+
 
 ```php
 <?php
@@ -104,12 +113,20 @@ final class MyComponent
     use HasContent;
 }
 
+enum ContentMessage: string
+{
+    case GUIDANCE = 'Capture <events> & inspect them.';
+}
+
 $component = new MyComponent();
+
+$enumContent = $component->content(ContentMessage::GUIDANCE)->getContent();
+// Capture &lt;events&gt; &amp; inspect them.
 
 $encodedContent = $component
     ->content('<script>alert("XSS")</script>')
     ->getContent();
-// &lt;script&gt;alert(&quot;XSS&quot;)&lt;/script&gt;
+// &lt;script&gt;alert("XSS")&lt;/script&gt;
 
 $component2 = new MyComponent();
 

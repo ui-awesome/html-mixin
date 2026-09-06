@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 0.8.1 Under development
 
+- feat: support backed and pure enums in `HasContent::content()` with existing encoding, accumulation, and immutability.
+
 ## 0.8.0 July 30, 2026
 
 - docs: simplify the upgrade guide around public API migrations.
