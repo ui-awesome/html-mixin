@@ -27,7 +27,7 @@
     ],
     "require": {
         "php": "^8.3",
-        "ui-awesome/html-helper": "^0.7"
+        "ui-awesome/html-helper": "^0.7.3"
     },
     "require-dev": {
         "infection/infection": "^0.35",

@@ -9,14 +9,14 @@ use PHPUnit\Framework\TestCase;
 use Stringable;
 use TypeError;
 use UIAwesome\Html\Mixin\HasContent;
-use UIAwesome\Html\Mixin\Tests\Provider\ContentValueProvider;
+use UIAwesome\Html\Mixin\Tests\Provider\{ContentValueProvider, HtmlValueProvider};
 use UIAwesome\Html\Mixin\Tests\Support\{ContentInteger, ContentString, ContentUnit};
 use UnitEnum;
 
 /**
  * Unit tests for the {@see HasContent} trait managing encoded content and raw HTML fragments.
  *
- * {@see ContentValueProvider} supplies enum, string, and Stringable regression cases.
+ * {@see ContentValueProvider} and {@see HtmlValueProvider} supply encoded and raw content regression cases.
  */
 #[Group('mixin')]
 final class HasContentTest extends TestCase
@@ -81,6 +81,84 @@ final class HasContentTest extends TestCase
             'prefix:' . $expected . '<strong>&raw;</strong>0&amp;amp; &amp;#60; &amp;quot;GUIDANCE',
             $chained->getContent(),
             'Chained calls must append encoded enum content without changing raw HTML.',
+        );
+    }
+
+    /**
+     * @param list<string|Stringable|UnitEnum> $values
+     */
+    #[DataProviderExternal(HtmlValueProvider::class, 'values')]
+    public function testAppendNormalizedHtmlImmutably(array $values, string $expected): void
+    {
+        $original = new class {
+            use HasContent;
+        };
+
+        $initial = $original->html('<header>&amp;</header>');
+        $result = $initial->html(...$values);
+        $chained = $result
+            ->content(ContentString::HTML)
+            ->html(ContentInteger::ZERO, ContentString::ENTITIES, ContentUnit::GUIDANCE);
+
+        self::assertNotSame(
+            $initial,
+            $result,
+            'HTML must return a new instance even without arguments.',
+        );
+        self::assertSame(
+            '',
+            $original->getContent(),
+            'The original instance must remain empty.',
+        );
+        self::assertSame(
+            '<header>&amp;</header>',
+            $initial->getContent(),
+            'The previous instance must remain unchanged.',
+        );
+        self::assertSame(
+            '<header>&amp;</header>' . $expected,
+            $result->getContent(),
+            'Raw values must be normalized and appended in order without encoding.',
+        );
+        self::assertSame(
+            '<header>&amp;</header>' . $expected . '&lt;b title="value"&gt;&amp; \'quoted\'&lt;/b&gt;0&amp; &#60; &quot;GUIDANCE',
+            $chained->getContent(),
+            'Chained calls must retain raw HTML while content() continues encoding.',
+        );
+    }
+
+    public function testHtmlConvertsStringableOnce(): void
+    {
+        $original = new class {
+            use HasContent;
+        };
+        $value = new class implements Stringable {
+            public int $calls = 0;
+
+            public function __toString(): string
+            {
+                $this->calls++;
+
+                return '<i>&amp;</i>';
+            }
+        };
+
+        $result = $original->html($value);
+
+        self::assertSame(
+            1,
+            $value->calls,
+            'HTML must convert each Stringable argument exactly once.',
+        );
+        self::assertSame(
+            '<i>&amp;</i>',
+            $result->getContent(),
+            'Stringable markup and entities must remain raw.',
+        );
+        self::assertSame(
+            '',
+            $original->getContent(),
+            'Conversion must not mutate the original content.',
         );
     }
 
@@ -182,19 +260,16 @@ final class HasContentTest extends TestCase
         );
     }
 
-    public function testThrowTypeErrorWhenHtmlReceivesEnum(): void
+    public function testThrowTypeErrorWhenHtmlReceivesNull(): void
     {
         $instance = new class {
             use HasContent;
         };
 
         $this->expectException(TypeError::class);
-        $this->expectExceptionMessage(
-            'must be of type Stringable|string, ' . ContentString::class . ' given',
-        );
+        $this->expectExceptionMessage('must be of type Stringable|UnitEnum|string, null given');
 
-        // Exercise the rejected input without suppressing static analysis of the public signature.
-        (new \ReflectionMethod($instance, 'html'))->invoke($instance, ContentString::HTML);
+        (new \ReflectionMethod($instance, 'html'))->invoke($instance, null);
     }
 
     public function testVariadicParameters(): void

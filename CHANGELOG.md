@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 0.8.2 Under development
 
-## 0.8.1 September 6, 2026
+- feat!: accept backed and pure enums in `HasContent::html()` without encoding; preserve accumulation and immutability.
+
+## 0.8.1 September 06, 2026
 
 - feat: support backed and pure enums in `HasContent::content()` with existing encoding, accumulation, and immutability.
 
@@ -65,7 +67,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - refactor: use `AttributeBag` in `HasAttributes`, `HasContainerCollection`, `HasPrefixCollection`, and `HasSuffixCollection` for consistent attribute handling.
 - test: replace enum usage with `BackedInteger` in attribute tests and remove unused enum files.
 
-## 0.3.5 February 9, 2026
+## 0.3.5 February 09, 2026
 
 - feat: add `HasContainer` mixin for managing container tag and attributes.
 - refactor: rename `HasContainer` to `HasContainerCollection` and standardize PHPDoc in `src` and `tests`.
@@ -133,11 +135,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix: allow boolean values in `linkAriaCurrent()` and `listItemAriaCurrent()`.
 - docs: fix PHPDoc for Psalm.
 
-## 0.1.1 March 9, 2024
+## 0.1.1 March 09, 2024
 
 - feat: add component traits.
 - fix: update `HasListContainerCollection` and `README.md`.
 
-## 0.1.0 March 5, 2024
+## 0.1.0 March 05, 2024
 
 - feat: initial `ui-awesome/html-mixin` package structure.
