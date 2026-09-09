@@ -95,7 +95,8 @@ use their value converted to a string (including `0`), and pure enums use their 
 passes through `Encode::content()` once. Existing entities keep the encoder's default behavior (`&amp;` becomes
 `&amp;amp;`); quotes are not additionally escaped. Variadic order, chained accumulation, and immutability are unchanged.
 
-`html()` still accepts only `string|Stringable` and appends trusted raw HTML without encoding. The `content`
+`html()` accepts `string|Stringable|UnitEnum` and appends normalized, trusted raw HTML without encoding or sanitizing.
+Backed enums use their value (including zero); pure enums use their name. The `content`
 attribute of `Meta` is a separate API and is unchanged.
 
 ```php
@@ -133,6 +134,14 @@ $htmlContent = $component2
     ->html('<strong>Raw HTML</strong>')
     ->getContent();
 // <strong>Raw HTML</strong>
+
+enum TrustedMarkup: string
+{
+    case NOTICE = '<strong>Saved &amp; ready</strong>';
+}
+
+$rawEnumContent = $component2->html(TrustedMarkup::NOTICE)->getContent();
+// <strong>Saved &amp; ready</strong>
 ```
 
 #### Custom templates with HasTemplate

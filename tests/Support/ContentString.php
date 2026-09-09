@@ -12,6 +12,7 @@ enum ContentString: string
     case EMPTY = '';
     case ENTITIES = '&amp; &#60; &quot;';
     case HTML = '<b title="value">& \'quoted\'</b>';
+    case SCRIPT = '<script>alert("raw")</script>';
     case TEXT = 'message';
     case UNICODE = "caf\u{00E9} \u{4E16}\u{754C}";
     case ZERO = '0';
