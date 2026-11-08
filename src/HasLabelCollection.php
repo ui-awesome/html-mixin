@@ -35,11 +35,6 @@ trait HasLabelCollection
     /**
      * Returns the label content.
      *
-     * Usage example:
-     * ```php
-     * $component->getLabel();
-     * ```
-     *
      * @return string Label content.
      */
     public function getLabel(): string
@@ -49,12 +44,6 @@ trait HasLabelCollection
 
     /**
      * Returns one label attribute value.
-     *
-     * Usage example:
-     * ```php
-     * $component->getLabelAttribute('id', 'default-id');
-     * $component->getLabelAttribute('label', 'default-label', 'aria-');
-     * ```
      *
      * @param string|UnitEnum $key Attribute name.
      * @param mixed $default Default value when the attribute is missing.
@@ -70,11 +59,6 @@ trait HasLabelCollection
     /**
      * Returns label attributes.
      *
-     * Usage example:
-     * ```php
-     * $component->getLabelAttributes();
-     * ```
-     *
      * @return array Label attributes.
      *
      * @phpstan-return mixed[]
@@ -87,11 +71,6 @@ trait HasLabelCollection
     /**
      * Returns whether the label element should be rendered.
      *
-     * Usage example:
-     * ```php
-     * $component->isLabel();
-     * ```
-     *
      * @return bool `true` if the label element should be rendered, or `false` to skip rendering.
      */
     public function isLabel(): bool
@@ -101,11 +80,6 @@ trait HasLabelCollection
 
     /**
      * Sets the label content.
-     *
-     * Usage example:
-     * ```php
-     * $component->label('My Label');
-     * ```
      *
      * @param string|Stringable $content Label content.
      *
@@ -121,12 +95,6 @@ trait HasLabelCollection
 
     /**
      * Sets the label attributes.
-     *
-     * Usage example:
-     * ```php
-     * $component->labelAttributes(['class' => 'form-label']);
-     * $component->labelAttributes(['label' => 'Close'], 'aria-');
-     * ```
      *
      * @param array $attributes Label attributes.
      * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
@@ -147,23 +115,11 @@ trait HasLabelCollection
     /**
      * Adds a CSS class to the label element attributes.
      *
-     * Usage example:
-     * ```php
-     * $component->labelClass('my-class');
-     * $component->labelClass(
-     *     new class implements Stringable {
-     *         public function __toString(): string
-     *         {
-     *             return 'stringable-class';
-     *         }
-     *     },
-     * );
-     * $component->labelClass('override-class', true);
-     * $component->labelClass(null);
-     * ```
+     * Passing `null` preserves existing classes, even when `$override` is `true`.
+     * Use `labelRemoveAttribute('class')` to remove the attribute explicitly.
      *
-     * @param string|Stringable|UnitEnum|null $value CSS class value, or `null` to remove the attribute.
-     * @param bool $override Whether to override existing classes (`true`) or merge (`false`).
+     * @param string|Stringable|UnitEnum|null $value CSS class value, or `null` to preserve existing classes.
+     * @param bool $override Whether to replace existing classes (`true`) or merge (`false`) when valid classes are supplied.
      *
      * @return static New instance with the updated `labelAttributes['class']` value.
      */
@@ -179,12 +135,6 @@ trait HasLabelCollection
     /**
      * Sets the `for` attribute of the label.
      *
-     * Usage example:
-     * ```php
-     * $component->labelFor('input-id');
-     * $component->labelFor(null);
-     * ```
-     *
      * @param string|null $value `for` attribute value.
      *
      * @return static New instance with the updated `labelAttributes['for']` value.
@@ -199,13 +149,6 @@ trait HasLabelCollection
 
     /**
      * Removes a specific label attribute.
-     *
-     * Usage example:
-     * ```php
-     * $component->labelRemoveAttribute('id');
-     * $component->labelRemoveAttribute(DataProperty::ID);
-     * $component->labelRemoveAttribute('label', 'aria-');
-     * ```
      *
      * @param string|UnitEnum $key Attribute name to remove.
      * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
@@ -224,13 +167,6 @@ trait HasLabelCollection
     /**
      * Sets a single HTML attribute for the label element.
      *
-     * Usage example:
-     * ```php
-     * $component->labelSetAttribute('id', 'my-id');
-     * $component->labelSetAttribute('id', null);
-     * $component->labelSetAttribute('label', 'Close', 'aria-');
-     * ```
-     *
      * @param string|UnitEnum $key Attribute name.
      * @param mixed $value Attribute value.
      * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
@@ -248,12 +184,6 @@ trait HasLabelCollection
 
     /**
      * Sets whether to skip rendering the label.
-     *
-     * Usage example:
-     * ```php
-     * $component->notLabel();
-     * $component->notLabel(false);
-     * ```
      *
      * @param bool $value Whether to skip rendering the label, or `false` to re-enable a suppressed label.
      *

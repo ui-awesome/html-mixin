@@ -33,11 +33,6 @@ trait HasContainerCollection
     /**
      * Sets whether to render the container.
      *
-     * Usage example:
-     * ```php
-     * $component->container(true);
-     * ```
-     *
      * @param bool $value Set to `true` to render the container element, or `false` to skip rendering.
      *
      * @return static New instance with the updated `container` value.
@@ -52,11 +47,6 @@ trait HasContainerCollection
 
     /**
      * Sets the container attributes.
-     *
-     * Usage example:
-     * ```php
-     * $component->containerAttributes(['class' => 'wrapper']);
-     * ```
      *
      * @param array $attributes Array of attributes to apply to the container element.
      *
@@ -76,12 +66,6 @@ trait HasContainerCollection
     /**
      * Adds a CSS class to the container element attributes.
      *
-     * Usage example:
-     * ```php
-     * $component->containerClass('new-class');
-     * $component->containerClass('override-class', true);
-     * ```
-     *
      * @param string|Stringable|UnitEnum|null $value CSS class name to add.
      * @param bool $override Whether to override existing class value.
      *
@@ -99,11 +83,6 @@ trait HasContainerCollection
     /**
      * Removes a specific HTML attribute from the container element.
      *
-     * Usage example:
-     * ```php
-     * $component->containerRemoveAttribute('id');
-     * ```
-     *
      * @param string|UnitEnum $key Attribute name to remove.
      *
      * @return static New instance without the specified container attribute.
@@ -119,12 +98,6 @@ trait HasContainerCollection
 
     /**
      * Sets a single HTML attribute for the container element.
-     *
-     * Usage example:
-     * ```php
-     * $component->containerSetAttribute('id', 'my-id');
-     * $component->containerSetAttribute('id', null);
-     * ```
      *
      * @param string|UnitEnum $key Attribute name.
      * @param mixed $value Attribute value.
@@ -143,12 +116,6 @@ trait HasContainerCollection
     /**
      * Sets the container tag name.
      *
-     * Usage example:
-     * ```php
-     * $component->containerTag(Block::SECTION);
-     * $component->containerTag(false);
-     * ```
-     *
      * @param false|UnitEnum $value Tag name for the container element, or `false` to disable.
      *
      * @return static New instance with the updated `containerTag` value.
@@ -164,11 +131,6 @@ trait HasContainerCollection
     /**
      * Returns the value of a single HTML attribute for the container element attributes.
      *
-     * Usage example:
-     * ```php
-     * $component->getContainerAttribute('id', 'default-id');
-     * ```
-     *
      * @param string|UnitEnum $key Attribute name.
      * @param mixed $default Default value when the attribute is missing.
      *
@@ -182,11 +144,6 @@ trait HasContainerCollection
     /**
      * Returns the `array` of HTML attributes for the container element.
      *
-     * Usage example:
-     * ```php
-     * $component->getContainerAttributes();
-     * ```
-     *
      * @return array Attributes `array` assigned to the container element.
      *
      * @phpstan-return mixed[]
@@ -199,11 +156,6 @@ trait HasContainerCollection
     /**
      * Returns the tag name for the container element.
      *
-     * Usage example:
-     * ```php
-     * $component->getContainerTag();
-     * ```
-     *
      * @return false|UnitEnum Tag name for the container element, or `false` to disable.
      */
     public function getContainerTag(): false|UnitEnum
@@ -213,11 +165,6 @@ trait HasContainerCollection
 
     /**
      * Returns whether the container element should be rendered.
-     *
-     * Usage example:
-     * ```php
-     * $component->isContainer();
-     * ```
      *
      * @return bool `true` if the container element should be rendered, or `false` to skip rendering.
      */

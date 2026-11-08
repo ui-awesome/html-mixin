@@ -35,11 +35,6 @@ trait HasSuffixCollection
     /**
      * Returns the suffix content string assigned to the element.
      *
-     * Usage example:
-     * ```php
-     * $component->getSuffix();
-     * ```
-     *
      * @return string Suffix content string assigned to the element.
      */
     public function getSuffix(): string
@@ -49,12 +44,6 @@ trait HasSuffixCollection
 
     /**
      * Returns the value of a single HTML attribute for the suffix element attributes.
-     *
-     * Usage example:
-     * ```php
-     * $component->getSuffixAttribute('id', 'default-id');
-     * $component->getSuffixAttribute('label', 'default-label', 'aria-');
-     * ```
      *
      * @param string|UnitEnum $key Attribute name.
      * @param mixed $default Default value when the attribute is missing.
@@ -70,11 +59,6 @@ trait HasSuffixCollection
     /**
      * Returns the `array` of HTML attributes for the suffix element.
      *
-     * Usage example:
-     * ```php
-     * $component->getSuffixAttributes();
-     * ```
-     *
      * @return array Attributes `array` assigned to the suffix element.
      *
      * @phpstan-return mixed[]
@@ -87,11 +71,6 @@ trait HasSuffixCollection
     /**
      * Returns the tag name for the suffix element.
      *
-     * Usage example:
-     * ```php
-     * $component->getSuffixTag();
-     * ```
-     *
      * @return false|UnitEnum Tag name for the suffix element, or `false` to disable.
      */
     public function getSuffixTag(): false|UnitEnum
@@ -101,11 +80,6 @@ trait HasSuffixCollection
 
     /**
      * Sets the suffix content string for the element.
-     *
-     * Usage example:
-     * ```php
-     * $component->suffix(' End', ' of ', 'element');
-     * ```
      *
      * @param string|Stringable ...$values Suffix content to set for the element.
      *
@@ -121,12 +95,6 @@ trait HasSuffixCollection
 
     /**
      * Sets the HTML attributes for the suffix element.
-     *
-     * Usage example:
-     * ```php
-     * $component->suffixAttributes(['id' => 'suffix-id']);
-     * $component->suffixAttributes(['label' => 'End'], 'aria-');
-     * ```
      *
      * @param array $values Associative array of attribute keys and values.
      * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
@@ -147,12 +115,6 @@ trait HasSuffixCollection
     /**
      * Adds a CSS class to the suffix element attributes.
      *
-     * Usage example:
-     * ```php
-     * $component->suffixClass('new-class');
-     * $component->suffixClass('override-class', true);
-     * ```
-     *
      * @param string|Stringable|UnitEnum|null $value CSS class name to add.
      * @param bool $override Whether to override existing class value.
      *
@@ -169,12 +131,6 @@ trait HasSuffixCollection
 
     /**
      * Removes a specific HTML attribute from the suffix element.
-     *
-     * Usage example:
-     * ```php
-     * $component->suffixRemoveAttribute('id');
-     * $component->suffixRemoveAttribute('label', 'aria-');
-     * ```
      *
      * @param string|UnitEnum $key Attribute name to remove.
      * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
@@ -193,13 +149,6 @@ trait HasSuffixCollection
     /**
      * Sets a single HTML attribute for the suffix element.
      *
-     * Usage example:
-     * ```php
-     * $component->suffixSetAttribute('id', 'my-id');
-     * $component->suffixSetAttribute('id', null);
-     * $component->suffixSetAttribute('label', 'End', 'aria-');
-     * ```
-     *
      * @param string|UnitEnum $key Attribute name.
      * @param mixed $value Attribute value.
      * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
@@ -217,12 +166,6 @@ trait HasSuffixCollection
 
     /**
      * Sets the tag type for the suffix element.
-     *
-     * Usage example:
-     * ```php
-     * $component->suffixTag(Inline::SPAN);
-     * $component->suffixTag(false);
-     * ```
      *
      * @param false|UnitEnum $value Tag name for the suffix element, or `false` to disable.
      *
