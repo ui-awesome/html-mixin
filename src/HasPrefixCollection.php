@@ -35,11 +35,6 @@ trait HasPrefixCollection
     /**
      * Returns the prefix content string assigned to the element.
      *
-     * Usage example:
-     * ```php
-     * $component->getPrefix();
-     * ```
-     *
      * @return string Prefix content string assigned to the element.
      */
     public function getPrefix(): string
@@ -49,12 +44,6 @@ trait HasPrefixCollection
 
     /**
      * Returns the value of a single HTML attribute for the prefix element attributes.
-     *
-     * Usage example:
-     * ```php
-     * $component->getPrefixAttribute('id', 'default-id');
-     * $component->getPrefixAttribute('label', 'default-label', 'aria-');
-     * ```
      *
      * @param string|UnitEnum $key Attribute name.
      * @param mixed $default Default value when the attribute is missing.
@@ -70,11 +59,6 @@ trait HasPrefixCollection
     /**
      * Returns the `array` of HTML attributes for the prefix element.
      *
-     * Usage example:
-     * ```php
-     * $component->getPrefixAttributes();
-     * ```
-     *
      * @return array Attributes `array` assigned to the prefix element.
      *
      * @phpstan-return mixed[]
@@ -87,11 +71,6 @@ trait HasPrefixCollection
     /**
      * Returns the tag name for the prefix element.
      *
-     * Usage example:
-     * ```php
-     * $component->getPrefixTag();
-     * ```
-     *
      * @return false|UnitEnum Tag name for the prefix element, or `false` to disable.
      */
     public function getPrefixTag(): false|UnitEnum
@@ -101,11 +80,6 @@ trait HasPrefixCollection
 
     /**
      * Sets the prefix content string for the element.
-     *
-     * Usage example:
-     * ```php
-     * $component->prefix('Start ', 'of ', 'element');
-     * ```
      *
      * @param string|Stringable ...$values Prefix content to set for the element.
      *
@@ -121,12 +95,6 @@ trait HasPrefixCollection
 
     /**
      * Sets the HTML attributes for the prefix element.
-     *
-     * Usage example:
-     * ```php
-     * $component->prefixAttributes(['id' => 'prefix-id']);
-     * $component->prefixAttributes(['label' => 'Start'], 'aria-');
-     * ```
      *
      * @param array $values Associative array of attribute keys and values.
      * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
@@ -147,12 +115,6 @@ trait HasPrefixCollection
     /**
      * Adds a CSS class to the prefix element attributes.
      *
-     * Usage example:
-     * ```php
-     * $component->prefixClass('new-class');
-     * $component->prefixClass('override-class', true);
-     * ```
-     *
      * @param string|Stringable|UnitEnum|null $value CSS class name to add.
      * @param bool $override Whether to override existing class value.
      *
@@ -169,12 +131,6 @@ trait HasPrefixCollection
 
     /**
      * Removes a specific HTML attribute from the prefix element.
-     *
-     * Usage example:
-     * ```php
-     * $component->prefixRemoveAttribute('id');
-     * $component->prefixRemoveAttribute('label', 'aria-');
-     * ```
      *
      * @param string|UnitEnum $key Attribute name to remove.
      * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
@@ -193,13 +149,6 @@ trait HasPrefixCollection
     /**
      * Sets a single HTML attribute for the prefix element.
      *
-     * Usage example:
-     * ```php
-     * $component->prefixSetAttribute('id', 'my-id');
-     * $component->prefixSetAttribute('id', null);
-     * $component->prefixSetAttribute('label', 'Start', 'aria-');
-     * ```
-     *
      * @param string|UnitEnum $key Attribute name.
      * @param mixed $value Attribute value.
      * @param string $prefix Prefix to ensure (for example, `aria-`, `data-`, `on`).
@@ -217,12 +166,6 @@ trait HasPrefixCollection
 
     /**
      * Sets the tag name for the prefix element.
-     *
-     * Usage example:
-     * ```php
-     * $component->prefixTag(Inline::SPAN);
-     * $component->prefixTag(false);
-     * ```
      *
      * @param false|UnitEnum $value Tag name for the prefix element, or `false` to disable.
      *

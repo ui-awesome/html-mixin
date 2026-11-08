@@ -17,11 +17,6 @@ trait HasTemplate
     /**
      * Returns the template assigned to the element.
      *
-     * Usage example:
-     * ```php
-     * $component->getTemplate();
-     * ```
-     *
      * @return string Template value assigned to the element. Never `null`.
      */
     public function getTemplate(): string
@@ -31,11 +26,6 @@ trait HasTemplate
 
     /**
      * Sets the template string for the element.
-     *
-     * Usage example:
-     * ```php
-     * $component->template('<div>{content}</div>');
-     * ```
      *
      * @param string $value Template string to set for the element.
      *
