@@ -318,7 +318,9 @@ final class HasAttributesTest extends TestCase
         };
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage());
+        $this->expectExceptionMessage(
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
+        );
 
         $instance->addAttribute('', 'value');
     }
@@ -330,7 +332,9 @@ final class HasAttributesTest extends TestCase
         };
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage());
+        $this->expectExceptionMessage(
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
+        );
 
         $instance->addAttribute(BackedInteger::VALUE, 'value');
     }
@@ -342,7 +346,9 @@ final class HasAttributesTest extends TestCase
         };
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage());
+        $this->expectExceptionMessage(
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
+        );
 
         $instance->getAttribute('');
     }
@@ -354,7 +360,9 @@ final class HasAttributesTest extends TestCase
         };
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage());
+        $this->expectExceptionMessage(
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
+        );
 
         $instance->getAttribute(BackedInteger::VALUE);
     }

@@ -19,14 +19,12 @@ trait HasPrefixCollection
      * Prefix content string assigned to the element.
      */
     protected string $prefix = '';
-
     /**
      * HTML attributes array for the prefix element.
      *
      * @phpstan-var mixed[]
      */
     protected array $prefixAttributes = [];
-
     /**
      * Tag name for the prefix element, or `false` to disable.
      */

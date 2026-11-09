@@ -19,14 +19,12 @@ trait HasSuffixCollection
      * Suffix content string assigned to the element.
      */
     protected string $suffix = '';
-
     /**
      * HTML attributes array for the suffix element.
      *
      * @phpstan-var mixed[]
      */
     protected array $suffixAttributes = [];
-
     /**
      * Tag name for the suffix element, or `false` to disable.
      */
