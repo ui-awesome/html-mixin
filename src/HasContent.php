@@ -19,6 +19,19 @@ trait HasContent
     protected string $content = '';
 
     /**
+     * Clears encoded and raw content without changing other component state.
+     *
+     * @return static New instance with empty content.
+     */
+    public function clearContent(): static
+    {
+        $clone = clone $this;
+        $clone->content = '';
+
+        return $clone;
+    }
+
+    /**
      * Appends encoded content.
      *
      * Backed enums use their value (including `0`); pure enums use their name. Values are normalized before encoding.
