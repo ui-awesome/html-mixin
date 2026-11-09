@@ -28,7 +28,9 @@ final class AttributePropertyContractTest extends TestCase
             $value = $case->getValue();
 
             if (!$value instanceof AttributeProperty) {
-                self::fail('Every case must be an `AttributeProperty` instance.');
+                self::fail(
+                    'Every case must be an `AttributeProperty` instance.',
+                );
             }
 
             $actualCases[$case->getName()] = $value->value;

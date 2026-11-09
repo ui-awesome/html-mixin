@@ -17,14 +17,12 @@ trait HasContainerCollection
      * Whether to render the container.
      */
     protected bool $container = false;
-
     /**
      * HTML attributes array for the container element.
      *
      * @phpstan-var mixed[]
      */
     protected array $containerAttributes = [];
-
     /**
      * Tag name for the container element, or `false` to disable.
      */

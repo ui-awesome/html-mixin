@@ -10,6 +10,8 @@ namespace UIAwesome\Html\Mixin\Tests\Support;
 enum ContentInteger: int
 {
     case NEGATIVE = -7;
+
     case POSITIVE = 42;
+
     case ZERO = 0;
 }

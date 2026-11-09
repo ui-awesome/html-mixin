@@ -19,14 +19,12 @@ trait HasLabelCollection
      * Label content.
      */
     private string $label = '';
-
     /**
      * Label attributes.
      *
      * @phpstan-var mixed[]
      */
     private array $labelAttributes = [];
-
     /**
      * Whether to skip rendering the label, or `null` when not configured.
      */

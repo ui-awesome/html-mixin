@@ -121,7 +121,9 @@ final class HasContentTest extends TestCase
             'Raw values must be normalized and appended in order without encoding.',
         );
         self::assertSame(
-            '<header>&amp;</header>' . $expected . '&lt;b title="value"&gt;&amp; \'quoted\'&lt;/b&gt;0&amp; &#60; &quot;GUIDANCE',
+            '<header>&amp;</header>'
+                . $expected
+                . '&lt;b title="value"&gt;&amp; \'quoted\'&lt;/b&gt;0&amp; &#60; &quot;GUIDANCE',
             $chained->getContent(),
             'Chained calls must retain raw HTML while content() continues encoding.',
         );
@@ -191,7 +193,11 @@ final class HasContentTest extends TestCase
             $cleared->content('<after>&')->html('<em>raw</em>')->getContent(),
             'Appending after clearing must preserve encoded and raw content semantics.',
         );
-        self::assertSame('', $cleared->getContent(), 'Appending must not mutate the cleared instance.');
+        self::assertSame(
+            '',
+            $cleared->getContent(),
+            'Appending must not mutate the cleared instance.',
+        );
     }
 
     public function testHtmlConvertsStringableOnce(): void
@@ -334,7 +340,9 @@ final class HasContentTest extends TestCase
         };
 
         $this->expectException(TypeError::class);
-        $this->expectExceptionMessage('must be of type Stringable|UnitEnum|string, null given');
+        $this->expectExceptionMessage(
+            'must be of type Stringable|UnitEnum|string, null given',
+        );
 
         (new \ReflectionMethod($instance, 'html'))->invoke($instance, null);
     }
