@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\{DataProviderExternal, Group};
 use PHPUnit\Framework\TestCase;
 use Stringable;
 use TypeError;
-use UIAwesome\Html\Mixin\HasContent;
+use UIAwesome\Html\Mixin\{HasAttributes, HasContent};
 use UIAwesome\Html\Mixin\Tests\Provider\{ContentValueProvider, HtmlValueProvider};
 use UIAwesome\Html\Mixin\Tests\Support\{ContentInteger, ContentString, ContentUnit};
 use UnitEnum;
@@ -125,6 +125,73 @@ final class HasContentTest extends TestCase
             $chained->getContent(),
             'Chained calls must retain raw HTML while content() continues encoding.',
         );
+    }
+
+    public function testClearContentClonesEmptyInstances(): void
+    {
+        $original = new class {
+            use HasContent;
+        };
+
+        $cleared = $original->clearContent();
+        $clearedAgain = $cleared->clearContent();
+
+        self::assertNotSame(
+            $original,
+            $cleared,
+            'Clearing empty content must still clone.',
+        );
+        self::assertNotSame(
+            $cleared,
+            $clearedAgain,
+            'Repeated clearing must still clone.',
+        );
+        self::assertSame(
+            '',
+            $clearedAgain->getContent(),
+            'Repeated clearing must retain empty content.',
+        );
+    }
+
+    public function testClearContentPreservesOriginalAndAttributes(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+            use HasContent;
+        };
+
+        $original = $instance
+            ->content('<before>&')
+            ->html('<strong>raw</strong>')
+            ->addAttribute('data-state', 'kept');
+        $cleared = $original->clearContent();
+
+        self::assertNotSame(
+            $original,
+            $cleared,
+            'Clearing content must return a new instance.',
+        );
+        self::assertSame(
+            '',
+            $cleared->getContent(),
+            'Clearing must remove encoded and raw content.',
+        );
+        self::assertSame(
+            '&lt;before&gt;&amp;<strong>raw</strong>',
+            $original->getContent(),
+            'Clearing a clone must preserve the original content.',
+        );
+        self::assertSame(
+            'kept',
+            $cleared->getAttribute('data-state'),
+            'Clearing must preserve attributes.',
+        );
+        self::assertSame(
+            '&lt;after&gt;&amp;<em>raw</em>',
+            $cleared->content('<after>&')->html('<em>raw</em>')->getContent(),
+            'Appending after clearing must preserve encoded and raw content semantics.',
+        );
+        self::assertSame('', $cleared->getContent(), 'Appending must not mutate the cleared instance.');
     }
 
     public function testHtmlConvertsStringableOnce(): void

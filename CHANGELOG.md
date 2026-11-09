@@ -8,7 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## 0.8.3 Under development
 
 - chore: remove obsolete scaffold tooling and align package maintenance checks with PHP Forge conventions.
-- docs: clarify labelClass(null) preservation and explicit class removal.
+- docs: clarify `labelClass(null)` preservation and explicit class removal.
+- feat: add immutable `clearContent()` to remove encoded and raw content while preserving other component state.
 
 ## 0.8.2 September 09, 2026
 

@@ -95,6 +95,9 @@ use their value converted to a string (including `0`), and pure enums use their 
 passes through `Encode::content()` once. Existing entities keep the encoder's default behavior (`&amp;` becomes
 `&amp;amp;`); quotes are not additionally escaped. Variadic order, chained accumulation, and immutability are unchanged.
 
+`clearContent()` returns a clone with empty content and preserves all other component state. It clears both
+encoded and raw content; subsequent `content()` and `html()` calls keep their existing append behavior.
+
 `html()` accepts `string|Stringable|UnitEnum` and appends normalized, trusted raw HTML without encoding or sanitizing.
 Backed enums use their value (including zero); pure enums use their name. The `content`
 attribute of `Meta` is a separate API and is unchanged.
