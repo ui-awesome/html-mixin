@@ -1,6 +1,6 @@
 # AI assistance
 
-The canonical package skill is [ui-awesome-html-mixin](../skills/ui-awesome-html-mixin/SKILL.md). It covers immutable attributes, content and collection traits. The checkout's
+The canonical package skill is [ui-awesome-html-mixin](../skills/ui-awesome-html-mixin/SKILL.md). It covers immutable attributes, content, templates and collection traits. The checkout's
 `.agents/skills/` and `.claude/skills/` links point to that single source; no client-specific copies are maintained.
 
 ## Install in an application
@@ -17,6 +17,8 @@ composer skills:show
 
 With manual synchronization configured, run `composer skills:update`. These commands assume the application setup is
 already authorized and complete. Installing a package under `vendor/` alone does not expose a skill at the application root.
+
+### Optional npx installation
 
 For optional project-scoped installation, list the local source first:
 
@@ -42,6 +44,7 @@ Explicit Codex invocation (adapt the first line to the other client's native mec
 ```text
 $ui-awesome-html-mixin
 Compose HasAttributes and HasContent in a host. Test update versus replacement, encoded versus raw content, enum zero and clearContent preserving attributes.
+Compose HasTemplate too: verify replacement, an empty template and immutability; the host must render placeholders.
 Use the installed source, show executable checks, and do not install dependencies or alter unrelated code.
 ```
 
@@ -49,6 +52,7 @@ Natural selection, without naming the skill:
 
 ```text
 How do UI Awesome mixins distinguish append, merge, replacement and null removal when returning cloned instances?
+Show how a host uses HasTemplate without assuming the trait renders or interpolates its template.
 Include a runnable normal case, a boundary case and a deliberate invalid-input or unsupported-capability case.
 ```
 

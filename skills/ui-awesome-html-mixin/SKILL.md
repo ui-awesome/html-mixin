@@ -1,10 +1,10 @@
 ---
 name: ui-awesome-html-mixin
-description: Use when working with immutable attributes, content and collection traits in ui-awesome/html-mixin PHP applications. Not for rendering complete elements, sanitizing untrusted HTML, or building Yii widgets, models or asset bundles.
+description: Use when working with immutable attributes, content, templates and collection traits in ui-awesome/html-mixin PHP applications. Not for rendering complete elements, sanitizing untrusted HTML, or building Yii widgets, models or asset bundles.
 license: BSD-3-Clause
 ---
 
-# Work with immutable attributes, content and collection traits
+# Work with immutable attributes, content, templates and collection traits
 
 ## Resolve the actual package
 
@@ -24,6 +24,8 @@ Do not use this package as a substitute for unrelated Yii widgets, database mode
 
 - `HasContent::content()` appends encoded text and `html()` appends trusted raw markup. `clearContent()` clears content without resetting other state. Backed enum zero must be preserved; pure enums normalize by name.
 
+- `HasTemplate::template()` replaces the template string on a clone, including an empty string. `getTemplate()` returns the stored value; the host must render or interpolate it. Test replacement and original-instance preservation.
+
 - Collection traits manage labels, containers, prefixes and suffixes with their own merge/null rules. Read the selected trait rather than assuming all collections replace. Verify shallow-clone effects on mutable nested objects.
 
 ## Intended behavior that looks like a bug
@@ -34,6 +36,7 @@ Do not "fix" these; they are package contracts.
   are not escaped.
 - `html()` appends its values verbatim; it neither encodes nor sanitizes.
 - `attributes()` merges into the existing bag; only `replaceAttributes()` discards keys that are not supplied.
+- Prefix/suffix tags and attributes are stored configuration, not automatically rendered wrappers. `HasTemplate` stores a template without interpreting placeholders.
 - Every mutator returns a clone and leaves the original instance unchanged.
 
 ## Verify the result

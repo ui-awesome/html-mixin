@@ -182,8 +182,8 @@ echo $component
 
 #### Prefix and suffix content with tag support
 
-The `HasPrefixCollection` and `HasSuffixCollection` traits add content before and after your element, optionally wrapped
-in tags with their own attributes.
+The `HasPrefixCollection` and `HasSuffixCollection` traits store content, optional tags and their attributes. The host
+component is responsible for rendering those tags; the minimal host below concatenates only the stored content.
 
 Tag APIs now accept `UnitEnum`, so your components can use any project enum without a direct runtime dependency on
 `ui-awesome/html-interop`.
@@ -225,7 +225,7 @@ echo $component
     ->suffix(' :Suffix')
     ->suffixTag(InlineTag::EM)
     ->render();
-// <strong class="prefix-badge">Prefix: </strong>Main Content<em> :Suffix</em>
+// Prefix: Main Content :Suffix
 ```
 
 ## Documentation
@@ -242,7 +242,7 @@ of a page by appending `index.md` to its URL. The
 [AI agents guide](https://yii2-framework.github.io/docs/project/ai-agents/) covers skill installation, client setup and
 verification.
 
-- 🤖 [`ui-awesome-html-mixin` skill](docs/agents.md): immutable attributes, encoded and raw content, and label,
+- 🤖 [`ui-awesome-html-mixin` skill](docs/agents.md): immutable attributes, encoded and raw content, templates, and label,
   container, prefix and suffix collections.
 
 Match the installed package revision. If hosted documentation does not match or is unavailable, use the
@@ -260,7 +260,7 @@ render elements by itself.
 
 [![PHPStan Level Max](https://img.shields.io/badge/PHPStan-Level%20Max-4F5D95.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ui-awesome/html-mixin/actions/workflows/static.yml)
 [![Quality](https://img.shields.io/github/actions/workflow/status/ui-awesome/html-mixin/quality.yml?style=for-the-badge&label=Quality&logo=github)](https://github.com/ui-awesome/html-mixin/actions/workflows/quality.yml)
-[![StyleCI](https://img.shields.io/badge/StyleCI-Passing-44CC11.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.styleci.io/repos/767385551?branch=main)
+[![StyleCI](https://img.shields.io/badge/dynamic/xml?url=https%3A%2F%2Fgithub.styleci.io%2Frepos%2F767385551%2Fshield%3Fbranch%3Dmain&query=%2F%2F*%5Blocal-name%28%29%3D%27text%27%5D%5B2%5D&label=StyleCI&style=for-the-badge&logo=github&logoColor=white&color=4F5D95)](https://github.styleci.io/repos/767385551?branch=main)
 
 ## Security
 
