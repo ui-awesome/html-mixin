@@ -1,0 +1,4 @@
+interface:
+  display_name: "UI Awesome HTML Mixin"
+  short_description: "Immutable attributes, content, templates and collections"
+  default_prompt: "Use $ui-awesome-html-mixin to compose immutable attribute, content, template and collection traits in a host class."

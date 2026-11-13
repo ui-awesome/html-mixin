@@ -12,14 +12,14 @@
     <a href="https://github.com/ui-awesome/html-mixin/actions/workflows/build.yml" target="_blank">
         <img src="https://img.shields.io/github/actions/workflow/status/ui-awesome/html-mixin/build.yml?style=for-the-badge&label=PHPUnit&logo=github" alt="PHPUnit">
     </a>
+    <a href="https://codecov.io/github/ui-awesome/html-mixin" target="_blank">
+        <img src="https://img.shields.io/codecov/c/github/ui-awesome/html-mixin.svg?style=for-the-badge&logo=codecov&logoColor=white&label=Coverage" alt="Coverage">
+    </a>
     <a href="https://dashboard.stryker-mutator.io/reports/github.com/ui-awesome/html-mixin/main" target="_blank">
         <img src="https://img.shields.io/endpoint?style=for-the-badge&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fui-awesome%2Fhtml-mixin%2Fmain" alt="Mutation Testing">
     </a>
     <a href="https://github.com/ui-awesome/html-mixin/actions/workflows/static.yml" target="_blank">
         <img src="https://img.shields.io/github/actions/workflow/status/ui-awesome/html-mixin/static.yml?style=for-the-badge&label=PHPStan&logo=github" alt="PHPStan">
-    </a>
-    <a href="https://github.com/ui-awesome/html-mixin/actions/workflows/security.yml" target="_blank">
-        <img src="https://img.shields.io/github/actions/workflow/status/ui-awesome/html-mixin/security.yml?style=for-the-badge&label=Security&logo=github" alt="Security">
     </a>
 </p>
 
@@ -182,8 +182,8 @@ echo $component
 
 #### Prefix and suffix content with tag support
 
-The `HasPrefixCollection` and `HasSuffixCollection` traits add content before and after your element, optionally wrapped
-in tags with their own attributes.
+The `HasPrefixCollection` and `HasSuffixCollection` traits store content, optional tags and their attributes. The host
+component is responsible for rendering those tags; the minimal host below concatenates only the stored content.
 
 Tag APIs now accept `UnitEnum`, so your components can use any project enum without a direct runtime dependency on
 `ui-awesome/html-interop`.
@@ -225,7 +225,7 @@ echo $component
     ->suffix(' :Suffix')
     ->suffixTag(InlineTag::EM)
     ->render();
-// <strong class="prefix-badge">Prefix: </strong>Main Content<em> :Suffix</em>
+// Prefix: Main Content :Suffix
 ```
 
 ## Documentation
@@ -235,6 +235,21 @@ For detailed configuration options and advanced usage.
 - 🧪 [Testing Guide](docs/testing.md)
 - ⬆️ [Upgrade Guide](UPGRADE.md)
 
+## AI assistance
+
+AI agents: read the [documentation index](https://yii2-framework.github.io/docs/llms.txt) and fetch the Markdown version
+of a page by appending `index.md` to its URL. The
+[AI agents guide](https://yii2-framework.github.io/docs/project/ai-agents/) covers skill installation, client setup and
+verification.
+
+- 🤖 [`ui-awesome-html-mixin` skill](docs/agents.md): immutable attributes, encoded and raw content, templates, and label,
+  container, prefix and suffix collections.
+
+Match the installed package revision. If hosted documentation does not match or is unavailable, use the
+[repository guides](#documentation), the [skill source](skills/ui-awesome-html-mixin/SKILL.md), the source PHPDoc and
+the [changelog](CHANGELOG.md). This package is framework-independent and provides traits for host classes; it does not
+render elements by itself.
+
 ## Package information
 
 [![PHP](https://img.shields.io/badge/%3E%3D8.3-777BB4.svg?style=for-the-badge&logo=php&logoColor=white)](https://www.php.net/releases/8.3/en.php)
@@ -243,10 +258,20 @@ For detailed configuration options and advanced usage.
 
 ## Project status
 
-[![Codecov](https://img.shields.io/codecov/c/github/ui-awesome/html-mixin.svg?style=for-the-badge&logo=codecov&logoColor=white&label=Coverage)](https://codecov.io/github/ui-awesome/html-mixin)
 [![PHPStan Level Max](https://img.shields.io/badge/PHPStan-Level%20Max-4F5D95.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ui-awesome/html-mixin/actions/workflows/static.yml)
 [![Quality](https://img.shields.io/github/actions/workflow/status/ui-awesome/html-mixin/quality.yml?style=for-the-badge&label=Quality&logo=github)](https://github.com/ui-awesome/html-mixin/actions/workflows/quality.yml)
-[![StyleCI](https://img.shields.io/badge/StyleCI-Passed-44CC11.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.styleci.io/repos/767385551?branch=main)
+[![StyleCI](https://img.shields.io/badge/dynamic/xml?url=https%3A%2F%2Fgithub.styleci.io%2Frepos%2F767385551%2Fshield%3Fbranch%3Dmain&query=%2F%2F*%5Blocal-name%28%29%3D%27text%27%5D%5B2%5D&label=StyleCI&style=for-the-badge&logo=github&logoColor=white&color=4F5D95)](https://github.styleci.io/repos/767385551?branch=main)
+
+## Security
+
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/ui-awesome/html-mixin/badge?style=for-the-badge)](https://scorecard.dev/viewer/?uri=github.com/ui-awesome/html-mixin)
+[![Zizmor](https://img.shields.io/github/actions/workflow/status/ui-awesome/html-mixin/security.yml?style=for-the-badge&label=Zizmor&logo=github)](https://github.com/ui-awesome/html-mixin/actions/workflows/security.yml)
+
+## Built with AI
+
+[![Built with Claude Code](https://img.shields.io/badge/Built%20with-Claude%20Code-D97757.svg?style=for-the-badge&logo=claude&logoColor=white)](https://claude.com/claude-code)
+[![Built with Codex](https://img.shields.io/badge/Built%20with-Codex-10A37F.svg?style=for-the-badge&logo=openaigym&logoColor=white)](https://openai.com/codex)
+[![Reviewed by CodeRabbit](https://img.shields.io/badge/Reviewed%20by-CodeRabbit-FF570A.svg?style=for-the-badge&logo=coderabbit&logoColor=white)](https://www.coderabbit.ai)
 
 ## Our social networks
 
