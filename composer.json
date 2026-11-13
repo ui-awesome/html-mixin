@@ -27,7 +27,7 @@
     ],
     "require": {
         "php": "^8.3",
-        "ui-awesome/html-helper": "^0.8@dev"
+        "ui-awesome/html-helper": "^0.7.6"
     },
     "require-dev": {
         "infection/infection": "^0.35",
@@ -53,6 +53,9 @@
     "extra": {
         "branch-alias": {
             "dev-main": "0.9.x-dev"
+        },
+        "skills": {
+            "source": "skills"
         }
     },
     "config": {
