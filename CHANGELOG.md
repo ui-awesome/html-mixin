@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - chore: remove obsolete scaffold tooling and align package maintenance checks with PHP Forge conventions.
 - docs: clarify `labelClass(null)` preservation and explicit class removal.
 - feat: add immutable `clearContent()` to remove encoded and raw content while preserving other component state.
-- docs: add package skill and AI assistance guide; add Security and Built with AI README sections.
+- docs: add package skill and AI assistance guide; add Security and Built with AI `README.md` sections.
 
 ## 0.8.2 September 09, 2026
 
