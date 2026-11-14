@@ -246,9 +246,7 @@ verification.
   immutable attributes, encoded and raw content, templates, and label,
   container, prefix and suffix collections.
 
-Match the installed package revision. If hosted documentation does not match or is unavailable, use the
-[repository guides](#documentation) at the matching revision,
-the [skill source](skills/ui-awesome-html-mixin/SKILL.md), the source PHPDoc and
+See the [repository guides](#documentation), the [skill source](skills/ui-awesome-html-mixin/SKILL.md), the source PHPDoc and
 the [changelog](CHANGELOG.md). This package is framework-independent and provides traits for host classes; it does not
 render elements by itself.
 
