@@ -31,8 +31,8 @@
 ## Features
 
 <picture>
-    <source media="(max-width: 767px)" srcset="./docs/svgs/features-mobile.svg">
-    <img src="./docs/svgs/features.svg" alt="Feature Overview" style="width: 100%;">
+    <source media="(max-width: 767px)" srcset="https://raw.githubusercontent.com/ui-awesome/html-mixin/main/docs/svgs/features-mobile.svg">
+    <img src="https://raw.githubusercontent.com/ui-awesome/html-mixin/main/docs/svgs/features.svg" alt="Feature Overview" style="width: 100%;">
 </picture>
 
 ### Installation
@@ -232,21 +232,21 @@ echo $component
 
 For detailed configuration options and advanced usage.
 
-- 🧪 [Testing Guide](docs/testing.md)
-- ⬆️ [Upgrade Guide](UPGRADE.md)
+- 🧪 [Testing guide](https://github.com/ui-awesome/html-mixin/blob/main/docs/testing.md)
+- ⬆️ [Upgrade guide](UPGRADE.md)
 
 ## AI assistance
 
 AI agents: read the [documentation index](https://yii2-framework.github.io/docs/llms.txt) and fetch the Markdown version
 of a page by appending `index.md` to its URL. The
-[AI agents guide](https://yii2-framework.github.io/docs/project/ai-agents/) covers skill installation, client setup and
-verification.
+[AI agents guide](https://github.com/yii2-framework/docs/blob/main/src/content/docs/project/ai-agents.md) covers skill
+installation, client setup and verification.
 
-- 🤖 [`ui-awesome-html-mixin` skill](docs/agents.md): immutable attributes, encoded and raw content, templates, and label,
+- 🤖 [`ui-awesome-html-mixin` skill](https://github.com/ui-awesome/html-mixin/blob/main/docs/agents.md):
+  immutable attributes, encoded and raw content, templates, and label,
   container, prefix and suffix collections.
 
-Match the installed package revision. If hosted documentation does not match or is unavailable, use the
-[repository guides](#documentation), the [skill source](skills/ui-awesome-html-mixin/SKILL.md), the source PHPDoc and
+See the [repository guides](#documentation), the [skill source](skills/ui-awesome-html-mixin/SKILL.md), the source PHPDoc and
 the [changelog](CHANGELOG.md). This package is framework-independent and provides traits for host classes; it does not
 render elements by itself.
 

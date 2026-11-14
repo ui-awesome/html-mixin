@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 0.8.4 Under development
 
+- docs: link `README.md` guides and feature images to their online sources.
+
 ## 0.8.3 November 13, 2026
 
 - chore: remove obsolete scaffold tooling and align package maintenance checks with PHP Forge conventions.
