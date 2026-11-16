@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 0.8.5 Under development
 
+- chore: update `.gitattributes` and `.gitignore` for improved file handling and exclusions.
+
 ## 0.8.4 November 15, 2026
 
 - docs: link `README.md` guides and feature images to their online sources.
